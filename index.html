@@ -19,6 +19,7 @@
 <meta property="og:url" content="https://recallpartners.com/">
 <meta name="twitter:card" content="summary_large_image">
 
+<link rel="preconnect" href="https://app.cal.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -47,7 +48,7 @@
       <a href="#system">The Campaign</a>
       <a href="#deal">The Deal</a>
       <a href="#faq">FAQ</a>
-      <a class="btn btn--sm btn--primary" href="#book">Book a Call</a>
+      <a class="btn btn--sm btn--primary" href="https://cal.com/recallpartners/reactivation-call" data-cal-link="recallpartners/reactivation-call" data-cal-namespace="reactivation-call" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>Book a Call</a>
     </div>
 
     <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
@@ -79,7 +80,7 @@
     </p>
 
     <div class="hero__cta reveal">
-      <a class="btn btn--primary btn--lg" href="#book">Book Your Reactivation Call</a>
+      <a class="btn btn--primary btn--lg" href="https://cal.com/recallpartners/reactivation-call" data-cal-link="recallpartners/reactivation-call" data-cal-namespace="reactivation-call" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>Book Your Reactivation Call</a>
       <span class="hero__cta-note">The engagement: one 5-day campaign</span>
       <a class="hero__link" href="#system">Not ready to talk? See exactly how the 5 days run &rarr;</a>
     </div>
@@ -239,7 +240,7 @@
 
     <p class="section__kicker reveal">
       Want the math on your own list before you commit anything?
-      <a href="#book">Book a call and we&rsquo;ll build the projection live.</a>
+      <a href="https://cal.com/recallpartners/reactivation-call" data-cal-link="recallpartners/reactivation-call" data-cal-namespace="reactivation-call" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>Book a call and we&rsquo;ll build the projection live.</a>
     </p>
   </div>
 </section>
@@ -517,7 +518,7 @@
     </ul>
 
     <p class="section__kicker reveal">
-      <a href="#book">Book a call and ask us anything about it.</a>
+      <a href="https://cal.com/recallpartners/reactivation-call" data-cal-link="recallpartners/reactivation-call" data-cal-namespace="reactivation-call" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>Book a call and ask us anything about it.</a>
     </p>
   </div>
 </section>
@@ -852,16 +853,20 @@
     </p>
 
     <!-- ============================================================
-         BOOKING EMBED GOES HERE
-         Replace this placeholder block with your scheduler embed
-         (Calendly / Cal.com / GoHighLevel). Also update every
-         href="#book" CTA if you'd rather link straight out.
+         BOOKING CTA — Cal.com element-click popup
+         The Cal embed script at the end of <body> binds every
+         element carrying data-cal-link and opens the calendar in an
+         overlay. href is the plain fallback if JS never loads.
          ============================================================ -->
-    <div class="booking-embed reveal is-placeholder">
+    <div class="booking-embed reveal">
       <div class="booking-embed__inner">
-        <span class="placeholder-tag">Booking calendar embed</span>
-        <p>Paste your Calendly / Cal.com / GoHighLevel embed code here.</p>
-        <a class="btn btn--primary btn--lg" href="#" data-cta="booking">Book Your Reactivation Call</a>
+        <a class="btn btn--primary btn--lg"
+           href="https://cal.com/recallpartners/reactivation-call"
+           data-cal-link="recallpartners/reactivation-call"
+           data-cal-namespace="reactivation-call"
+           data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'
+           data-cta="booking">Book Your Reactivation Call</a>
+        <p>Fifteen minutes. The calendar opens right here &mdash; pick any slot that works.</p>
       </div>
     </div>
 
@@ -927,13 +932,13 @@
         <a href="#fit">Who It&rsquo;s For</a>
         <a href="#compare">Alternatives</a>
         <a href="#faq">FAQ</a>
-        <a href="#book">Book a Call</a>
+        <a href="https://cal.com/recallpartners/reactivation-call" data-cal-link="recallpartners/reactivation-call" data-cal-namespace="reactivation-call" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>Book a Call</a>
       </div>
       <div>
         <div class="footer__col-title">Contact</div>
         <!-- TODO: replace with your real email + phone -->
         <a href="mailto:hello@recallpartners.com">hello@recallpartners.com</a>
-        <a href="#book">Book a call</a>
+        <a href="https://cal.com/recallpartners/reactivation-call" data-cal-link="recallpartners/reactivation-call" data-cal-namespace="reactivation-call" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>Book a call</a>
       </div>
     </nav>
   </div>
@@ -949,5 +954,24 @@
 </footer>
 
 <script src="assets/script.js"></script>
+
+<!-- ============================================================
+     Cal.com element-click embed
+     Binds to every [data-cal-link] on the page and opens the
+     booking calendar in an overlay above the site.
+     ============================================================ -->
+<script type="text/javascript">
+(function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+Cal("init", "reactivation-call", {origin:"https://app.cal.com"});
+Cal.config = Cal.config || {};
+Cal.config.forwardQueryParams = true;
+
+Cal.ns["reactivation-call"]("ui", {
+  "hideEventTypeDetails": false,
+  "layout": "month_view",
+  "theme": "light",
+  "cssVarsPerTheme": { "light": { "cal-brand": "#6B2A47" } }
+});
+</script>
 </body>
 </html>
