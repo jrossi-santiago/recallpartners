@@ -49,8 +49,11 @@
   /* Modal geometry. Shared by the shadow-root rules in index.html and
      the iframe rule below -- custom properties inherit through the
      shadow boundary, so these are the single source of truth for both
-     sides and can't drift apart. The iframe is inset by the padding,
-     which reads as breathing room since it's the same colour. */
+     sides and can't drift apart. The iframe is inset on all four sides
+     by the padding, which reads as breathing room since it's the same
+     colour. Width resolves against the padded content box, so only the
+     height needs the calc -- percentage heights don't resolve for a
+     slotted element the way percentage widths do. */
   --cal-modal-h: 82vh;
   --cal-modal-max-h: 880px;
   --cal-modal-pad: 22px;
