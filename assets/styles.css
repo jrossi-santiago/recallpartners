@@ -45,6 +45,19 @@
      background token: dark is hsla(0,0%,6%,1), light is #fff. Switch
      this if you change the event's theme in Cal. */
   --cal-modal-bg: hsla(0, 0%, 6%, 1);
+
+  /* Modal geometry. Shared by the shadow-root rules in index.html and
+     the iframe rule below -- custom properties inherit through the
+     shadow boundary, so these are the single source of truth for both
+     sides and can't drift apart. The iframe is inset by the padding,
+     which reads as breathing room since it's the same colour. */
+  --cal-modal-h: 82vh;
+  --cal-modal-max-h: 880px;
+  --cal-modal-pad: 22px;
+}
+
+@media (max-width: 768px) {
+  :root { --cal-modal-h: 88vh; --cal-modal-pad: 14px; }
 }
 
 /* ---------- Reset ---------- */
@@ -567,14 +580,11 @@ h2 { font-size: clamp(2rem, 3.6vw, 2.9rem); margin-bottom: .5em; }
    ------------------------------------------ */
 cal-modal-box iframe.cal-embed {
   width: 100% !important;
-  height: 82vh !important;
-  max-height: 880px !important;
+  height: calc(var(--cal-modal-h) - var(--cal-modal-pad) * 2) !important;
+  max-height: calc(var(--cal-modal-max-h) - var(--cal-modal-pad) * 2) !important;
   border: 0 !important;
   display: block !important;
   background-color: var(--cal-modal-bg) !important;
-}
-@media (max-width: 768px) {
-  cal-modal-box iframe.cal-embed { height: 88vh !important; }
 }
 
 /* ---------- Plain terms ---------- */
