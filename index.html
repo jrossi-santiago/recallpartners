@@ -972,6 +972,85 @@ Cal.ns["reactivation-call"]("ui", {
   "theme": "light",
   "cssVarsPerTheme": { "light": { "cal-brand": "#6B2A47" } }
 });
+
+/* ------------------------------------------------------------
+   Modal sizing.
+   Cal renders the overlay inside a closed-off shadow root, so
+   page CSS can't reach it. The one supported way in is
+   Cal.__css, which embed.js injects as the first <style> in that
+   shadow root -- hence !important throughout, since Cal's own
+   rules come after ours (and it sets iframe height inline).
+   Defaults we override: .modal-box is width:100% so it swallows
+   the viewport and paints over the close button, and the
+   backdrop is 80% black so the site vanishes behind it.
+   ------------------------------------------------------------ */
+(function () {
+  var MARKER = 'rp-modal-sizing';
+  var CSS = [
+    /* Let the site read through the backdrop. */
+    '.my-backdrop{background-color:rgba(36,28,34,.55)!important;',
+      '-webkit-backdrop-filter:blur(4px)!important;backdrop-filter:blur(4px)!important;}',
+
+    /* ~75% of the viewport, so the page frames it on all sides. */
+    '.modal-box{width:75vw!important;max-width:1040px!important;',
+      'height:82vh!important;max-height:880px!important;',
+      'margin:0!important;border-radius:18px!important;overflow:hidden!important;',
+      'box-shadow:0 24px 70px rgba(0,0,0,.42)!important;}',
+
+    /* The iframe itself is slotted from the light DOM and so is
+       sized in assets/styles.css -- shadow CSS can't reach it. */
+
+    /* Close button: pinned to the viewport, above the box, obvious. */
+    '.header{position:fixed!important;top:18px!important;right:22px!important;',
+      'left:auto!important;float:none!important;z-index:2147483647!important;}',
+    '.close{position:static!important;left:0!important;display:flex!important;',
+      'align-items:center!important;justify-content:center!important;',
+      'width:44px!important;height:44px!important;font-size:26px!important;',
+      'line-height:1!important;border-radius:999px!important;color:#fff!important;',
+      'background:rgba(255,255,255,.16)!important;',
+      'border:1px solid rgba(255,255,255,.4)!important;',
+      'transition:background .15s ease!important;}',
+    '.close:hover{background:rgba(255,255,255,.3)!important;}',
+
+    /* Phones: a 75% box is unusably narrow. */
+    '@media (max-width:768px){.modal-box{width:94vw!important;height:88vh!important;}',
+      '.header{top:10px!important;right:12px!important;}}'
+  ].join('');
+
+  function embedReady() {
+    /* embed.js sets __css when it actually executes -- a real
+       readiness signal, unlike Cal.loaded, which the inline stub
+       sets as soon as it appends the script tag even if it 404s. */
+    return !!window.Cal && typeof window.Cal.__css === 'string';
+  }
+
+  function apply() {
+    if (!embedReady()) return false;
+    var C = window.Cal;
+    if (C.__css.indexOf(MARKER) === -1) C.__css += '/*' + MARKER + '*/' + CSS;
+    return true;
+  }
+
+  /* embed.js sets __css on load, so poll until it lands. */
+  var tries = 0;
+  (function poll() {
+    if (apply() || ++tries > 400) return;
+    setTimeout(poll, 50);
+  })();
+
+  /* Cal opens the modal from a *bubble*-phase listener on document and
+     never calls preventDefault, so on an <a href> the browser follows
+     the link as well and the visitor lands on cal.com instead of
+     getting the overlay. Cancel that here, in the capture phase, but
+     only once the embed is confirmed live -- if embed.js is blocked,
+     the href stays a working fallback. */
+  document.addEventListener('click', function (e) {
+    var trigger = e.target && e.target.closest && e.target.closest('[data-cal-link]');
+    if (!trigger) return;
+    apply();
+    if (embedReady()) e.preventDefault();
+  }, true);
+})();
 </script>
 </body>
 </html>

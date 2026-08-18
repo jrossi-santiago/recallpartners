@@ -552,6 +552,23 @@ h2 { font-size: clamp(2rem, 3.6vw, 2.9rem); margin-bottom: .5em; }
 .booking-embed__inner { display: grid; gap: 18px; justify-items: center; }
 .booking-embed__inner p { color: var(--muted); font-size: .92rem; margin: 0; }
 
+/* ---------- Cal.com modal iframe ----------
+   Cal slots its booking iframe into <cal-modal-box> from the light
+   DOM, so the shadow-root CSS in index.html can't style it and a
+   percentage height won't resolve against the shadow box. Size it
+   here instead, matching the .modal-box dimensions set there.
+   ------------------------------------------ */
+cal-modal-box iframe.cal-embed {
+  width: 100% !important;
+  height: 82vh !important;
+  max-height: 880px !important;
+  border: 0 !important;
+  display: block !important;
+}
+@media (max-width: 768px) {
+  cal-modal-box iframe.cal-embed { height: 88vh !important; }
+}
+
 /* ---------- Plain terms ---------- */
 .plain { padding-top: 0; }
 .plain p { color: var(--muted); font-size: .95rem; max-width: 74ch; }
