@@ -1,0 +1,57 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1200px;height:630px}
+  body{
+    background:#FAF6F2;
+    font-family:"Instrument Sans",-apple-system,Helvetica,Arial,sans-serif;
+    color:#241C22;
+    padding:70px 78px;
+    display:flex;flex-direction:column;justify-content:space-between;
+    position:relative;overflow:hidden;
+  }
+  /* soft plum bloom, bottom-right */
+  body::after{
+    content:"";position:absolute;right:-190px;bottom:-260px;
+    width:640px;height:640px;border-radius:50%;
+    background:radial-gradient(circle,rgba(107,42,71,.13) 0%,rgba(107,42,71,0) 70%);
+  }
+  .row{display:flex;align-items:center;gap:15px;position:relative;z-index:1}
+  .mark{width:46px;height:46px;color:#6B2A47;flex:none}
+  .wordmark{font-family:"DM Serif Display",Georgia,serif;font-size:37px;letter-spacing:-.4px}
+  .wordmark .dim{color:#7C6C76}
+  h1{
+    font-family:"DM Serif Display",Georgia,serif;
+    font-size:75px;line-height:1.06;letter-spacing:-1.6px;
+    max-width:15.5ch;position:relative;z-index:1;
+  }
+  h1 em{font-style:italic;color:#6B2A47}
+  .foot{display:flex;align-items:center;gap:16px;position:relative;z-index:1}
+  .pill{
+    font-size:20px;font-weight:500;color:#4A3D45;
+    border:1px solid rgba(36,28,34,.18);border-radius:100px;padding:11px 21px;
+    background:rgba(255,255,255,.6);
+  }
+  .pill b{color:#6B2A47;font-weight:600}
+</style></head><body>
+
+  <div class="row">
+    <svg class="mark" viewBox="0 0 32 32" fill="none">
+      <path d="M16 3a13 13 0 1 0 12.4 9.1" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M28.8 3.4v6.9h-6.9" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="16" cy="16" r="3.6" fill="currentColor"/>
+    </svg>
+    <div class="wordmark">Recall<span class="dim">&nbsp;Partners</span></div>
+  </div>
+
+  <h1>Book your dormant clients back in. <em>In 5&nbsp;days.</em></h1>
+
+  <div class="foot">
+    <span class="pill"><b>SMS + email</b> to your own database</span>
+    <span class="pill"><b>No</b> retainer, no lock-in</span>
+  </div>
+
+</body></html>

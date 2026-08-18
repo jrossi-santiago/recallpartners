@@ -302,7 +302,11 @@ h2 { font-size: clamp(2rem, 3.6vw, 2.9rem); margin-bottom: .5em; }
 .card h3 { font-size: 1.28rem; margin-bottom: 12px; line-height: 1.25; }
 .card p { color: var(--ink-2); font-size: .97rem; margin: 0; }
 
-/* ---------- Proof ---------- */
+/* ---------- Proof ----------
+   The #proof and #stories sections were removed from index.html
+   because they held placeholder cards. These styles are kept on
+   purpose so the markup can be restored from git history once
+   there is a real campaign and a real quote to put in them. */
 .proof-card {
   background: var(--surface);
   border: 1px solid var(--line);
@@ -325,17 +329,6 @@ h2 { font-size: clamp(2rem, 3.6vw, 2.9rem); margin-bottom: .5em; }
 .proof-stats__n { font-family: var(--font-serif); font-size: 1.5rem; color: var(--plum); min-width: 3ch; }
 .proof-stats span:last-child { font-size: .88rem; color: var(--muted); }
 .proof-card p { font-size: .93rem; color: var(--ink-2); margin: 0; }
-
-.placeholder-tag {
-  font-family: var(--font-mono);
-  font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
-  color: var(--muted);
-  border: 1px dashed var(--line-strong);
-  border-radius: 999px;
-  padding: 6px 14px;
-  background: var(--surface);
-}
-.is-placeholder { position: relative; }
 
 /* ---------- Flow diagram ---------- */
 .flow {
@@ -690,4 +683,119 @@ cal-modal-box iframe.cal-embed {
   .nav, .marquee-wrap, .table-tabs { display: none; }
   .reveal { opacity: 1; transform: none; }
   body { background: #fff; }
+}
+
+/* ============================================================
+   Legal pages (privacy.html, terms.html)
+   Long-form reading layout. Reuses the site tokens so the
+   pages never drift from the marketing page's look.
+   ============================================================ */
+.legal-page { background: var(--cream); }
+
+.legal-hero {
+  padding: 132px 0 40px;
+  background: linear-gradient(180deg, var(--cream-2) 0%, var(--cream) 100%);
+  border-bottom: 1px solid var(--line);
+}
+.legal-hero h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(2.1rem, 5vw, 3.1rem);
+  line-height: 1.08;
+  letter-spacing: -.02em;
+  margin: 10px 0 14px;
+}
+.legal-hero .lede { margin-bottom: 20px; }
+
+.legal-updated {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: .78rem;
+  letter-spacing: .02em;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  padding: 7px 14px;
+}
+
+.legal-body { padding-top: 44px; }
+
+/* --- table of contents --- */
+.legal-toc {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px 26px 24px;
+  margin-bottom: 48px;
+  box-shadow: var(--shadow-sm);
+}
+.legal-toc__title {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--plum);
+  margin-bottom: 12px;
+}
+.legal-toc ol {
+  margin: 0;
+  padding-left: 1.25em;
+  columns: 2;
+  column-gap: 34px;
+}
+.legal-toc li { margin: 5px 0; break-inside: avoid; color: var(--muted); font-size: .92rem; }
+.legal-toc a { color: var(--ink-2); text-decoration: none; }
+.legal-toc a:hover { color: var(--plum); text-decoration: underline; }
+
+/* --- body copy --- */
+.legal-body h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.4rem, 3vw, 1.75rem);
+  line-height: 1.2;
+  letter-spacing: -.01em;
+  margin: 52px 0 14px;
+  padding-top: 8px;
+  scroll-margin-top: 96px;
+}
+.legal-body h2:first-of-type { margin-top: 0; }
+.legal-body h3 {
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: var(--plum);
+  margin: 28px 0 10px;
+}
+.legal-body p { color: var(--ink-2); line-height: 1.72; margin: 0 0 16px; }
+.legal-body ul { margin: 0 0 20px; padding-left: 1.3em; }
+.legal-body li { color: var(--ink-2); line-height: 1.68; margin: 9px 0; }
+.legal-body li::marker { color: var(--rose); }
+.legal-body strong { color: var(--ink); font-weight: 600; }
+.legal-body a { color: var(--plum); text-underline-offset: 3px; }
+
+/* --- pulled-out clause (SMS sharing, no-guarantee) --- */
+.legal-callout {
+  background: var(--plum-soft);
+  border-left: 3px solid var(--plum);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 20px 24px !important;
+  margin: 22px 0 !important;
+}
+
+.legal-contact {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px 24px !important;
+  line-height: 1.9 !important;
+}
+
+@media (max-width: 700px) {
+  .legal-hero { padding-top: 108px; }
+  .legal-toc { padding: 18px 20px 20px; margin-bottom: 36px; }
+  .legal-toc ol { columns: 1; }
+  .legal-body h2 { margin-top: 40px; }
+}
+
+@media print {
+  .legal-toc { display: none; }
+  .legal-hero { padding-top: 0; background: none; }
 }
