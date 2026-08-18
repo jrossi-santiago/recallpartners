@@ -38,6 +38,13 @@
 
   --shadow-sm: 0 1px 2px rgba(36, 28, 34, .05), 0 4px 14px rgba(36, 28, 34, .05);
   --shadow-md: 0 2px 4px rgba(36, 28, 34, .05), 0 16px 40px rgba(36, 28, 34, .08);
+
+  /* Cal.com booking modal backdrop fill. Cal's page is transparent
+     below its content, so the modal box paints this behind it and the
+     calendar sits on one continuous panel. Matches Cal's own base
+     background token: dark is hsla(0,0%,6%,1), light is #fff. Switch
+     this if you change the event's theme in Cal. */
+  --cal-modal-bg: hsla(0, 0%, 6%, 1);
 }
 
 /* ---------- Reset ---------- */
@@ -564,6 +571,7 @@ cal-modal-box iframe.cal-embed {
   max-height: 880px !important;
   border: 0 !important;
   display: block !important;
+  background-color: var(--cal-modal-bg) !important;
 }
 @media (max-width: 768px) {
   cal-modal-box iframe.cal-embed { height: 88vh !important; }
