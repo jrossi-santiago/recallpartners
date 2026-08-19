@@ -1204,9 +1204,9 @@ cal-modal-box iframe.cal-embed {
 
 /* ============================================================
    Calculator (calculator/index.html)
-   A qualification tool: three numbers in, a dormant-revenue
-   figure out, gated behind name + practice + email. Reuses the
-   site tokens throughout so it never drifts from the homepage.
+   Three numbers in, one number out, gated behind a name and an
+   email. Reuses the site tokens throughout so it never drifts
+   from the homepage.
    ============================================================ */
 .calc-page { background: var(--cream); }
 
@@ -1221,11 +1221,8 @@ cal-modal-box iframe.cal-embed {
   background: radial-gradient(50% 60% at 50% 40%, rgba(185, 130, 95, .22), transparent 70%);
   pointer-events: none;
 }
-.calc-hero__inner { position: relative; text-align: center; max-width: 780px; }
-.calc-hero h1 {
-  font-size: clamp(2.1rem, 4.6vw, 3.3rem);
-  margin-bottom: 20px;
-}
+.calc-hero__inner { position: relative; text-align: center; max-width: 800px; }
+.calc-hero h1 { font-size: clamp(2.1rem, 4.6vw, 3.25rem); margin-bottom: 20px; }
 .calc-hero .lede { margin-inline: auto; }
 .calc-hero__stats {
   display: flex; align-items: center; justify-content: center;
@@ -1302,7 +1299,7 @@ cal-modal-box iframe.cal-embed {
   color: var(--muted);
   flex: none;
 }
-.field__affix--suffix { padding: 0 16px 0 0; font-size: .8rem; letter-spacing: .04em; text-transform: uppercase; }
+.field__affix--suffix { padding: 0 16px 0 0; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; }
 .field input {
   flex: 1 1 auto;
   min-width: 0;
@@ -1317,12 +1314,7 @@ cal-modal-box iframe.cal-embed {
 .field__wrap > .field__affix + input { padding-left: 8px; }
 
 .field.is-error .field__wrap { border-color: #B4453C; box-shadow: 0 0 0 3px rgba(180, 69, 60, .1); }
-.field__err {
-  display: none;
-  margin-top: 7px;
-  font-size: .84rem;
-  color: #B4453C;
-}
+.field__err { display: none; margin-top: 7px; font-size: .84rem; color: #B4453C; }
 .field.is-error .field__err { display: block; }
 
 .calcform__divider {
@@ -1343,6 +1335,14 @@ cal-modal-box iframe.cal-embed {
   display: grid; gap: 20px;
 }
 .calcform__gate .field__wrap { background: var(--surface); }
+/* Says plainly that the number lands on this screen, not in an inbox. */
+.calcform__instant {
+  margin: 0;
+  font-size: .88rem;
+  color: var(--ink-2);
+  line-height: 1.55;
+}
+.calcform__instant b { color: var(--ink); font-weight: 600; }
 
 .calcform__submit { width: 100%; margin-top: 2px; }
 .calcform__note {
@@ -1359,12 +1359,12 @@ cal-modal-box iframe.cal-embed {
 
 /* ---------- Loading ---------- */
 .calcload {
-  display: grid; place-items: center; gap: 22px;
-  padding: 76px 32px 82px;
+  display: grid; place-items: center; gap: 20px;
+  padding: 78px 32px 84px;
   text-align: center;
 }
 .calcload__ring {
-  width: 54px; height: 54px; border-radius: 50%;
+  width: 52px; height: 52px; border-radius: 50%;
   background: conic-gradient(from 0deg, transparent 0turn, var(--rose) .55turn, var(--plum) .9turn, transparent 1turn);
   -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
   mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
@@ -1372,17 +1372,28 @@ cal-modal-box iframe.cal-embed {
 }
 @keyframes calcspin { to { transform: rotate(1turn); } }
 
-.calcload__msg {
-  font-family: var(--font-mono);
-  font-size: .84rem; letter-spacing: .04em;
-  color: var(--ink-2);
-  min-height: 1.5em;
-  animation: calcfade .4s ease;
+.calcload__title {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 40;
+  font-weight: 600;
+  font-size: clamp(1.5rem, 3.4vw, 1.95rem);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 2px 0 -8px;
 }
-@keyframes calcfade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+/* One subtitle at a time. The fade is re-triggered from JS on every
+   swap, so each line arrives rather than snapping in. */
+.calcload__msg {
+  font-size: 1rem;
+  color: var(--ink-2);
+  min-height: 1.6em;
+  max-width: 34ch;
+  animation: calcfade .45s ease;
+}
+@keyframes calcfade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
 .calcload__bar {
-  width: min(320px, 100%); height: 3px; border-radius: 999px;
+  width: min(300px, 100%); height: 4px; border-radius: 999px;
   background: var(--cream-2);
   overflow: hidden;
 }
@@ -1390,13 +1401,10 @@ cal-modal-box iframe.cal-embed {
   display: block; height: 100%; width: 0;
   border-radius: 999px;
   background: linear-gradient(90deg, var(--rose), var(--plum));
-  transition: width .5s ease;
+  transition: width .6s ease;
 }
 
 /* ---------- Results ---------- */
-.calcres { display: none; }
-.calcres.is-shown { display: block; }
-
 .calcres__hero {
   background: var(--plum-deep);
   color: var(--cream);
@@ -1420,73 +1428,131 @@ cal-modal-box iframe.cal-embed {
 }
 .calcres__biglabel {
   margin: 16px auto 0;
-  max-width: 46ch;
-  font-size: 1rem;
-  color: rgba(250, 246, 242, .8);
+  max-width: 40ch;
+  font-size: 1.02rem;
+  color: rgba(250, 246, 242, .82);
   line-height: 1.55;
 }
-.calcres__bigmath {
-  display: inline-block;
-  margin-top: 16px;
-  padding: 7px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(250, 246, 242, .2);
-  font-family: var(--font-mono);
-  font-size: .74rem; letter-spacing: .04em;
-  color: rgba(250, 246, 242, .75);
-}
 
-.calcres__tiles {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-.restile {
-  padding: 24px 22px;
-  border-right: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-}
-.restile:last-child { border-right: 0; }
-.restile__label {
+.calcres__body { padding: 30px 32px 32px; }
+
+/* ---------- The worked sum ----------
+   Reads top to bottom like a receipt: count, ticket, total. The
+   description under each figure says what it is in the owner's own
+   words, so nothing has to be inferred from the label. */
+.calcsum { margin-bottom: 30px; }
+.calcsum__title {
   font-family: var(--font-mono);
-  font-size: .62rem; letter-spacing: .12em; text-transform: uppercase;
+  font-size: .66rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--rose);
+  margin-bottom: 16px;
+}
+.calcsum__row {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: baseline;
+  gap: 0 6px;
+  padding: 16px 0;
+  border-bottom: 1px dotted var(--line-strong);
+}
+.calcsum__row:first-of-type { padding-top: 4px; }
+.calcsum__op {
+  font-family: var(--font-mono);
+  font-size: 1.3rem;
   color: var(--muted);
-  margin-bottom: 10px;
+  line-height: 1;
 }
-.restile__value {
+.calcsum__val {
   font-family: var(--font-serif);
-  font-variation-settings: "opsz" 32;
+  font-variation-settings: "opsz" 40;
   font-weight: 600;
-  font-size: 1.55rem;
+  font-size: 1.7rem;
   letter-spacing: -0.02em;
-  color: var(--plum);
-  line-height: 1.15;
+  line-height: 1.1;
+  color: var(--ink);
 }
-.restile__note {
-  margin: 8px 0 0;
-  font-size: .82rem;
+.calcsum__desc {
+  grid-column: 2;
+  margin: 5px 0 0;
+  font-size: .93rem;
   color: var(--ink-2);
   line-height: 1.5;
 }
+.calcsum__row--total {
+  border-bottom: 0;
+  border-top: 1px solid var(--line-strong);
+  margin-top: 2px;
+  padding-top: 18px;
+}
+.calcsum__row--total .calcsum__op { color: var(--plum); }
+.calcsum__row--total .calcsum__val { color: var(--plum); font-size: 2.15rem; }
 
-.calcres__body { padding: 28px 32px 32px; }
-.calcres__assume {
-  background: var(--cream);
+/* ---------- Realistic scenarios ----------
+   Natural frequencies, not percentages -- "5 out of every 100" is a
+   picture, "5%" is an abstraction. */
+.calcscen__intro {
+  font-size: .98rem;
+  color: var(--ink);
+  margin: 0 0 16px;
+  line-height: 1.6;
+}
+.calcscen__intro b { font-weight: 600; }
+.calcscen {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.scen {
   border: 1px solid var(--line);
-  border-left: 3px solid var(--rose);
-  border-radius: 0 var(--radius) var(--radius) 0;
-  padding: 18px 22px;
-  margin-bottom: 26px;
+  border-radius: var(--radius);
+  padding: 20px;
+  background: var(--cream);
 }
-.calcres__assume h3 {
+.scen--better { background: var(--plum-soft); border-color: rgba(107, 42, 71, .18); }
+.scen__label {
   font-family: var(--font-mono);
-  font-variation-settings: normal;
-  font-size: .66rem; letter-spacing: .14em; text-transform: uppercase;
-  font-weight: 500;
-  color: var(--rose);
-  margin-bottom: 10px;
+  font-size: .62rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
 }
-.calcres__assume p { margin: 0 0 10px; font-size: .89rem; color: var(--ink-2); line-height: 1.6; }
-.calcres__assume p:last-child { margin-bottom: 0; }
+.scen__rate {
+  font-size: .93rem;
+  color: var(--ink);
+  font-weight: 600;
+  margin-bottom: 14px;
+  line-height: 1.4;
+}
+.scen__money {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 40;
+  font-weight: 600;
+  font-size: 1.85rem;
+  letter-spacing: -0.02em;
+  color: var(--plum);
+  line-height: 1.1;
+}
+.scen__appts { margin: 7px 0 0; font-size: .9rem; color: var(--ink-2); line-height: 1.5; }
+
+.calcres__punch {
+  background: var(--plum-soft);
+  border-left: 3px solid var(--plum);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 16px 20px;
+  margin: 0 0 24px;
+  font-size: 1rem;
+  color: var(--ink);
+  line-height: 1.6;
+}
+.calcres__punch b { font-weight: 600; }
+
+.calcres__caveat {
+  font-size: .88rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0 0 26px;
+}
+.calcres__caveat b { color: var(--ink-2); font-weight: 600; }
 
 .calcres__cta { display: grid; gap: 14px; justify-items: center; text-align: center; }
 .calcres__cta .btn { width: 100%; }
@@ -1501,7 +1567,6 @@ cal-modal-box iframe.cal-embed {
 
 /* ---------- Below-the-tool explainer ---------- */
 .calchow { background: var(--cream-2); }
-.calchow .card p b { color: var(--ink); }
 
 .calcstate[hidden] { display: none !important; }
 
@@ -1512,8 +1577,9 @@ cal-modal-box iframe.cal-embed {
   .calcpanel__head { padding: 20px 22px; }
   .calcpanel__body { padding: 24px 22px 26px; }
   .calcres__hero { padding: 32px 22px 30px; }
-  .calcres__body { padding: 24px 22px 26px; }
-  .calcres__tiles { grid-template-columns: 1fr; }
-  .restile { border-right: 0; padding: 20px 22px; }
-  .calcload { padding: 60px 22px 64px; }
+  .calcres__body { padding: 26px 22px 28px; }
+  .calcload { padding: 62px 22px 66px; }
+  .calcscen { grid-template-columns: 1fr; }
+  .calcsum__val { font-size: 1.55rem; }
+  .calcsum__row--total .calcsum__val { font-size: 1.95rem; }
 }

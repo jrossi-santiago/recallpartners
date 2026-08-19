@@ -61,44 +61,83 @@ Search the files for `TODO` to confirm nothing new has crept in.
 
 ## The calculator (`/calculator`)
 
-A qualification tool, not a lead magnet. Three numbers in — total contacts, dormant
-contacts, average ticket — plus first name, practice name and email, all required. It
-shows a loading sequence, then a results panel with the dormant-revenue figure.
+A qualification tool, not a lead magnet. Three questions about the practice — people on
+file, how many have gone quiet, average visit value — plus first name, practice name and
+email, all required. It shows a five-second loading screen, then the results.
 
 It lives in a **directory**, not as `calculator.html`, so the URL is exactly
 `domain.com/calculator` on every static host without needing clean-URL rewrites.
 Because of that, all its asset and nav links are `../`-relative.
 
-**Where the numbers come from.** Everything is in `assets/calculator.js` and everything
-is also stated on the page itself, in the "How we got there" note and the "No black box"
-section below the tool:
+### Write it the way an owner talks
 
-- **Dormant revenue** = dormant contacts × average ticket. Pure arithmetic — the value of
-  *one visit* from every dormant contact. Not lifetime value, not a projection.
-- **Recovery range** = 5–10% of dormant contacts booking, the `RATE_LOW` / `RATE_HIGH`
-  constants at the top of the file. This is the only assumption in the tool. Change those
-  two numbers and every figure moves with them, including the rate quoted in the visible
-  copy — the page reads it from the same constants, so it can never quote a band it isn't
-  using.
+The audience is a med spa or clinic owner, usually the injector or the physician who
+started the business — not a marketer. The page deliberately avoids the vocabulary the
+rest of the industry uses. **Keep it that way if you edit the copy:**
+
+| Don't say | Say |
+| --- | --- |
+| database, contacts | clients and leads, people on your list |
+| dormant, lapsed | haven't been in for a year, stopped coming in |
+| average ticket | what a client spends in a typical visit |
+| reactivation rate of 5% | 5 out of every 100 come back |
+| 5-day reactivation window | the five days we run the campaign |
+
+The percentage-to-frequency swap in the last row matters most. "5 out of every 100" is a
+picture an owner can hold; "a 5% reactivation rate" is an abstraction they have to decode.
+
+### Say that results are immediate
+
+An earlier draft headed the gate with "Where should we send it", which read as *check your
+inbox in a few days* — the opposite of what happens. The hero, the gate and the button note
+now all say plainly that the number appears on the screen. **Don't reintroduce any wording
+that implies a report gets emailed** — nothing is emailed, and Formspree only notifies us.
+
+### Where the numbers come from
+
+Everything is in `assets/calculator.js`, and everything is also stated on the page itself,
+in the worked sum and the "Where these numbers come from" section below the tool:
+
+- **The headline figure** = quiet clients × average visit. Pure arithmetic — what the
+  practice would take in if every one of them came back *once*. Not lifetime value, not a
+  projection. The results panel shows it as a three-line sum rather than a sentence.
+- **The two scenarios** = 5 and 10 out of every 100 coming back, the `RATE_LOW` /
+  `RATE_HIGH` constants at the top of the file. This is the only assumption in the tool.
+  Change those two numbers and every figure moves with them.
 
 **Keep the assumptions visible.** Same reasoning as the `#report` blanks on the homepage:
-the recovery range is a planning estimate against a stranger's list, and a reader will take
-an unqualified figure for a promise. The "This is an estimate, not a forecast" paragraph and
+this is an estimate against a list nobody has seen yet, and a reader will take an
+unqualified figure for a promise. The "This is an estimate, not a promise" paragraph and
 the three explainer cards are load-bearing — don't cut them for length.
 
-**Lead capture** posts JSON to Formspree (`https://formspree.io/f/xkjwkzor`, set as
-`FORMSPREE` at the top of `assets/calculator.js`) the moment the button is pressed, in
-parallel with the loading sequence. A failed POST is swallowed on purpose: someone who
-asked for a number gets the number regardless. There's a honeypot field (`_gotcha`) that
-Formspree also recognises.
+### Loading sequence
+
+`HOLD_MS` × `MESSAGES.length` at the top of `assets/calculator.js` — currently 1700ms × 3
+subtitles, so about five seconds. The heading stays fixed at "Results loading…" while the
+subtitle underneath rotates one at a time, with a progress bar so the wait reads as finite.
+Add or remove subtitles and the bar re-divides itself; there is nothing else to update.
+Under `prefers-reduced-motion` the whole sequence drops to 300ms a step.
+
+The panel scrolls itself into view when loading starts. Without that, swapping the tall
+form for the short loading panel collapses the page and leaves the visitor parked on the
+footer for the entire wait.
+
+### Lead capture
+
+Posts JSON to Formspree (`https://formspree.io/f/xkjwkzor`, set as `FORMSPREE` at the top
+of `assets/calculator.js`) the moment the button is pressed, in parallel with the loading
+sequence. A failed POST is swallowed on purpose: someone who asked for a number gets the
+number regardless. There's a honeypot field (`_gotcha`) that Formspree also recognises.
+The email subject line carries the practice name and the headline figure, so the inbox
+sorts by deal size on its own.
 
 **Results are never persisted.** No storage of any kind. "Start over" wipes every rendered
 figure out of the DOM and resets the form, and a `pagehide` handler does the same so a
 back-forward cache restore can't put the last visitor's numbers back on screen.
 
-A GA4 `calculator_submit` event fires with the dormant count and revenue figure. The submit
-button carries `data-cta="calculator-submit"` and the results CTA `data-cta="calculator-booking"`,
-matching the homepage's booking-CTA convention.
+A GA4 `calculator_submit` event fires with the quiet-client count and the headline figure.
+The submit button carries `data-cta="calculator-submit"` and the results CTA
+`data-cta="calculator-booking"`, matching the homepage's booking-CTA convention.
 
 ## SMS compliance note
 
