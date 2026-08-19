@@ -93,22 +93,63 @@ inbox in a few days* — the opposite of what happens. The hero, the gate and th
 now all say plainly that the number appears on the screen. **Don't reintroduce any wording
 that implies a report gets emailed** — nothing is emailed, and Formspree only notifies us.
 
-### Where the numbers come from
+### Three tiers, and why the headline is the middle one
 
-Everything is in `assets/calculator.js`, and everything is also stated on the page itself,
-in the worked sum and the "Where these numbers come from" section below the tool:
+The results panel shows the same list value at three rates, held in
+`assets/calculator.js`:
 
-- **The headline figure** = quiet clients × average visit. Pure arithmetic — what the
-  practice would take in if every one of them came back *once*. Not lifetime value, not a
-  projection. The results panel shows it as a three-line sum rather than a sentence.
-- **The two scenarios** = 5 and 10 out of every 100 coming back, the `RATE_LOW` /
-  `RATE_HIGH` constants at the top of the file. This is the only assumption in the tool.
-  Change those two numbers and every figure moves with them.
+| | Rate | Shown as |
+| --- | --- | --- |
+| `RATE_WORST` | 5 in every 100 | "Worst case" |
+| `RATE_TARGET` | 15 in every 100 | **The headline figure** |
+| `RATE_MAX` | 100 in every 100 | "Won't happen" |
 
-**Keep the assumptions visible.** Same reasoning as the `#report` blanks on the homepage:
-this is an estimate against a list nobody has seen yet, and a reader will take an
-unqualified figure for a promise. The "This is an estimate, not a promise" paragraph and
-the three explainer cards are load-bearing — don't cut them for length.
+**Leading with the ceiling was the mistake in the first version.** Quiet clients ×
+average visit is a huge figure, but it assumes every last person walks back through the
+door. An owner who does that arithmetic in her head discounts the entire page. So the
+ceiling still appears — named in step 2 of the worked sum and labelled "Won't happen" in
+the range — while the headline is the figure we would actually go after. Naming the
+ceiling as unreachable defuses it; leading with it does the opposite.
+
+Each tier is the ceiling scaled by its rate, so the three figures can't drift out of
+proportion. Change a constant and every figure, and every rate quoted in the visible copy,
+moves with it — the page reads the rates from the same constants and can't end up quoting
+one it isn't using.
+
+⚠️ **`RATE_TARGET` and the homepage disagree.** The homepage hero aims at 30 appointments
+on a 2,000-contact database. If ~1,200 of those are dormant, that's about 2.5% — where the
+calculator headline assumes 15%. Both numbers are targets rather than published results,
+but they are six times apart, and a reader who visits both pages can see it. Reconcile them
+before this gets real traffic: either lower `RATE_TARGET` or revisit the hero's figure.
+
+### The math, spelled out
+
+The worked sum runs as four numbered steps rather than a paragraph, because the whole
+point is that the reader can follow it:
+
+1. how many have gone quiet (and what share of the list that is)
+2. quiet × visit value = the ceiling, immediately named as unreachable
+3. quiet × 15 in 100 = the appointments we would aim for
+4. those appointments × visit value = the headline figure
+
+Rates are always written as natural frequencies — "15 out of every 100 come back", never
+"a 15% reactivation rate". A frequency is a picture; a rate is something the reader has to
+decode first.
+
+### Getting from the number to a booking
+
+This is a qualification tool, so the path from *number* to *call* is the whole job:
+
+- The primary CTA sits **inside the results hero, directly under the figure** — not below
+  the caveat paragraph, where it started life. Someone already sold by the number should
+  never have to scroll to act on it.
+- A "So how do you actually get that $72,000?" block sits between the caveat and the
+  second CTA, spelling out the three steps (call → five days → bookings land). Without it
+  the page ends on a hedge and asks for a meeting anyway.
+- Both CTAs and the bridge are personalised from the form input at render time.
+
+**Don't demote the hero CTA back below the fold of the panel.** That was the single
+biggest structural problem with the earlier version.
 
 ### Loading sequence
 

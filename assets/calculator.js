@@ -14,12 +14,23 @@
 
   var FORMSPREE = 'https://formspree.io/f/xkjwkzor';
 
-  /* The conservative band, applied to the clients who have gone quiet
-     -- never to the whole list. These two numbers are the only
-     assumption in the tool. The visible copy is written from them, so
-     the page can't end up quoting a rate it isn't using. */
-  var RATE_LOW = 0.05;
-  var RATE_HIGH = 0.10;
+  /* How many of the clients who have gone quiet come back. Applied to
+     the quiet ones only, never to the whole list. These are the only
+     assumptions in the tool, and every visible figure and every rate
+     quoted in the copy is written from them -- so the page can't end
+     up quoting a rate it isn't actually using.
+
+     RATE_TARGET drives the headline. It is deliberately NOT the
+     ceiling: leading with "if all 1,200 came back" gets the whole page
+     discounted by anyone numerate, so the ceiling is shown further
+     down and labelled as unreachable instead.
+
+     NOTE: the homepage hero aims at 30 appointments on a 2,000-contact
+     database. If you change RATE_TARGET, sanity-check it against that
+     figure so the two pages don't contradict each other. */
+  var RATE_WORST  = 0.05;
+  var RATE_TARGET = 0.15;
+  var RATE_MAX    = 1.00;
 
   /* Loading sequence. One subtitle at a time under a fixed
      "Results loading..." heading. Total wait is
@@ -48,6 +59,9 @@
 
   function $(id) { return document.getElementById(id); }
   function setText(id, text) { var el = $(id); if (el) el.textContent = text; }
+  /* Only ever called with strings this file builds itself -- the
+     visitor's own text goes through setText, never here. */
+  function setHtml(id, html) { var el = $(id); if (el) el.innerHTML = html; }
 
   /* ---------- Formatting ---------- */
 
@@ -178,18 +192,24 @@
 
   /* ---------- The math ----------
      Deliberately simple, and every step is shown on the results panel
-     as a worked sum. The headline figure is one visit from every
-     client who has gone quiet -- not lifetime value, not a forecast.
-     The recovery band is the only assumption. */
+     as a worked sum. The ceiling is one visit from every client who
+     has gone quiet -- not lifetime value, not a forecast. Each tier is
+     that ceiling scaled by its rate, so the three figures can never
+     drift out of proportion with one another. */
   function compute(input) {
-    var total = input.dormant * input.ticket;
+    var ceiling = input.dormant * input.ticket;
+
+    function tier(rate) {
+      var appts = Math.round(input.dormant * rate);
+      return { rate: rate, appts: appts, money: ceiling * rate };
+    }
+
     return {
-      total: total,
+      ceiling: ceiling,
       quietPct: Math.round((input.dormant / input.patients) * 100),
-      lowMoney: total * RATE_LOW,
-      highMoney: total * RATE_HIGH,
-      lowAppts: Math.round(input.dormant * RATE_LOW),
-      highAppts: Math.round(input.dormant * RATE_HIGH)
+      worst: tier(RATE_WORST),
+      target: tier(RATE_TARGET),
+      max: tier(RATE_MAX)
     };
   }
 
@@ -266,44 +286,76 @@
   /* ---------- Results ---------- */
 
   function render(input, r) {
+    var pct = function (rate) { return Math.round(rate * 100); };
+    var appts = function (n) { return withCommas(n) + ' ' + plural(n, 'appointment', 'appointments'); };
+
+    /* Headline: the realistic figure, not the ceiling. */
     setText('resBigLabel',
-      'is sitting in the ' + withCommas(input.dormant) + ' clients at ' + input.practice +
-      ' who haven’t been in for a year.');
+      'from ' + withCommas(r.target.appts) + ' of the ' + withCommas(input.dormant) +
+      ' clients at ' + input.practice + ' who haven’t been in for a year.');
 
-    // The worked sum: count, ticket, total.
-    setText('sumDormant', withCommas(input.dormant));
-    setText('sumDormantDesc',
-      'clients who haven’t been in for a year — that’s ' + r.quietPct +
-      '% of the ' + withCommas(input.patients) + ' people on your list');
-    setText('sumTicket', money(input.ticket));
-    setText('sumTotal', money(r.total));
+    /* Step 1 -- how many have gone quiet. */
+    setText('stepEq1', withCommas(input.dormant) + ' clients have gone quiet');
+    setText('stepDesc1',
+      'They haven’t been in for a year — that’s ' + r.quietPct + '% of the ' +
+      withCommas(input.patients) + ' people on your list.');
 
-    // What's realistic, in natural frequencies rather than percentages.
-    setText('scenLowMoney', moneySoft(r.lowMoney));
-    setText('scenLowAppts',
-      withCommas(r.lowAppts) + ' ' + plural(r.lowAppts, 'appointment', 'appointments') + ' back');
-    setText('scenHighMoney', moneySoft(r.highMoney));
-    setText('scenHighAppts',
-      withCommas(r.highAppts) + ' ' + plural(r.highAppts, 'appointment', 'appointments') + ' back');
+    /* Step 2 -- the ceiling, named as unreachable. */
+    setHtml('stepEq2',
+      withCommas(input.dormant) + ' &times; ' + money(input.ticket) +
+      ' = <b>' + money(r.ceiling) + '</b>');
 
-    setText('resPunch',
-      'That’s ' + withCommas(r.lowAppts) + ' to ' + withCommas(r.highAppts) +
-      ' appointments back on your calendar from people who already know your name. ' +
-      'No ads, no new leads, and it takes five days.');
+    /* Step 3 -- the rate we actually aim for. */
+    setHtml('stepEq3',
+      withCommas(input.dormant) + ' &times; ' + pct(RATE_TARGET) + ' in 100 = <b>' +
+      withCommas(r.target.appts) + ' clients</b>');
+    setText('stepDesc3',
+      'We aim for ' + pct(RATE_TARGET) + ' out of every 100 to book. These are people who ' +
+      'already gave you their number and already know your name, which is why the rate looks ' +
+      'nothing like cold outreach.');
 
+    /* Step 4 -- the headline figure. */
+    setHtml('stepEq4',
+      withCommas(r.target.appts) + ' &times; ' + money(input.ticket) +
+      ' = <b>' + moneySoft(r.target.money) + '</b>');
+
+    /* Floor / target / ceiling. */
+    setText('scenLowMoney', moneySoft(r.worst.money));
+    setText('scenLowAppts', appts(r.worst.appts));
+    setText('scenMidMoney', moneySoft(r.target.money));
+    setText('scenMidAppts', appts(r.target.appts));
+    setText('scenMaxMoney', money(r.max.money));
+    setText('scenMaxAppts', appts(r.max.appts));
+
+    /* The bridge into working with us, in this practice's own terms. */
+    setText('nextTitle',
+      'So how do you actually get that ' + moneySoft(r.target.money) + '?');
+    setText('nextStep3',
+      'We’re aiming to put ' + appts(r.target.appts) + ' back on your books, then we hand ' +
+      'you the reporting and get out. No retainer, nothing to cancel.');
+
+    var ctaTop = $('resCtaTop');
+    if (ctaTop && input.firstName) {
+      ctaTop.textContent = 'Book a Call and Let’s Go Get It, ' + input.firstName;
+    }
     var cta = $('resCta');
     if (cta) {
       cta.textContent = input.firstName
-        ? 'Book a Free 15-Minute Call, ' + input.firstName
+        ? 'Book Your Free 15-Minute Call, ' + input.firstName
         : 'Book a Free 15-Minute Call';
     }
+    /* No possessive on the practice name here -- "Glow Aesthetics's list"
+       is the kind of thing a reader notices and nothing else. */
+    setText('resCtaNote',
+      'Free, and there’s no pitch if the numbers aren’t there. We’ll tell you straight ' +
+      'whether the list at ' + input.practice + ' is worth running a campaign against.');
 
     show(stateRes);
     if (panel && panel.scrollIntoView) {
       panel.scrollIntoView({ block: 'start', behavior: 'smooth' });
     }
 
-    countUp($('resBig'), r.total);
+    countUp($('resBig'), r.target.money);
   }
 
   /* ---------- Lead capture ----------
@@ -319,13 +371,14 @@
       quietClients: input.dormant,
       quietShare: r.quietPct + '%',
       averageVisit: money(input.ticket),
-      totalIfAllReturned: money(r.total),
-      realisticRange: moneySoft(r.lowMoney) + ' - ' + moneySoft(r.highMoney),
-      appointmentRange: r.lowAppts + ' - ' + r.highAppts,
+      targetRevenue: moneySoft(r.target.money),
+      targetAppointments: r.target.appts,
+      worstCaseRevenue: moneySoft(r.worst.money),
+      ceilingRevenue: money(r.ceiling),
       source: 'Client Value Calculator',
       pageUrl: window.location.href,
       referrer: document.referrer || '(direct)',
-      _subject: 'Calculator lead: ' + input.practice + ' — ' + money(r.total) + ' sitting idle'
+      _subject: 'Calculator lead: ' + input.practice + ' — ' + moneySoft(r.target.money) + ' target'
     };
 
     if (window.fetch) {
@@ -342,7 +395,7 @@
     if (typeof window.gtag === 'function') {
       window.gtag('event', 'calculator_submit', {
         quiet_clients: input.dormant,
-        idle_revenue: Math.round(r.total)
+        target_revenue: Math.round(r.target.money)
       });
     }
   }
@@ -374,16 +427,16 @@
     clearTimers();
 
     setText('resBig', '$0');
-    setText('resBigLabel', 'is sitting in the clients who stopped coming in.');
-    setText('sumDormant', '0');
-    setText('sumDormantDesc', 'clients who haven’t been in for a year');
-    setText('sumTicket', '$0');
-    setText('sumTotal', '$0');
-    setText('scenLowMoney', '$0');
-    setText('scenLowAppts', '0 appointments');
-    setText('scenHighMoney', '$0');
-    setText('scenHighAppts', '0 appointments');
-    setText('resPunch', '');
+    setText('resBigLabel', 'from the clients who stopped coming in.');
+    setText('stepEq1', '0 clients have gone quiet');
+    setText('stepDesc1', 'They haven’t been in for a year.');
+    setHtml('stepEq2', '0 &times; $0 = <b>$0</b>');
+    setHtml('stepEq3', '0 &times; 15 in 100 = <b>0 clients</b>');
+    setHtml('stepEq4', '0 &times; $0 = <b>$0</b>');
+    ['scenLowMoney', 'scenMidMoney', 'scenMaxMoney'].forEach(function (id) { setText(id, '$0'); });
+    ['scenLowAppts', 'scenMidAppts', 'scenMaxAppts'].forEach(function (id) { setText(id, '0 appointments'); });
+    setText('nextTitle', 'So how do you actually get it?');
+    setText('nextStep3', 'Then we hand you the reporting and get out. No retainer, nothing to cancel.');
 
     form.reset();
     form.querySelectorAll('.field').forEach(function (f) { f.classList.remove('is-error'); });

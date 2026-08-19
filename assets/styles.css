@@ -1202,11 +1202,12 @@ cal-modal-box iframe.cal-embed {
   .legal-hero { padding-top: 0; background: none; }
 }
 
+
 /* ============================================================
    Calculator (calculator/index.html)
-   Three numbers in, one number out, gated behind a name and an
-   email. Reuses the site tokens throughout so it never drifts
-   from the homepage.
+   Three questions in, one realistic number out, gated behind a
+   name and an email. Reuses the site tokens throughout so it
+   never drifts from the homepage.
    ============================================================ */
 .calc-page { background: var(--cream); }
 
@@ -1336,12 +1337,7 @@ cal-modal-box iframe.cal-embed {
 }
 .calcform__gate .field__wrap { background: var(--surface); }
 /* Says plainly that the number lands on this screen, not in an inbox. */
-.calcform__instant {
-  margin: 0;
-  font-size: .88rem;
-  color: var(--ink-2);
-  line-height: 1.55;
-}
+.calcform__instant { margin: 0; font-size: .88rem; color: var(--ink-2); line-height: 1.55; }
 .calcform__instant b { color: var(--ink); font-weight: 600; }
 
 .calcform__submit { width: 100%; margin-top: 2px; }
@@ -1404,7 +1400,13 @@ cal-modal-box iframe.cal-embed {
   transition: width .6s ease;
 }
 
-/* ---------- Results ---------- */
+/* ============================================================
+   Results
+   The headline is the REALISTIC figure, not the ceiling. The
+   ceiling appears further down, labelled as unreachable -- naming
+   it that way defuses it, where leading with it would just get
+   the whole page discounted.
+   ============================================================ */
 .calcres__hero {
   background: var(--plum-deep);
   color: var(--cream);
@@ -1428,135 +1430,179 @@ cal-modal-box iframe.cal-embed {
 }
 .calcres__biglabel {
   margin: 16px auto 0;
-  max-width: 40ch;
+  max-width: 42ch;
   font-size: 1.02rem;
   color: rgba(250, 246, 242, .82);
   line-height: 1.55;
 }
 
+/* The booking ask sits in the hero, directly under the number --
+   not below a caveat the visitor has to scroll past first. */
+.calcres__herocta { margin-top: 26px; }
+.btn--onplum {
+  background: var(--cream);
+  color: var(--plum-deep);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .22);
+}
+.btn--onplum:hover { background: #fff; color: var(--plum-deep); transform: translateY(-1px); }
+.calcres__heroctanote {
+  margin: 12px 0 0;
+  font-size: .86rem;
+  color: rgba(250, 246, 242, .65);
+  line-height: 1.5;
+}
+.calcres__scrollhint {
+  display: inline-block;
+  margin-top: 18px;
+  font-family: var(--font-mono);
+  font-size: .68rem; letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(250, 246, 242, .5);
+  text-decoration: none;
+}
+.calcres__scrollhint:hover { color: var(--rose-soft); }
+
 .calcres__body { padding: 30px 32px 32px; }
 
-/* ---------- The worked sum ----------
-   Reads top to bottom like a receipt: count, ticket, total. The
-   description under each figure says what it is in the owner's own
-   words, so nothing has to be inferred from the label. */
-.calcsum { margin-bottom: 30px; }
-.calcsum__title {
+/* ---------- The math, spelled out step by step ---------- */
+.calcsteps { margin-bottom: 32px; }
+.calcsteps__title {
   font-family: var(--font-mono);
   font-size: .66rem; letter-spacing: .14em; text-transform: uppercase;
   color: var(--rose);
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
-.calcsum__row {
+.calcstep {
   display: grid;
   grid-template-columns: 34px minmax(0, 1fr);
-  align-items: baseline;
-  gap: 0 6px;
-  padding: 16px 0;
+  gap: 0 14px;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
   border-bottom: 1px dotted var(--line-strong);
 }
-.calcsum__row:first-of-type { padding-top: 4px; }
-.calcsum__op {
+.calcstep:last-child { border-bottom: 0; padding-bottom: 0; margin-bottom: 0; }
+.calcstep__n {
+  grid-row: span 2;
+  width: 28px; height: 28px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--plum-soft);
+  color: var(--plum);
   font-family: var(--font-mono);
-  font-size: 1.3rem;
-  color: var(--muted);
-  line-height: 1;
+  font-size: .78rem;
+  margin-top: 4px;
 }
-.calcsum__val {
+.calcstep__eq {
   font-family: var(--font-serif);
-  font-variation-settings: "opsz" 40;
+  font-variation-settings: "opsz" 32;
   font-weight: 600;
-  font-size: 1.7rem;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
+  font-size: 1.3rem;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
   color: var(--ink);
 }
-.calcsum__desc {
-  grid-column: 2;
-  margin: 5px 0 0;
-  font-size: .93rem;
+.calcstep__eq b { color: var(--plum); font-weight: 600; }
+.calcstep__desc {
+  margin: 6px 0 0;
+  font-size: .92rem;
   color: var(--ink-2);
-  line-height: 1.5;
+  line-height: 1.55;
 }
-.calcsum__row--total {
-  border-bottom: 0;
-  border-top: 1px solid var(--line-strong);
-  margin-top: 2px;
-  padding-top: 18px;
-}
-.calcsum__row--total .calcsum__op { color: var(--plum); }
-.calcsum__row--total .calcsum__val { color: var(--plum); font-size: 2.15rem; }
+/* The step that produces the headline figure. */
+.calcstep--key .calcstep__n { background: var(--plum); color: #fff; }
+.calcstep--key .calcstep__eq { font-size: 1.5rem; }
 
-/* ---------- Realistic scenarios ----------
-   Natural frequencies, not percentages -- "5 out of every 100" is a
-   picture, "5%" is an abstraction. */
-.calcscen__intro {
-  font-size: .98rem;
-  color: var(--ink);
-  margin: 0 0 16px;
-  line-height: 1.6;
-}
+/* ---------- Floor / target / ceiling ---------- */
+.calcscen__intro { font-size: .98rem; color: var(--ink); margin: 0 0 16px; line-height: 1.6; }
 .calcscen__intro b { font-weight: 600; }
 .calcscen {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-  margin-bottom: 24px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 26px;
 }
 .scen {
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: 20px;
+  padding: 18px 16px;
   background: var(--cream);
 }
-.scen--better { background: var(--plum-soft); border-color: rgba(107, 42, 71, .18); }
+.scen--target {
+  background: var(--plum);
+  border-color: var(--plum);
+  color: var(--cream);
+  box-shadow: var(--shadow-sm);
+}
+.scen--ceiling { opacity: .72; }
 .scen__label {
   font-family: var(--font-mono);
-  font-size: .62rem; letter-spacing: .12em; text-transform: uppercase;
+  font-size: .6rem; letter-spacing: .1em; text-transform: uppercase;
   color: var(--muted);
   margin-bottom: 6px;
 }
-.scen__rate {
-  font-size: .93rem;
-  color: var(--ink);
-  font-weight: 600;
-  margin-bottom: 14px;
-  line-height: 1.4;
-}
+.scen--target .scen__label { color: var(--rose-soft); }
+.scen__rate { font-size: .88rem; color: var(--ink); font-weight: 600; margin-bottom: 12px; line-height: 1.4; }
+.scen--target .scen__rate { color: #fff; }
 .scen__money {
   font-family: var(--font-serif);
   font-variation-settings: "opsz" 40;
   font-weight: 600;
-  font-size: 1.85rem;
+  font-size: 1.6rem;
   letter-spacing: -0.02em;
   color: var(--plum);
   line-height: 1.1;
 }
-.scen__appts { margin: 7px 0 0; font-size: .9rem; color: var(--ink-2); line-height: 1.5; }
-
-.calcres__punch {
-  background: var(--plum-soft);
-  border-left: 3px solid var(--plum);
-  border-radius: 0 var(--radius) var(--radius) 0;
-  padding: 16px 20px;
-  margin: 0 0 24px;
-  font-size: 1rem;
-  color: var(--ink);
-  line-height: 1.6;
-}
-.calcres__punch b { font-weight: 600; }
+.scen--target .scen__money { color: #fff; }
+.scen__appts { margin: 6px 0 0; font-size: .85rem; color: var(--ink-2); line-height: 1.45; }
+.scen--target .scen__appts { color: rgba(250, 246, 242, .8); }
 
 .calcres__caveat {
   font-size: .88rem;
   color: var(--muted);
   line-height: 1.6;
-  margin: 0 0 26px;
+  margin: 0 0 30px;
 }
 .calcres__caveat b { color: var(--ink-2); font-weight: 600; }
 
+/* ---------- The bridge: number -> working with us ---------- */
+.calcnext {
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 26px;
+}
+.calcnext__title {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 32;
+  font-weight: 600;
+  font-size: 1.24rem;
+  letter-spacing: -0.015em;
+  margin-bottom: 6px;
+}
+.calcnext__sub { font-size: .93rem; color: var(--ink-2); margin: 0 0 20px; line-height: 1.55; }
+.calcnext__list { display: grid; gap: 16px; }
+.calcnext__item {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 0 12px;
+  align-items: start;
+}
+.calcnext__n {
+  width: 24px; height: 24px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--plum);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  margin-top: 1px;
+}
+.calcnext__item b { display: block; font-weight: 600; font-size: .96rem; color: var(--ink); }
+.calcnext__item span { display: block; font-size: .9rem; color: var(--ink-2); line-height: 1.55; margin-top: 2px; }
+
 .calcres__cta { display: grid; gap: 14px; justify-items: center; text-align: center; }
 .calcres__cta .btn { width: 100%; }
-.calcres__ctanote { margin: 0; font-size: .86rem; color: var(--muted); }
+.calcres__ctanote { margin: 0; font-size: .86rem; color: var(--muted); line-height: 1.55; }
 .calcres__reset {
   border: 0; background: none; padding: 6px;
   font-size: .84rem; color: var(--muted);
@@ -1580,6 +1626,7 @@ cal-modal-box iframe.cal-embed {
   .calcres__body { padding: 26px 22px 28px; }
   .calcload { padding: 62px 22px 66px; }
   .calcscen { grid-template-columns: 1fr; }
-  .calcsum__val { font-size: 1.55rem; }
-  .calcsum__row--total .calcsum__val { font-size: 1.95rem; }
+  .calcstep__eq { font-size: 1.16rem; }
+  .calcstep--key .calcstep__eq { font-size: 1.32rem; }
+  .calcnext { padding: 20px; }
 }

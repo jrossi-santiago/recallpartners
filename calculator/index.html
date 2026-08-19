@@ -241,71 +241,145 @@
         <!-- ---------- STATE 3: RESULTS ----------
              Every figure here is written by JS at run time and cleared
              again by "Start over". Nothing is stored, so a refresh
-             returns a blank form. -->
+             returns a blank form.
+
+             The headline is the REALISTIC figure (RATE_TARGET in
+             calculator.js), not the ceiling. The ceiling is shown
+             further down and labelled as unreachable -- naming it that
+             way defuses it, where leading with it would just get the
+             whole page discounted by anyone numerate. -->
         <div class="calcstate" id="calcResState" hidden>
 
           <div class="calcres__hero">
-            <div class="calcres__eyebrow">Your result</div>
+            <div class="calcres__eyebrow">What we&rsquo;d aim to put back on your books</div>
             <div class="calcres__big" id="resBig">$0</div>
             <p class="calcres__biglabel" id="resBigLabel">
-              is sitting in the clients who stopped coming in.
+              from the clients who stopped coming in.
             </p>
+
+            <div class="calcres__herocta">
+              <a class="btn btn--lg btn--onplum" id="resCtaTop"
+                 href="https://cal.com/recallpartners/reactivation-call"
+                 data-cal-link="recallpartners/reactivation-call"
+                 data-cal-namespace="reactivation-call"
+                 data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'
+                 data-cta="calculator-booking-top">Book a Call and Let&rsquo;s Go Get It</a>
+              <p class="calcres__heroctanote">
+                15 minutes, free. We go through your real list and tell you what it&rsquo;s
+                actually worth &mdash; including if it isn&rsquo;t worth doing.
+              </p>
+              <a class="calcres__scrollhint" href="#themath">See how we got that number &darr;</a>
+            </div>
           </div>
 
           <div class="calcres__body">
 
-            <!-- The sum, worked line by line. -->
-            <div class="calcsum">
-              <div class="calcsum__title">Here&rsquo;s the math</div>
+            <!-- The sum, spelled out one step at a time. -->
+            <div class="calcsteps" id="themath">
+              <div class="calcsteps__title">How we got there</div>
 
-              <div class="calcsum__row">
-                <span class="calcsum__op" aria-hidden="true">&nbsp;</span>
-                <span class="calcsum__val" id="sumDormant">0</span>
-                <p class="calcsum__desc" id="sumDormantDesc">clients who haven&rsquo;t been in for a year</p>
+              <div class="calcstep">
+                <span class="calcstep__n" aria-hidden="true">1</span>
+                <div class="calcstep__eq" id="stepEq1">0 clients have gone quiet</div>
+                <p class="calcstep__desc" id="stepDesc1">
+                  They haven&rsquo;t been in for a year.
+                </p>
               </div>
 
-              <div class="calcsum__row">
-                <span class="calcsum__op" aria-hidden="true">&times;</span>
-                <span class="calcsum__val" id="sumTicket">$0</span>
-                <p class="calcsum__desc">what each one spends in a typical visit</p>
+              <div class="calcstep">
+                <span class="calcstep__n" aria-hidden="true">2</span>
+                <div class="calcstep__eq" id="stepEq2">0 &times; $0 = <b>$0</b></div>
+                <p class="calcstep__desc" id="stepDesc2">
+                  What you&rsquo;d take in if every single one of them came back once. That&rsquo;s
+                  the absolute ceiling, and nobody ever hits it &mdash; so we don&rsquo;t lead with it.
+                </p>
               </div>
 
-              <div class="calcsum__row calcsum__row--total">
-                <span class="calcsum__op" aria-hidden="true">=</span>
-                <span class="calcsum__val" id="sumTotal">$0</span>
-                <p class="calcsum__desc">if every one of them came back in just once</p>
+              <div class="calcstep">
+                <span class="calcstep__n" aria-hidden="true">3</span>
+                <div class="calcstep__eq" id="stepEq3">0 &times; 15 in 100 = <b>0 clients</b></div>
+                <p class="calcstep__desc" id="stepDesc3">
+                  We aim for 15 out of every 100 to book. These are people who already gave you
+                  their number and already know your name, which is why the rate looks nothing
+                  like cold outreach.
+                </p>
+              </div>
+
+              <div class="calcstep calcstep--key">
+                <span class="calcstep__n" aria-hidden="true">4</span>
+                <div class="calcstep__eq" id="stepEq4">0 &times; $0 = <b>$0</b></div>
+                <p class="calcstep__desc" id="stepDesc4">
+                  Those visits, at what a visit is worth to you. That&rsquo;s the number at the
+                  top of this page.
+                </p>
               </div>
             </div>
 
-            <!-- What's actually realistic. -->
+            <!-- Floor, target, ceiling side by side. -->
             <p class="calcscen__intro">
-              <b>Nobody gets all of them back.</b> So here&rsquo;s what it looks like if only a
-              handful do:
+              <b>The full range,</b> so you can see where that number sits:
             </p>
 
             <div class="calcscen">
               <div class="scen">
-                <div class="scen__label">Conservative</div>
-                <div class="scen__rate">If 5 out of every 100 come back</div>
+                <div class="scen__label">Worst case</div>
+                <div class="scen__rate">5 in every 100 come back</div>
                 <div class="scen__money" id="scenLowMoney">$0</div>
                 <p class="scen__appts" id="scenLowAppts">0 appointments</p>
               </div>
-              <div class="scen scen--better">
-                <div class="scen__label">If it goes well</div>
-                <div class="scen__rate">If 10 out of every 100 come back</div>
-                <div class="scen__money" id="scenHighMoney">$0</div>
-                <p class="scen__appts" id="scenHighAppts">0 appointments</p>
+              <div class="scen scen--target">
+                <div class="scen__label">What we aim for</div>
+                <div class="scen__rate">15 in every 100 come back</div>
+                <div class="scen__money" id="scenMidMoney">$0</div>
+                <p class="scen__appts" id="scenMidAppts">0 appointments</p>
+              </div>
+              <div class="scen scen--ceiling">
+                <div class="scen__label">Won&rsquo;t happen</div>
+                <div class="scen__rate">All 100 in 100 come back</div>
+                <div class="scen__money" id="scenMaxMoney">$0</div>
+                <p class="scen__appts" id="scenMaxAppts">0 appointments</p>
               </div>
             </div>
 
-            <p class="calcres__punch" id="resPunch"></p>
-
             <p class="calcres__caveat">
-              <b>This is an estimate, not a promise.</b> How many actually come back depends on
-              how many of those phone numbers still work, how long people have been gone, and
-              what they came in for the first time. We look at your real client list on the call
-              and tell you the honest number &mdash; including if it&rsquo;s not worth doing.
+              <b>This is what we aim for, not what we promise.</b> How many actually come back
+              depends on how many of those phone numbers still work, how long people have been
+              gone, and what they came in for the first time. We look at your real client list
+              on the call and give you the honest number before anyone commits to anything.
             </p>
+
+            <!-- The bridge: what turning that figure into bookings looks like. -->
+            <div class="calcnext">
+              <div class="calcnext__title" id="nextTitle">So how do you actually get it?</div>
+              <p class="calcnext__sub">Three steps, and the whole thing is over in five days.</p>
+
+              <div class="calcnext__list">
+                <div class="calcnext__item">
+                  <span class="calcnext__n" aria-hidden="true">1</span>
+                  <div>
+                    <b>You book the 15-minute call</b>
+                    <span>We look at your actual list together and work out the real number
+                    &mdash; not this estimate. If it&rsquo;s not worth running, we tell you.</span>
+                  </div>
+                </div>
+                <div class="calcnext__item">
+                  <span class="calcnext__n" aria-hidden="true">2</span>
+                  <div>
+                    <b>We run the five days</b>
+                    <span>SMS and email to your quiet clients only. We answer every reply
+                    ourselves, so nothing lands on your front desk.</span>
+                  </div>
+                </div>
+                <div class="calcnext__item">
+                  <span class="calcnext__n" aria-hidden="true">3</span>
+                  <div>
+                    <b>The bookings go straight in your calendar</b>
+                    <span id="nextStep3">Then we hand you the reporting and get out. No retainer,
+                    nothing to cancel.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <div class="calcres__cta">
               <a class="btn btn--primary btn--lg" id="resCta"
@@ -314,9 +388,8 @@
                  data-cal-namespace="reactivation-call"
                  data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'
                  data-cta="calculator-booking">Book a Free 15-Minute Call</a>
-              <p class="calcres__ctanote">
-                We&rsquo;ll go through your actual list with you. If the numbers aren&rsquo;t
-                there, we&rsquo;ll say so and you&rsquo;ve lost 15 minutes.
+              <p class="calcres__ctanote" id="resCtaNote">
+                Free, and there&rsquo;s no pitch if the numbers aren&rsquo;t there.
               </p>
               <button class="calcres__reset" type="button" id="calcReset">Clear this and start over</button>
             </div>
@@ -346,23 +419,23 @@
     <div class="grid grid--3">
       <article class="card card--num reveal">
         <div class="card__num">01</div>
-        <h3>The big number is just multiplication.</h3>
+        <h3>Why we don&rsquo;t lead with the big number.</h3>
         <p>
-          Your quiet clients times what one visit is worth. That&rsquo;s all it is. It&rsquo;s
-          what you&rsquo;d take in if every one of them walked back through the door <b>once</b>
-          &mdash; not over a year, once. Nobody gets all of them back, which is why we show you
-          the realistic version underneath it.
+          Your quiet clients times what one visit is worth gives you a huge figure &mdash; but
+          it assumes every last one of them walks back through the door. <b>That never
+          happens</b>, so putting it at the top would just make you discount everything else on
+          the page. We show it, we label it, and we move on.
         </p>
       </article>
 
       <article class="card card--num reveal">
         <div class="card__num">02</div>
-        <h3>The realistic range assumes 5 to 10 in every 100.</h3>
+        <h3>The number up top assumes 15 in every 100.</h3>
         <p>
-          That&rsquo;s a low bar on purpose. These are people who already gave you their number
-          and already know your name, so they answer at a rate cold outreach never does.
-          <b>It&rsquo;s still an estimate, not a guarantee</b> &mdash; a list full of dead phone
-          numbers will land under it.
+          That&rsquo;s what we aim for on a well-run campaign to people who already gave you
+          their number and already know your name. They answer at a rate cold outreach never
+          does. <b>It&rsquo;s a target, not a guarantee</b> &mdash; which is why the worst case
+          is sitting right next to it.
         </p>
       </article>
 
@@ -371,9 +444,9 @@
         <h3>What it can&rsquo;t know about your list.</h3>
         <p>
           Whether those phone numbers still work. How long people have really been gone. Whether
-          your quiet clients were one-visit people or ten-visit people. All of that moves the real
-          number up or down. <b>That&rsquo;s what the call is for</b> &mdash; we go through your
-          actual list before anyone commits to anything.
+          your quiet clients were one-visit people or ten-visit people. All of that moves the
+          real number up or down. <b>That&rsquo;s what the call is for</b> &mdash; we go through
+          your actual list before anyone commits to anything.
         </p>
       </article>
     </div>
