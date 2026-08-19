@@ -50,9 +50,10 @@ Search the files for `TODO` to confirm nothing new has crept in.
   deliverable without implying results. **Do not fill those blanks in with example
   figures**; a reader will take them for real ones. Replace the whole section when you
   have a permissioned campaign to publish.
-- **"Built for" pills.** Lists treatment categories, not clients, and is labelled so it
-  reads as who the offer suits rather than a client logo bar. Swap in real client names —
-  and rename the label back to "Who we work with" — once you have written permission.
+- **"Built for" pills.** Lists practice types, not clients and not procedures, and is
+  labelled so it reads as who the offer suits rather than a client logo bar. Swap in real
+  client names — and rename the label back to "Who we work with" — once you have written
+  permission.
 - **Analytics.** Nothing is installed. The booking CTAs carry `data-cta="booking"` and
   `data-cta="booking-sticky"` so an event handler has something to hook onto.
 
@@ -113,6 +114,9 @@ filesystem.
 - **The illustrations are labelled as illustrations.** The SMS thread in `#system` and the
   before/after week in `#warm` both carry a caption saying the contents are invented.
   Those captions are load-bearing — don't drop them for design reasons.
+- **No named procedures anywhere on the page.** The copy says "treatment" and "what they
+  came in for", never a brand or procedure name. Keep it that way: naming one narrows the
+  ICP, and a treatment name in a sample message reads as a claim about a real campaign.
 - **"Next open slot: August"** in the booking section is hardcoded. Update the month as
   the calendar moves, or drop the sentence rather than let it go stale.
 - The FAQ answer on compliance describes how campaigns are run and explicitly says it
@@ -127,9 +131,9 @@ All colors, fonts and spacing live in the `:root` block at the top of
 `assets/styles.css`. Change `--plum` and `--rose` to re-skin the whole site. The legal
 pages use the same tokens, so they follow along automatically.
 
-Headings are set in **Fraunces**, a variable font. The heading rule sets
-`font-variation-settings: "opsz" 96, "SOFT" 40, "WONK" 1` — without those axes it falls
-back to the defaults and reads flat, so if you change the font stack, drop that line too.
-The Google Fonts URL in each page's `<head>` requests the axis ranges those values need;
-all three pages plus `tools/og-card.html` must stay in sync or the og:image will render in
-a different face than the site.
+Headings are set in **Newsreader**, a variable font, chosen for legibility at display
+sizes. The heading rule sets `font-variation-settings: "opsz" 60`; smaller serif elements
+set a lower `opsz` to match their rendered size. If you change the font stack, drop those
+lines too. The Google Fonts URL in each page's `<head>` requests the axis range those
+values need; all three pages plus `tools/og-card.html` must stay in sync or the og:image
+will render in a different face than the site.
