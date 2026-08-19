@@ -31,8 +31,8 @@ const HERE = __dirname;
   const p1 = await browser.newPage({ viewport: {width:1200,height:630}, deviceScaleFactor:1 });
   await p1.goto('file://' + path.join(HERE,'og-card.html'), { waitUntil:'networkidle' });
   try { await p1.evaluate(() => document.fonts.ready); } catch(e){}
-  const fontOK = await p1.evaluate(() => document.fonts.check('40px "DM Serif Display"'));
-  console.log('DM Serif Display loaded:', fontOK);
+  const fontOK = await p1.evaluate(() => document.fonts.check('40px "Fraunces"'));
+  console.log('Fraunces loaded:', fontOK);
   await p1.waitForTimeout(600);
   await p1.screenshot({ path: path.join(REPO,'assets/brand/og-image.png') });
   console.log('og-image.png done');

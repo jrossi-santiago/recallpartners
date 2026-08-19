@@ -44,11 +44,17 @@ Search the files for `TODO` to confirm nothing new has crept in.
   they contained placeholder cards with `—` instead of numbers and fake quotes.
   Rebuild them from git history (`git log -- index.html`) once you have one real
   campaign and one quote in writing. Do not ship invented numbers.
-- **Social proof marquee.** Now labelled "Who we work with" and lists treatment
-  categories, which is honest. Swap in real client names — and rename the label — once
-  you have written permission to use them.
-- **Analytics.** Nothing is installed. The booking CTA already carries
-  `data-cta="booking"` so an event handler has something to hook onto.
+
+  In their place, `#report` shows the *structure* of the wrap report with every figure
+  rendered as a labelled blank ("your number"). That is deliberate — it demonstrates the
+  deliverable without implying results. **Do not fill those blanks in with example
+  figures**; a reader will take them for real ones. Replace the whole section when you
+  have a permissioned campaign to publish.
+- **"Built for" pills.** Lists treatment categories, not clients, and is labelled so it
+  reads as who the offer suits rather than a client logo bar. Swap in real client names —
+  and rename the label back to "Who we work with" — once you have written permission.
+- **Analytics.** Nothing is installed. The booking CTAs carry `data-cta="booking"` and
+  `data-cta="booking-sticky"` so an event handler has something to hook onto.
 
 ## SMS compliance note
 
@@ -100,6 +106,15 @@ filesystem.
 
 - No pricing figures appear anywhere on the site by design. The FAQ and the "deal"
   section say pricing is given on the call, in writing.
+- **The hero's "30 appointments" is a target, not a result.** The `.hero__qualifier`
+  paragraph directly under the headline names the list size it assumes (2,000 contacts)
+  and says the real number comes from the call. Keep that line while the site has no
+  published campaign data.
+- **The illustrations are labelled as illustrations.** The SMS thread in `#system` and the
+  before/after week in `#warm` both carry a caption saying the contents are invented.
+  Those captions are load-bearing — don't drop them for design reasons.
+- **"Next open slot: August"** in the booking section is hardcoded. Update the month as
+  the calendar moves, or drop the sentence rather than let it go stale.
 - The FAQ answer on compliance describes how campaigns are run and explicitly says it
   isn't legal advice.
 - The JSON-LD `FAQPage` block in `index.html` mirrors the visible FAQ **verbatim**.
@@ -111,3 +126,10 @@ filesystem.
 All colors, fonts and spacing live in the `:root` block at the top of
 `assets/styles.css`. Change `--plum` and `--rose` to re-skin the whole site. The legal
 pages use the same tokens, so they follow along automatically.
+
+Headings are set in **Fraunces**, a variable font. The heading rule sets
+`font-variation-settings: "opsz" 96, "SOFT" 40, "WONK" 1` — without those axes it falls
+back to the defaults and reads flat, so if you change the font stack, drop that line too.
+The Google Fonts URL in each page's `<head>` requests the axis ranges those values need;
+all three pages plus `tools/og-card.html` must stay in sync or the og:image will render in
+a different face than the site.

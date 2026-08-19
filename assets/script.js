@@ -84,6 +84,36 @@
     });
   });
 
+  /* ---------- Sticky mobile CTA ----------
+     Shown once the hero has scrolled past, hidden again at the booking
+     section so it does not sit on top of the real CTA. Mobile-only in
+     CSS; this just toggles the class, so desktop is unaffected. */
+  var sticky = document.getElementById('stickyCta');
+  var hero = document.querySelector('.hero');
+  var bookSection = document.getElementById('book');
+
+  if (sticky && hero) {
+    document.body.classList.add('has-stickycta');
+
+    var syncSticky = function () {
+      var pastHero = window.scrollY > hero.offsetHeight * 0.9;
+      var atBooking = false;
+
+      if (bookSection) {
+        var box = bookSection.getBoundingClientRect();
+        atBooking = box.top < window.innerHeight && box.bottom > 0;
+      }
+
+      var show = pastHero && !atBooking;
+      sticky.classList.toggle('is-shown', show);
+      sticky.setAttribute('aria-hidden', String(!show));
+    };
+
+    window.addEventListener('scroll', syncSticky, { passive: true });
+    window.addEventListener('resize', syncSticky, { passive: true });
+    syncSticky();
+  }
+
   /* ---------- Footer year ---------- */
   var year = document.getElementById('year');
   if (year) year.textContent = String(new Date().getFullYear());
