@@ -41,7 +41,7 @@
 <link rel="preconnect" href="https://app.cal.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..700,0..100,0..1;1,9..144,400..700,0..100,0..1&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 
 <!-- Structured data. The FAQ entries below mirror the visible FAQ
@@ -239,7 +239,7 @@
       <a href="#system">The Campaign</a>
       <a href="#deal">The Deal</a>
       <a href="#faq">FAQ</a>
-      <a class="btn btn--sm btn--primary" href="https://cal.com/recallpartners/reactivation-call" data-cal-link="recallpartners/reactivation-call" data-cal-namespace="reactivation-call" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>Book a Call</a>
+      <a class="btn btn--sm btn--primary" href="https://cal.com/recallpartners/reactivation-call" data-cal-link="recallpartners/reactivation-call" data-cal-namespace="reactivation-call" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>See What It&rsquo;s Worth</a>
     </div>
 
     <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
@@ -263,6 +263,15 @@
       <span class="accent-serif">sitting in your database.</span>
     </h1>
 
+    <!-- The "30" is a target, not a claim of past results. This line keeps it
+         honest: it names the list size the number assumes and says the real
+         figure gets worked out on the call. Do not remove it while the site
+         has no published campaign data. -->
+    <p class="hero__qualifier reveal">
+      That&rsquo;s what we aim for on a <b>2,000-contact database</b>. Yours depends on your list &mdash;
+      how many are reachable, and how long they&rsquo;ve been gone. We run the math on the call.
+    </p>
+
     <p class="hero__sub reveal">
       Every med spa is carrying hundreds of leads who never booked and past clients who
       stopped showing up 6, 9, 12+ months ago. We run a 5-day SMS and email campaign to
@@ -271,7 +280,7 @@
     </p>
 
     <div class="hero__cta reveal">
-      <a class="btn btn--primary btn--lg" href="https://cal.com/recallpartners/reactivation-call" data-cal-link="recallpartners/reactivation-call" data-cal-namespace="reactivation-call" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>Book Your Reactivation Call</a>
+      <a class="btn btn--primary btn--lg" href="https://cal.com/recallpartners/reactivation-call" data-cal-link="recallpartners/reactivation-call" data-cal-namespace="reactivation-call" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>See What Your Database Is Worth</a>
       <span class="hero__cta-note">The engagement: one 5-day campaign</span>
       <a class="hero__link" href="#system">Not ready to talk? See exactly how the 5 days run &rarr;</a>
     </div>
@@ -287,22 +296,24 @@
 </header>
 
 <!-- ============================================================
-     WHO WE WORK WITH
-     Treatment categories, not client names -- labelled honestly so
-     it does not read as a client logo bar. Swap in real client
-     names (and rename the label) once you have written permission.
+     BUILT FOR
+     Treatment categories, not client names. Labelled "Built for" so it
+     reads as who the offer suits, never as a client logo bar. If real
+     client names ever go here, get written permission first and change
+     the label back to "Who we work with".
      ============================================================ -->
-<div class="marquee-wrap">
+<div class="builtfor">
   <div class="container">
-    <div class="marquee-label">Who we work with &mdash; single-location med spas, multi-site groups, and injector-led practices</div>
-    <div class="marquee marqueeMask">
-      <div class="marquee__track">
-        <span>Injectables</span><span>Laser &amp; Skin</span><span>Body Contouring</span>
-        <span>Med Spa Groups</span><span>Wellness &amp; IV</span><span>Hair Restoration</span>
-        <span>Injectables</span><span>Laser &amp; Skin</span><span>Body Contouring</span>
-        <span>Med Spa Groups</span><span>Wellness &amp; IV</span><span>Hair Restoration</span>
-      </div>
-    </div>
+    <div class="builtfor__label">Built for</div>
+    <ul class="pills">
+      <li>Injectables</li>
+      <li>Laser &amp; Skin</li>
+      <li>Body Contouring</li>
+      <li>Wellness &amp; IV</li>
+      <li>Hair Restoration</li>
+      <li>Memberships</li>
+    </ul>
+    <p class="builtfor__note">Single-location med spas, multi-site groups, and injector-led practices.</p>
   </div>
 </div>
 
@@ -398,6 +409,83 @@
       yours. You approve the copy once and then get out of the way.
     </p>
 
+    <!-- ============================================================
+         SMS THREAD MOCKUP
+         Illustrative, not a client record -- the caption says so, and it
+         has to keep saying so unless a real (permissioned, redacted)
+         thread replaces it. The spa name and client name are invented.
+         The opt-out line in message one is deliberate: it mirrors what
+         actually ships, and the compliance copy elsewhere on the page
+         claims it, so the mockup must show it.
+         ============================================================ -->
+    <div class="smsdemo reveal">
+      <div class="phone">
+        <div class="phone__frame">
+          <div class="phone__bar" aria-hidden="true"><span class="phone__notch"></span></div>
+
+          <div class="phone__head">
+            <div class="phone__avatar" aria-hidden="true">L</div>
+            <div>
+              <b>Lumen Med Spa</b>
+              <span>Mobile</span>
+            </div>
+          </div>
+
+          <ol class="thread">
+            <li class="thread__day"><span>Day 1 &middot; 10:04 AM</span></li>
+            <li class="msg msg--out">
+              Hi Marissa &mdash; it&rsquo;s Lumen Med Spa. It&rsquo;s been about 9 months since your last
+              Botox appointment and we still have your treatment notes on file. Want me to
+              check what&rsquo;s open this week? Reply STOP to opt out.
+            </li>
+
+            <li class="thread__day"><span>Day 1 &middot; 12:37 PM</span></li>
+            <li class="msg msg--in">Oh wow, I completely forgot. Is it still the same pricing?</li>
+
+            <li class="msg msg--out">
+              Same as your last visit. Dr. Chen has Thursday 2:15 or Friday 10:30 open.
+            </li>
+
+            <li class="msg msg--in">Thursday works</li>
+
+            <li class="msg msg--out">
+              Booked &mdash; Thursday 2:15 with Dr. Chen. You&rsquo;ll get a confirmation the day before.
+            </li>
+
+            <li class="thread__booked"><span aria-hidden="true">&#10003;</span> Added to the calendar</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="smsdemo__notes">
+        <h3 class="h3-lead">What&rsquo;s actually going on in that thread</h3>
+        <ol class="annotated">
+          <li>
+            <b>It names the treatment and the gap.</b>
+            She came in for Botox nine months ago. A message that knows that gets read.
+            A &ldquo;we miss you&rdquo; blast does not.
+          </li>
+          <li>
+            <b>The opt-out is in the first message.</b>
+            Every send carries it, quiet hours are respected, and existing unsubscribes
+            are honored before anything goes out.
+          </li>
+          <li>
+            <b>A person answered the price question.</b>
+            That reply is the whole job. An autoresponder loses her here; we don&rsquo;t.
+          </li>
+          <li>
+            <b>Two times offered, not &ldquo;call us.&rdquo;</b>
+            Named slots close. Open invitations get &ldquo;I&rsquo;ll check my schedule&rdquo; and then nothing.
+          </li>
+        </ol>
+        <p class="smsdemo__caption">
+          Example thread, written to show the shape of a real one. Spa and client are invented
+          &mdash; we don&rsquo;t publish client conversations.
+        </p>
+      </div>
+    </div>
+
     <div class="grid grid--2 gap-lg">
       <article class="channel reveal">
         <div class="channel__tag">Channel 01</div>
@@ -466,6 +554,140 @@
       <span role="listitem">Questions answered</span>
       <i aria-hidden="true">&rarr;</i>
       <span role="listitem" class="chain__end">On your books</span>
+    </div>
+
+    <!-- ============================================================
+         BEFORE / AFTER CALENDAR
+         Illustrative only. The slot pattern is invented and the caption
+         says so. It shows shape -- a soft week filling in -- and carries
+         no revenue figures or booking counts presented as results. If
+         real campaign data ever replaces this, label it with the spa's
+         permission and the actual date range.
+         ============================================================ -->
+    <div class="calcompare reveal">
+      <p class="sr-only">
+        Two illustrations of the same appointment week. The first shows six booked
+        appointments across five days with most slots open. The second shows the same
+        six plus fourteen more added by the campaign, leaving ten slots open.
+      </p>
+
+      <div class="calcompare__grid">
+        <figure class="calweek">
+          <figcaption>
+            <span class="calweek__tag">Before</span>
+            A soft week on the schedule
+          </figcaption>
+        <div class="week week--before" aria-hidden="true">
+          <div class="week__time"></div>
+          <div class="week__day">Mon</div>
+          <div class="week__day">Tue</div>
+          <div class="week__day">Wed</div>
+          <div class="week__day">Thu</div>
+          <div class="week__day">Fri</div>
+          <div class="week__time">9:00</div>
+          <div class="slot"></div>
+          <div class="slot is-booked"></div>
+          <div class="slot"></div>
+          <div class="slot"></div>
+          <div class="slot"></div>
+          <div class="week__time">10:30</div>
+          <div class="slot"></div>
+          <div class="slot"></div>
+          <div class="slot"></div>
+          <div class="slot"></div>
+          <div class="slot"></div>
+          <div class="week__time">12:00</div>
+          <div class="slot is-booked"></div>
+          <div class="slot"></div>
+          <div class="slot"></div>
+          <div class="slot is-booked"></div>
+          <div class="slot"></div>
+          <div class="week__time">1:30</div>
+          <div class="slot"></div>
+          <div class="slot"></div>
+          <div class="slot"></div>
+          <div class="slot"></div>
+          <div class="slot"></div>
+          <div class="week__time">3:00</div>
+          <div class="slot"></div>
+          <div class="slot"></div>
+          <div class="slot is-booked"></div>
+          <div class="slot"></div>
+          <div class="slot"></div>
+          <div class="week__time">4:30</div>
+          <div class="slot"></div>
+          <div class="slot"></div>
+          <div class="slot"></div>
+          <div class="slot"></div>
+          <div class="slot is-booked"></div>
+        </div>
+        </figure>
+
+        <div class="calcompare__arrow" aria-hidden="true">&rarr;</div>
+
+        <figure class="calweek">
+          <figcaption>
+            <span class="calweek__tag calweek__tag--after">After</span>
+            The same week, worked
+          </figcaption>
+        <div class="week week--after" aria-hidden="true">
+          <div class="week__time"></div>
+          <div class="week__day">Mon</div>
+          <div class="week__day">Tue</div>
+          <div class="week__day">Wed</div>
+          <div class="week__day">Thu</div>
+          <div class="week__day">Fri</div>
+          <div class="week__time">9:00</div>
+          <div class="slot is-new"></div>
+          <div class="slot is-booked"></div>
+          <div class="slot"></div>
+          <div class="slot is-new"></div>
+          <div class="slot"></div>
+          <div class="week__time">10:30</div>
+          <div class="slot is-new"></div>
+          <div class="slot"></div>
+          <div class="slot"></div>
+          <div class="slot is-new"></div>
+          <div class="slot is-new"></div>
+          <div class="week__time">12:00</div>
+          <div class="slot is-booked"></div>
+          <div class="slot is-new"></div>
+          <div class="slot is-new"></div>
+          <div class="slot is-booked"></div>
+          <div class="slot"></div>
+          <div class="week__time">1:30</div>
+          <div class="slot"></div>
+          <div class="slot"></div>
+          <div class="slot is-new"></div>
+          <div class="slot is-new"></div>
+          <div class="slot is-new"></div>
+          <div class="week__time">3:00</div>
+          <div class="slot is-new"></div>
+          <div class="slot is-new"></div>
+          <div class="slot is-booked"></div>
+          <div class="slot"></div>
+          <div class="slot"></div>
+          <div class="week__time">4:30</div>
+          <div class="slot"></div>
+          <div class="slot is-new"></div>
+          <div class="slot"></div>
+          <div class="slot is-new"></div>
+          <div class="slot is-booked"></div>
+        </div>
+        </figure>
+      </div>
+
+      <div class="callegend">
+        <span><i class="dot dot--booked"></i> Already on the books</span>
+        <span><i class="dot dot--new"></i> Added by the campaign</span>
+        <span><i class="dot dot--open"></i> Still open</span>
+      </div>
+
+      <p class="calcompare__caption">
+        Illustrative. How much a week fills depends on your database size, how long people
+        have been gone, and your treatment mix &mdash; we give you a realistic number on the
+        call, before you commit to anything.
+      </p>
     </div>
 
     <p class="section__kicker reveal">
@@ -707,6 +929,90 @@
 <!-- ============================================================
      COMPARISON
      ============================================================ -->
+<!-- ============================================================
+     WRAP REPORT PREVIEW
+     Stands in for a proof/results section until there is one real,
+     permissioned campaign result to publish. It shows the SHAPE of the
+     deliverable and nothing else -- every figure is a labelled blank on
+     purpose. Do not fill these in with example numbers; a reader will
+     read them as results. When real data exists, replace the whole
+     section with it and name the spa and the date range.
+     ============================================================ -->
+<section class="section report" id="report">
+  <div class="container">
+    <div class="section__head narrow reveal">
+      <div class="eyebrow">The Deliverable</div>
+      <h2>The report we walk you through at the end</h2>
+      <p class="lede">
+        Below is the actual structure of the wrap report &mdash; every line item you get on
+        day five. The numbers are blank because they&rsquo;re yours, and we don&rsquo;t publish
+        other people&rsquo;s. On the call we&rsquo;ll show you a completed one.
+      </p>
+    </div>
+
+    <div class="repdoc reveal">
+      <div class="repdoc__head">
+        <div>
+          <div class="repdoc__kicker">Reactivation Wrap Report</div>
+          <b class="repdoc__title">Your Spa &mdash; 5-day campaign</b>
+        </div>
+        <span class="repdoc__stamp">Delivered day 5</span>
+      </div>
+
+      <div class="repdoc__body">
+        <section class="repblock">
+          <h3>What your database actually holds</h3>
+          <ul class="repline">
+            <li><span>Contacts in your system</span><i>your number</i></li>
+            <li><span>Reachable after scrub &amp; dedupe</span><i>your number</i></li>
+            <li><span>Suppressed &mdash; opted out, invalid, duplicate</span><i>your number</i></li>
+            <li><span>Segments built</span><i>your number</i></li>
+          </ul>
+        </section>
+
+        <section class="repblock">
+          <h3>What the campaign did</h3>
+          <ul class="repline">
+            <li><span>Replies handled by us</span><i>your number</i></li>
+            <li><span>Appointments booked</span><i>your number</i></li>
+            <li><span>Booked, broken out by treatment</span><i>your breakdown</i></li>
+            <li><span>Which segment converted best</span><i>your breakdown</i></li>
+          </ul>
+        </section>
+
+        <section class="repblock">
+          <h3>Why the rest said no &mdash; in their words</h3>
+          <p class="repblock__note">
+            Every objection, quoted, sorted by how often it came up. Price, results, a bad
+            experience, they moved, they went somewhere else. Most owners have never seen
+            this written down.
+          </p>
+          <div class="repquotes" aria-hidden="true">
+            <span class="repquote"></span>
+            <span class="repquote repquote--short"></span>
+            <span class="repquote"></span>
+            <span class="repquote repquote--short"></span>
+          </div>
+        </section>
+
+        <section class="repblock">
+          <h3>What you keep after we leave</h3>
+          <ul class="repfiles">
+            <li>Every message we sent, by segment</li>
+            <li>The front-desk confirmation script</li>
+            <li>The no-show recovery flow</li>
+            <li>What this same list should do next time, and when to run it</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <p class="section__kicker reveal report__kicker">
+      <a href="https://cal.com/recallpartners/reactivation-call" data-cal-link="recallpartners/reactivation-call" data-cal-namespace="reactivation-call" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>Ask to see a completed one on the call &rarr;</a>
+    </p>
+  </div>
+</section>
+
 <section class="section section--alt" id="compare">
   <div class="container">
     <div class="section__head reveal">
@@ -934,7 +1240,7 @@
 <section class="section book" id="book">
   <div class="container narrow book__inner">
     <div class="eyebrow reveal">Next Step</div>
-    <h2 class="reveal">See what your database is actually worth</h2>
+    <h2 class="reveal">Fifteen minutes tells you if the math works</h2>
     <p class="lede reveal">
       A short call. We look at your contact count, how long they&rsquo;ve been dormant, and what
       you want booked, and we tell you what a 5-day campaign should realistically produce. If
@@ -954,12 +1260,17 @@
            data-cal-link="recallpartners/reactivation-call"
            data-cal-namespace="reactivation-call"
            data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'
-           data-cta="booking">Book Your Reactivation Call</a>
+           data-cta="booking">See What Your Database Is Worth</a>
         <p>Fifteen minutes. The calendar opens right here &mdash; pick any slot that works.</p>
       </div>
     </div>
 
-    <p class="book__note reveal">Limited campaigns per month &mdash; we run them one at a time so replies get answered fast.</p>
+    <!-- Real constraint, not a countdown. Update the month as the calendar moves;
+         if the next open slot is not August, change it here. -->
+    <p class="book__note reveal">
+      We run one campaign at a time so replies get answered in minutes, not hours.
+      <b>Next open slot: August.</b>
+    </p>
   </div>
 </section>
 
@@ -988,6 +1299,29 @@
 </section>
 
 </main>
+
+<!-- ============================================================
+     STICKY MOBILE CTA
+     Mobile only. The nav's booking button is inside the collapsed
+     hamburger, so on a phone there is otherwise no visible CTA once the
+     hero scrolls away. Revealed by script.js after the hero passes; the
+     hidden-by-default class means it never covers the hero itself.
+     ============================================================ -->
+<div class="stickycta" id="stickyCta" aria-hidden="true">
+  <div class="stickycta__inner">
+    <div class="stickycta__copy">
+      <b>Free 15-min call</b>
+      <span>No pitch if the numbers aren&rsquo;t there.</span>
+    </div>
+    <a class="btn btn--primary btn--sm"
+       href="https://cal.com/recallpartners/reactivation-call"
+       data-cal-link="recallpartners/reactivation-call"
+       data-cal-namespace="reactivation-call"
+       data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'
+       data-cta="booking-sticky">See What It&rsquo;s Worth</a>
+  </div>
+</div>
+
 
 <!-- ============================================================
      FOOTER
