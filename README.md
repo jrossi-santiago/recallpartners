@@ -9,11 +9,13 @@ rebuilt from scratch). All copy, colors and typography are Recall Partners' own.
 
 ```
 index.html                      # homepage — every section, top to bottom
+calculator/index.html           # /calculator — gated dormant-revenue calculator
 privacy.html                    # privacy policy (incl. SMS/opt-out disclosures)
 terms.html                      # terms of service
 site.webmanifest                # PWA/home-screen icon manifest
 assets/styles.css               # design tokens at the top, then section-by-section styles
 assets/script.js                # mobile nav, scroll reveal, FAQ accordion, table tabs
+assets/calculator.js            # calculator only — validation, math, states, lead POST
 assets/analytics.js             # Google Analytics 4 global tag — loaded by every page
 assets/brand/                   # logos, favicons, og:image — see assets/brand/README.md
 tools/render-brand-images.js    # regenerates favicons + og:image
@@ -56,6 +58,47 @@ Search the files for `TODO` to confirm nothing new has crept in.
   permission.
 - **Analytics.** Nothing is installed. The booking CTAs carry `data-cta="booking"` and
   `data-cta="booking-sticky"` so an event handler has something to hook onto.
+
+## The calculator (`/calculator`)
+
+A qualification tool, not a lead magnet. Three numbers in — total contacts, dormant
+contacts, average ticket — plus first name, practice name and email, all required. It
+shows a loading sequence, then a results panel with the dormant-revenue figure.
+
+It lives in a **directory**, not as `calculator.html`, so the URL is exactly
+`domain.com/calculator` on every static host without needing clean-URL rewrites.
+Because of that, all its asset and nav links are `../`-relative.
+
+**Where the numbers come from.** Everything is in `assets/calculator.js` and everything
+is also stated on the page itself, in the "How we got there" note and the "No black box"
+section below the tool:
+
+- **Dormant revenue** = dormant contacts × average ticket. Pure arithmetic — the value of
+  *one visit* from every dormant contact. Not lifetime value, not a projection.
+- **Recovery range** = 5–10% of dormant contacts booking, the `RATE_LOW` / `RATE_HIGH`
+  constants at the top of the file. This is the only assumption in the tool. Change those
+  two numbers and every figure moves with them, including the rate quoted in the visible
+  copy — the page reads it from the same constants, so it can never quote a band it isn't
+  using.
+
+**Keep the assumptions visible.** Same reasoning as the `#report` blanks on the homepage:
+the recovery range is a planning estimate against a stranger's list, and a reader will take
+an unqualified figure for a promise. The "This is an estimate, not a forecast" paragraph and
+the three explainer cards are load-bearing — don't cut them for length.
+
+**Lead capture** posts JSON to Formspree (`https://formspree.io/f/xkjwkzor`, set as
+`FORMSPREE` at the top of `assets/calculator.js`) the moment the button is pressed, in
+parallel with the loading sequence. A failed POST is swallowed on purpose: someone who
+asked for a number gets the number regardless. There's a honeypot field (`_gotcha`) that
+Formspree also recognises.
+
+**Results are never persisted.** No storage of any kind. "Start over" wipes every rendered
+figure out of the DOM and resets the form, and a `pagehide` handler does the same so a
+back-forward cache restore can't put the last visitor's numbers back on screen.
+
+A GA4 `calculator_submit` event fires with the dormant count and revenue figure. The submit
+button carries `data-cta="calculator-submit"` and the results CTA `data-cta="calculator-booking"`,
+matching the homepage's booking-CTA convention.
 
 ## SMS compliance note
 
