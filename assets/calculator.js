@@ -53,7 +53,7 @@
   var loadBar   = document.getElementById('calcLoadBar');
   var submitBtn = document.getElementById('calcSubmit');
   var resetBtn  = document.getElementById('calcReset');
-  var panel     = document.querySelector('.calcpanel');
+  var panel     = document.querySelector('.toolpanel');
 
   var timers = [];
 

@@ -1204,76 +1204,90 @@ cal-modal-box iframe.cal-embed {
 
 
 /* ============================================================
-   Calculator (calculator/index.html)
-   Three questions in, one realistic number out, gated behind a
-   name and an email. Reuses the site tokens throughout so it
-   never drifts from the homepage.
+   Lead-tool shell — shared by /calculator and /audit
+   Both tools are one panel holding three states that JS swaps:
+   form -> loading -> result. Everything in this block is used by
+   BOTH pages, so change it and check them both. Anything only one
+   tool needs lives in that tool's own block further down.
    ============================================================ */
-.calc-page { background: var(--cream); }
+.tool-page { background: var(--cream); }
 
-.calc-hero {
+/* ---------- Hero ---------- */
+.tool-hero {
   position: relative;
   padding: 96px 0 44px;
   background: linear-gradient(180deg, var(--cream-2) 0%, var(--cream) 100%);
   overflow: hidden;
 }
-.calc-hero__glow {
+.tool-hero__glow {
   position: absolute; inset: -30% -10% auto -10%; height: 460px;
   background: radial-gradient(50% 60% at 50% 40%, rgba(185, 130, 95, .22), transparent 70%);
   pointer-events: none;
 }
-.calc-hero__inner { position: relative; text-align: center; max-width: 800px; }
-.calc-hero h1 { font-size: clamp(2.1rem, 4.6vw, 3.25rem); margin-bottom: 20px; }
-.calc-hero .lede { margin-inline: auto; }
-.calc-hero__stats {
+.tool-hero__inner { position: relative; text-align: center; max-width: 800px; }
+.tool-hero h1 { font-size: clamp(2.1rem, 4.6vw, 3.25rem); margin-bottom: 20px; }
+.tool-hero .lede { margin-inline: auto; }
+.tool-hero__stats {
   display: flex; align-items: center; justify-content: center;
   flex-wrap: wrap; gap: 10px 14px;
   margin-top: 26px;
   font-size: .88rem; color: var(--muted);
 }
-.calc-hero__stats b { color: var(--ink); font-weight: 600; }
-.calc-hero__stats .dot { color: var(--line-strong); }
+.tool-hero__stats b { color: var(--ink); font-weight: 600; }
+.tool-hero__stats .dot { color: var(--line-strong); }
 
-/* ---------- The shell ---------- */
-.calc-section { padding: 8px 0 96px; }
-.calcwrap { max-width: 720px; margin-inline: auto; }
+/* ---------- The panel ---------- */
+.tool-section { padding: 8px 0 96px; }
+.toolwrap { max-width: 720px; margin-inline: auto; }
 
-.calcpanel {
+.toolpanel {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   overflow: hidden;
 }
-.calcpanel__head {
+.toolpanel__head {
   padding: 24px 32px 22px;
   border-bottom: 1px solid var(--line);
   background: var(--cream);
 }
-.calcpanel__step {
+.toolpanel__step {
   font-family: var(--font-mono);
   font-size: .66rem; letter-spacing: .14em; text-transform: uppercase;
   color: var(--rose);
   margin-bottom: 7px;
 }
-.calcpanel__title {
+.toolpanel__title {
   font-family: var(--font-serif);
   font-variation-settings: "opsz" 32;
   font-size: 1.3rem; font-weight: 600;
   letter-spacing: -0.015em;
   line-height: 1.25;
 }
-.calcpanel__body { padding: 30px 32px 32px; }
+.toolpanel__body { padding: 30px 32px 32px; }
+
+.toolstate[hidden] { display: none !important; }
 
 /* ---------- Form ---------- */
-.calcform { display: grid; gap: 22px; }
-.calcform__row { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 22px; }
+.toolform { display: grid; gap: 22px; }
+.toolform__row { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 22px; }
 
 .field { display: block; }
 .field__label {
   display: block;
   font-size: .95rem; font-weight: 600; color: var(--ink);
   margin-bottom: 5px;
+}
+/* Optional fields say so on the label itself. Marking the optional
+   ones is friendlier than starring the required ones, because on both
+   tools nearly everything is required. */
+.field__opt {
+  font-family: var(--font-mono);
+  font-size: .62rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 400;
+  margin-left: 7px;
 }
 .field__hint {
   display: block;
@@ -1301,7 +1315,9 @@ cal-modal-box iframe.cal-embed {
   flex: none;
 }
 .field__affix--suffix { padding: 0 16px 0 0; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; }
-.field input {
+.field input,
+.field textarea,
+.field select {
   flex: 1 1 auto;
   min-width: 0;
   width: 100%;
@@ -1311,64 +1327,87 @@ cal-modal-box iframe.cal-embed {
   font-size: 1.02rem;
   color: var(--ink);
 }
-.field input::placeholder { color: rgba(124, 108, 118, .6); }
+.field textarea { resize: vertical; min-height: 92px; line-height: 1.55; }
+.field input::placeholder, .field textarea::placeholder { color: rgba(124, 108, 118, .6); }
 .field__wrap > .field__affix + input { padding-left: 8px; }
+
+/* Native select, restyled. The caret is drawn on the wrapper so the
+   control keeps the same border and focus ring as a text field. */
+.field__wrap--select { position: relative; }
+.field select {
+  appearance: none; -webkit-appearance: none;
+  padding-right: 44px;
+  cursor: pointer;
+}
+.field__wrap--select::after {
+  content: "";
+  position: absolute; right: 18px; top: 50%;
+  width: 8px; height: 8px;
+  margin-top: -6px;
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+/* Until something is picked the select shows its placeholder option,
+   which should read like a placeholder rather than an answer. */
+.field select:invalid, .field select.is-empty { color: rgba(124, 108, 118, .6); }
 
 .field.is-error .field__wrap { border-color: #B4453C; box-shadow: 0 0 0 3px rgba(180, 69, 60, .1); }
 .field__err { display: none; margin-top: 7px; font-size: .84rem; color: #B4453C; }
 .field.is-error .field__err { display: block; }
 
-.calcform__divider {
+.toolform__divider {
   display: flex; align-items: center; gap: 14px;
   margin: 4px 0 -2px;
   font-family: var(--font-mono);
   font-size: .66rem; letter-spacing: .14em; text-transform: uppercase;
   color: var(--muted);
 }
-.calcform__divider::before, .calcform__divider::after {
+.toolform__divider::before, .toolform__divider::after {
   content: ""; flex: 1 1 auto; height: 1px; background: var(--line);
 }
-.calcform__gate {
+/* Inset box for the "hand over your details" group. */
+.toolform__box {
   background: var(--cream);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 22px;
   display: grid; gap: 20px;
 }
-.calcform__gate .field__wrap { background: var(--surface); }
-/* Says plainly that the number lands on this screen, not in an inbox. */
-.calcform__instant { margin: 0; font-size: .88rem; color: var(--ink-2); line-height: 1.55; }
-.calcform__instant b { color: var(--ink); font-weight: 600; }
+.toolform__box .field__wrap { background: var(--surface); }
+.toolform__boxnote { margin: 0; font-size: .88rem; color: var(--ink-2); line-height: 1.55; }
+.toolform__boxnote b { color: var(--ink); font-weight: 600; }
 
-.calcform__submit { width: 100%; margin-top: 2px; }
-.calcform__note {
+.toolform__submit { width: 100%; margin-top: 2px; }
+.toolform__note {
   margin: 0;
   text-align: center;
   font-size: .84rem;
   color: var(--muted);
   line-height: 1.55;
 }
-.calcform__note a { color: var(--plum); text-underline-offset: 3px; }
+.toolform__note a { color: var(--plum); text-underline-offset: 3px; }
 
 /* Honeypot — bots fill it, humans never see it. */
-.calc-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.tool-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
 /* ---------- Loading ---------- */
-.calcload {
+.toolload {
   display: grid; place-items: center; gap: 20px;
   padding: 78px 32px 84px;
   text-align: center;
 }
-.calcload__ring {
+.toolload__ring {
   width: 52px; height: 52px; border-radius: 50%;
   background: conic-gradient(from 0deg, transparent 0turn, var(--rose) .55turn, var(--plum) .9turn, transparent 1turn);
   -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
   mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
-  animation: calcspin 1s linear infinite;
+  animation: toolspin 1s linear infinite;
 }
-@keyframes calcspin { to { transform: rotate(1turn); } }
+@keyframes toolspin { to { transform: rotate(1turn); } }
 
-.calcload__title {
+.toolload__title {
   font-family: var(--font-serif);
   font-variation-settings: "opsz" 40;
   font-weight: 600;
@@ -1379,26 +1418,115 @@ cal-modal-box iframe.cal-embed {
 }
 /* One subtitle at a time. The fade is re-triggered from JS on every
    swap, so each line arrives rather than snapping in. */
-.calcload__msg {
+.toolload__msg {
   font-size: 1rem;
   color: var(--ink-2);
   min-height: 1.6em;
   max-width: 34ch;
-  animation: calcfade .45s ease;
+  animation: toolfade .45s ease;
 }
-@keyframes calcfade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes toolfade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
-.calcload__bar {
+.toolload__bar {
   width: min(300px, 100%); height: 4px; border-radius: 999px;
   background: var(--cream-2);
   overflow: hidden;
 }
-.calcload__bar i {
+.toolload__bar i {
   display: block; height: 100%; width: 0;
   border-radius: 999px;
   background: linear-gradient(90deg, var(--rose), var(--plum));
   transition: width .6s ease;
 }
+
+/* ---------- The bridge: result -> working with us ----------
+   Numbered steps under a personalised heading. The calculator uses
+   it to get from a figure to a call; the audit uses it to say what
+   happens between now and the one-pager landing. */
+.toolnext {
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 26px;
+}
+.toolnext__title {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 32;
+  font-weight: 600;
+  font-size: 1.24rem;
+  letter-spacing: -0.015em;
+  margin-bottom: 6px;
+}
+.toolnext__sub { font-size: .93rem; color: var(--ink-2); margin: 0 0 20px; line-height: 1.55; }
+.toolnext__list { display: grid; gap: 16px; }
+.toolnext__item {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 0 12px;
+  align-items: start;
+}
+.toolnext__n {
+  width: 24px; height: 24px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--plum);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  margin-top: 1px;
+}
+/* Scoped to the inner div on purpose. A bare `.toolnext__item span`
+   also matches the numbered circle -- it is a span too, and it wins on
+   specificity -- which painted the 1/2/3 in --ink-2 on a plum disc and
+   made them all but invisible. */
+.toolnext__item > div > b { display: block; font-weight: 600; font-size: .96rem; color: var(--ink); }
+.toolnext__item > div > span { display: block; font-size: .9rem; color: var(--ink-2); line-height: 1.55; margin-top: 2px; }
+
+/* Each tool points at the other one from its result panel: the
+   calculator sends anyone who wants a real read to /audit, the audit
+   sends anyone who cannot wait two days to /calculator. */
+.toolcross {
+  width: 100%;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  text-align: left;
+  font-size: .88rem;
+  color: var(--ink-2);
+  line-height: 1.55;
+  margin: 2px 0 0;
+}
+.toolcross b { display: block; color: var(--ink); font-weight: 600; margin-bottom: 3px; }
+.toolcross a { color: var(--plum); font-weight: 600; text-underline-offset: 3px; }
+
+/* Both tools finish on a deep-plum panel, so the button that sits on
+   it needs to invert. */
+.btn--onplum {
+  background: var(--cream);
+  color: var(--plum-deep);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .22);
+}
+.btn--onplum:hover { background: #fff; color: var(--plum-deep); transform: translateY(-1px); }
+
+@media (max-width: 700px) {
+  .tool-hero { padding: 72px 0 32px; }
+  .tool-section { padding-bottom: 72px; }
+  .toolform__row { grid-template-columns: 1fr; }
+  .toolpanel__head { padding: 20px 22px; }
+  .toolpanel__body { padding: 24px 22px 26px; }
+  .toolload { padding: 62px 22px 66px; }
+  .toolnext { padding: 20px; }
+}
+
+
+/* ============================================================
+   Calculator (calculator/index.html)
+   Three questions in, one realistic number out, gated behind a
+   name and an email. The shell, the form primitives and the
+   loading state all come from the shared block above; only the
+   results panel is calculator-specific.
+   ============================================================ */
 
 /* ============================================================
    Results
@@ -1439,12 +1567,6 @@ cal-modal-box iframe.cal-embed {
 /* The booking ask sits in the hero, directly under the number --
    not below a caveat the visitor has to scroll past first. */
 .calcres__herocta { margin-top: 26px; }
-.btn--onplum {
-  background: var(--cream);
-  color: var(--plum-deep);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, .22);
-}
-.btn--onplum:hover { background: #fff; color: var(--plum-deep); transform: translateY(-1px); }
 .calcres__heroctanote {
   margin: 12px 0 0;
   font-size: .86rem;
@@ -1563,43 +1685,6 @@ cal-modal-box iframe.cal-embed {
 }
 .calcres__caveat b { color: var(--ink-2); font-weight: 600; }
 
-/* ---------- The bridge: number -> working with us ---------- */
-.calcnext {
-  background: var(--cream);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 24px;
-  margin-bottom: 26px;
-}
-.calcnext__title {
-  font-family: var(--font-serif);
-  font-variation-settings: "opsz" 32;
-  font-weight: 600;
-  font-size: 1.24rem;
-  letter-spacing: -0.015em;
-  margin-bottom: 6px;
-}
-.calcnext__sub { font-size: .93rem; color: var(--ink-2); margin: 0 0 20px; line-height: 1.55; }
-.calcnext__list { display: grid; gap: 16px; }
-.calcnext__item {
-  display: grid;
-  grid-template-columns: 26px minmax(0, 1fr);
-  gap: 0 12px;
-  align-items: start;
-}
-.calcnext__n {
-  width: 24px; height: 24px;
-  display: grid; place-items: center;
-  border-radius: 50%;
-  background: var(--plum);
-  color: #fff;
-  font-family: var(--font-mono);
-  font-size: .7rem;
-  margin-top: 1px;
-}
-.calcnext__item b { display: block; font-weight: 600; font-size: .96rem; color: var(--ink); }
-.calcnext__item span { display: block; font-size: .9rem; color: var(--ink-2); line-height: 1.55; margin-top: 2px; }
-
 .calcres__cta { display: grid; gap: 14px; justify-items: center; text-align: center; }
 .calcres__cta .btn { width: 100%; }
 .calcres__ctanote { margin: 0; font-size: .86rem; color: var(--muted); line-height: 1.55; }
@@ -1614,19 +1699,182 @@ cal-modal-box iframe.cal-embed {
 /* ---------- Below-the-tool explainer ---------- */
 .calchow { background: var(--cream-2); }
 
-.calcstate[hidden] { display: none !important; }
-
 @media (max-width: 700px) {
-  .calc-hero { padding: 72px 0 32px; }
-  .calc-section { padding-bottom: 72px; }
-  .calcform__row { grid-template-columns: 1fr; }
-  .calcpanel__head { padding: 20px 22px; }
-  .calcpanel__body { padding: 24px 22px 26px; }
   .calcres__hero { padding: 32px 22px 30px; }
   .calcres__body { padding: 26px 22px 28px; }
-  .calcload { padding: 62px 22px 66px; }
   .calcscen { grid-template-columns: 1fr; }
   .calcstep__eq { font-size: 1.16rem; }
   .calcstep--key .calcstep__eq { font-size: 1.32rem; }
-  .calcnext { padding: 20px; }
+}
+
+
+/* ============================================================
+   Audit (audit/index.html)
+   The intake for the hand-built one-pager. The shell, the fields,
+   the sending state and the numbered-steps block all come from the
+   shared lead-tool block above; what is here is the confirmation
+   panel and the two pieces of copy that only this page needs.
+
+   This page never renders a figure. The confirmation reads her own
+   answers back to her -- that is the whole trick, and the reason
+   there is no results styling in this block.
+   ============================================================ */
+
+/* Sits under a full section rather than directly under the hero, so
+   it needs its top padding back. */
+.tool-section--spaced { padding-top: 72px; }
+
+.tool-hero__cta { margin-top: 30px; }
+.tool-hero__ctanote {
+  margin: 14px auto 0;
+  max-width: 52ch;
+  font-size: .86rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.tool-hero__ctanote a { color: var(--plum); font-weight: 600; text-underline-offset: 3px; }
+
+/* Says once more, at the top of the form, that pressing the button
+   sends her answers to a person instead of printing a number. Anyone
+   arriving from /calculator has exactly the wrong expectation. */
+.auditintro {
+  background: var(--plum-soft);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin: 0 0 26px;
+  font-size: .9rem;
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+.auditintro b { color: var(--plum-deep); font-weight: 600; }
+
+/* Failed send. The calculator swallows a failed POST because the
+   visitor already has what she came for; here the POST *is* the
+   product, so this has to be loud. */
+.auditerr {
+  border: 1px solid #B4453C;
+  border-left-width: 4px;
+  background: rgba(180, 69, 60, .06);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin: 0 0 24px;
+  font-size: .9rem;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+.auditerr[hidden] { display: none; }
+.auditerr b { display: block; color: #B4453C; font-size: .98rem; margin-bottom: 4px; }
+.auditerr a { color: var(--plum); font-weight: 600; text-underline-offset: 3px; }
+
+/* ---------- Confirmation ----------
+   Same deep-plum panel the calculator lands on, so the two tools end
+   in the same place visually -- but with a sentence where the figure
+   would be, because this one has no figure to show. */
+.auditdone__hero {
+  background: var(--plum-deep);
+  color: var(--cream);
+  padding: 40px 32px 36px;
+  text-align: center;
+}
+.auditdone__eyebrow {
+  font-family: var(--font-mono);
+  font-size: .66rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--rose-soft);
+  margin-bottom: 16px;
+}
+.auditdone__title {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 48;
+  font-weight: 600;
+  font-size: clamp(1.9rem, 5vw, 2.7rem);
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+  color: #fff;
+}
+.auditdone__sub {
+  margin: 16px auto 0;
+  max-width: 46ch;
+  font-size: 1.02rem;
+  color: rgba(250, 246, 242, .82);
+  line-height: 1.55;
+}
+/* The call is offered straight away, in the hero, so nobody has to
+   sit out the turnaround before they can act. */
+.auditdone__cta { margin-top: 26px; }
+.auditdone__ctanote {
+  margin: 12px auto 0;
+  max-width: 48ch;
+  font-size: .86rem;
+  color: rgba(250, 246, 242, .65);
+  line-height: 1.5;
+}
+
+.auditdone__body { padding: 30px 32px 32px; }
+.auditdone__foot {
+  margin: 22px 0 0;
+  font-size: .84rem;
+  color: var(--muted);
+  line-height: 1.6;
+  text-align: center;
+}
+.auditdone__foot a { color: var(--plum); text-underline-offset: 3px; }
+
+/* ---------- Her answers, read back ---------- */
+.auditecho {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  margin-bottom: 26px;
+}
+.auditecho__title {
+  font-family: var(--font-mono);
+  font-size: .66rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--rose);
+  margin-bottom: 16px;
+}
+.auditecho__list { display: grid; gap: 11px; }
+.auditecho__list li {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 18px;
+  padding-bottom: 10px;
+  border-bottom: 1px dotted var(--line-strong);
+}
+.auditecho__list li:last-child { border-bottom: 0; padding-bottom: 0; }
+.auditecho__list span {
+  flex: none;
+  font-size: .88rem;
+  color: var(--muted);
+}
+/* Free-text answers can run long, so the value side wraps and stays
+   left-aligned at the point it wraps rather than going ragged. */
+.auditecho__list i {
+  font-style: normal;
+  font-size: .92rem;
+  font-weight: 600;
+  color: var(--ink);
+  text-align: right;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.auditecho__fix {
+  margin: 16px 0 0;
+  font-size: .84rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.auditecho__fix button {
+  border: 0; background: none; padding: 0;
+  font-size: .84rem; color: var(--plum); font-weight: 600;
+  text-decoration: underline; text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+@media (max-width: 700px) {
+  .tool-section--spaced { padding-top: 56px; }
+  .auditdone__hero { padding: 32px 22px 30px; }
+  .auditdone__body { padding: 26px 22px 28px; }
+  .auditecho { padding: 18px 20px; }
+  /* Label above value once there is no room for two columns. */
+  .auditecho__list li { display: grid; gap: 2px; }
+  .auditecho__list i { text-align: left; }
 }
