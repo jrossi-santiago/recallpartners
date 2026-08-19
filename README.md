@@ -10,12 +10,14 @@ rebuilt from scratch). All copy, colors and typography are Recall Partners' own.
 ```
 index.html                      # homepage — every section, top to bottom
 calculator/index.html           # /calculator — gated dormant-revenue calculator
+audit/index.html                # /audit — intake for the hand-built one-page audit
 privacy.html                    # privacy policy (incl. SMS/opt-out disclosures)
 terms.html                      # terms of service
 site.webmanifest                # PWA/home-screen icon manifest
 assets/styles.css               # design tokens at the top, then section-by-section styles
 assets/script.js                # mobile nav, scroll reveal, FAQ accordion, table tabs
 assets/calculator.js            # calculator only — validation, math, states, lead POST
+assets/audit.js                 # audit only — validation, states, lead POST, error path
 assets/analytics.js             # Google Analytics 4 global tag — loaded by every page
 assets/brand/                   # logos, favicons, og:image — see assets/brand/README.md
 tools/render-brand-images.js    # regenerates favicons + og:image
@@ -51,13 +53,17 @@ Search the files for `TODO` to confirm nothing new has crept in.
   rendered as a labelled blank ("your number"). That is deliberate — it demonstrates the
   deliverable without implying results. **Do not fill those blanks in with example
   figures**; a reader will take them for real ones. Replace the whole section when you
-  have a permissioned campaign to publish.
+  have a permissioned campaign to publish. The `#whatyouget` preview on `/audit` reuses
+  the same components under the same rule.
 - **"Built for" pills.** Lists practice types, not clients and not procedures, and is
   labelled so it reads as who the offer suits rather than a client logo bar. Swap in real
   client names — and rename the label back to "Who we work with" — once you have written
   permission.
-- **Analytics.** Nothing is installed. The booking CTAs carry `data-cta="booking"` and
-  `data-cta="booking-sticky"` so an event handler has something to hook onto.
+- **Analytics.** GA4 is loaded on every page via `assets/analytics.js`. Every CTA carries
+  a `data-cta` attribute for an event handler to hook onto: `booking` and `booking-sticky`
+  on the homepage, `calculator-submit` / `calculator-booking*` / `calculator-audit` on
+  `/calculator`, and `audit-start*` / `audit-submit` / `audit-booking` / `audit-calculator*`
+  on `/audit`. The two tools also fire `calculator_submit` and `audit_submit` events.
 
 ## The calculator (`/calculator`)
 
@@ -180,6 +186,159 @@ A GA4 `calculator_submit` event fires with the quiet-client count and the headli
 The submit button carries `data-cta="calculator-submit"` and the results CTA
 `data-cta="calculator-booking"`, matching the homepage's booking-CTA convention.
 
+## The audit (`/audit`)
+
+The second lead magnet, and the deliberate opposite of the calculator. She sends her
+numbers; **a person reads them and emails back a one-page breakdown within two business
+days.** Nothing is computed on the page and nothing appears on screen. It doesn't scale
+and it isn't meant to — it exists to start the first twenty conversations, and the intake
+form is the discovery call.
+
+Like the calculator it lives in a **directory**, so the URL is exactly `domain.com/audit`
+on any static host with no rewrite rules, and all its asset and nav links are
+`../`-relative.
+
+### The one thing this page must never do
+
+**Never imply an instant result.** A visitor who has already used the calculator arrives
+expecting a number on the screen, and the whole page is built to correct that expectation
+before she fills anything in. The turnaround is stated in four places — the hero lede, the
+hero stats row, the note at the top of the form, and the submit button itself — and again
+on the confirmation panel. If you edit any of them, edit all of them, and keep
+`LABEL_SEND` / `LABEL_RETRY` / `TURNAROUND` in `assets/audit.js` in step with the HTML.
+
+The turnaround (**two business days**) and the capacity (**five a week**) are real
+commitments, not copy. Change the copy if the reality changes.
+
+### It's a confirmation, not a results page
+
+State three is `#auditDoneState`, and every value in it is one she typed herself, read back
+to her so the send feels received rather than swallowed. **No figure on that panel is
+worked out by this page.** If you ever find yourself adding one, you are rebuilding the
+calculator.
+
+It does four things, in this order: confirms what she sent, says what happens next and
+when, says who is doing it (a person, by hand), and offers the call *now* rather than
+after the audit lands. There's a link to `/calculator` underneath for anyone who wants a
+rough figure in the meantime.
+
+### Capacity, stated plainly
+
+"Five a week, because one person builds each one" is true, so it's on the page. There is
+**no countdown, no seat counter and no fake queue position**, and card 02 in the `#how`
+section explicitly says we won't use one. Manufacturing scarcity on a page whose entire
+pitch is "a human is doing this honestly" would undo the page.
+
+### Showing the deliverable
+
+`#whatyouget` shows the structure of the one-pager with every figure rendered as a
+labelled blank, reusing the `.repdoc` / `.repline` components from the homepage's
+`#report`. The same non-negotiable rule applies: **do not fill those blanks in with
+example figures.** A reader takes sample numbers for real ones. It demonstrates the shape
+of the deliverable; it never invents a result.
+
+It sits **above** the form rather than below it, unlike the calculator's tool-first
+layout. The form is long and bespoke, so the deliverable has to earn the two minutes
+before she's asked for them.
+
+### The intake
+
+Eleven fields in three labelled groups, so it never reads as one wall. Nine required, two
+optional, and the optional ones say so on the label (`.field__opt`):
+
+| Group | Fields |
+| --- | --- |
+| 1 · Your practice | practice name, practice type, what you mostly treat |
+| 2 · Your list | people on file, how many have gone quiet, typical visit value, what software the list lives in, when it was last messaged, *what happened* (optional) |
+| 3 · Where to send it | first name, email, *phone* (optional) |
+
+**"What do you mostly treat" is an open text field on purpose.** A checkbox list would be
+faster to fill, but it would put named procedures on the page, which the site avoids
+everywhere (see "Notes on copy" below). Her own words are better input for a bespoke
+deliverable anyway, and they're read straight back to her on the confirmation.
+
+**Phone is optional on purpose.** A required phone number is the most common abandon point
+on a form this long, and the two optional fields are what keep completion up.
+
+### Lead capture, and why a failure is loud here
+
+Posts JSON to the same Formspree endpoint as the calculator
+(`https://formspree.io/f/xkjwkzor`, set as `FORMSPREE` at the top of `assets/audit.js`),
+with the same `_gotcha` honeypot.
+
+**Unlike the calculator, a failed POST is surfaced.** The calculator swallows one because
+the visitor already has what she came for; here the POST *is* the product, and a lost
+submission means she waits for an email that is never coming. On a network error, timeout
+or non-2xx status the panel returns to the form with everything she typed still in it, a
+red banner saying plainly that nothing reached us, a relabelled retry button, and an email
+address and phone number to fall back on. **Don't "simplify" that away.**
+
+It uses `XMLHttpRequest` rather than `fetch` for the same reason: it has to work
+everywhere and it has to report a status code back.
+
+If the POST is still in flight when the sending sequence ends, the panel holds on
+`LATE_MSG` ("Still sending…") until it settles. Showing a confirmation for a send that
+hasn't landed is the one thing this panel must never do.
+
+The subject line is `Audit request: {practice} — {value} quiet list ({n} people)`, so the
+inbox sorts by opportunity size the way the calculator's does. **That figure is the raw
+ceiling — quiet clients × one visit — not the calculator's target rate**, deliberately: a
+second copy of `RATE_TARGET` living in `audit.js` would silently drift from the one in
+`calculator.js`, and since the rate is a constant the sort order is identical either way.
+It is an internal sorting key and is never shown to her.
+
+A GA4 `audit_submit` event fires with the quiet-client count and that same list value.
+
+**Nothing is persisted**, same rule as the calculator. A `pagehide` handler clears the
+echoed answers, resets the form and returns to state one, so a back-forward cache restore
+can't put the last visitor's numbers back on a front-desk screen.
+
+### Loading sequence
+
+`HOLD_MS` × `MESSAGES.length` at the top of `assets/audit.js` — 1400ms × 3 subtitles, so
+about four seconds. The heading stays fixed at "Sending your numbers…" while the subtitle
+rotates, with a progress bar that re-divides itself if you add or remove a subtitle. Under
+`prefers-reduced-motion` each step drops to 300ms.
+
+The panel scrolls itself into view when sending starts. **Keep that.** This form is very
+tall and the sending panel is short, so swapping them collapses the page and leaves the
+visitor parked on the footer for the whole wait.
+
+### "Quiet Client Audit", not "Dormant Client Audit"
+
+The deliverable was specced as a *Dormant* Client Audit, but the vocabulary table above
+rules out "dormant" in anything a visitor reads, so the page calls it the **Quiet Client
+Audit** throughout. Call it whatever you like internally — just don't put "dormant" back
+in the visible copy, or the calculator and the audit will be speaking two different
+languages to the same owner.
+
+The confirmation panel names **Joe** as the person who builds it, taken from the site's
+contact address. If someone else starts building them, change that line.
+
+## Shared styling between the two tools
+
+Both tools are the same machine: one panel, three states, swapped by JS. So the shell is
+factored out rather than copy-pasted. `assets/styles.css` has three relevant blocks:
+
+| Block | Holds |
+| --- | --- |
+| **Lead-tool shell** (`.tool-*`, `.toolpanel`, `.toolform`, `.field`, `.toolload`, `.toolnext`, `.toolcross`, `.btn--onplum`) | everything both pages use |
+| **Calculator** (`.calcres__*`, `.calcstep*`, `.scen*`, `.calchow`) | the results panel only |
+| **Audit** (`.auditdone__*`, `.auditecho*`, `.auditerr`, `.auditintro`) | the confirmation panel and this page's own copy blocks |
+
+**Edit anything in the shell block and check both pages.** If a change only suits one
+tool, it belongs in that tool's block, not the shell.
+
+The two tools cross-link from their result panels in both directions, using the shared
+`.toolcross` component: the calculator offers the audit as the deeper read, the audit
+offers the calculator to anyone who won't wait two days.
+
+One fix worth knowing about, because it is easy to reintroduce: `.toolnext__item span`
+also matches the numbered circle (`.toolnext__n` is a span) and beats it on specificity,
+which painted the 1/2/3 in `--ink-2` on a plum disc and made them near-invisible. The
+description selectors are scoped as `.toolnext__item > div > span` for that reason. **Don't
+loosen them back.**
+
 ## SMS compliance note
 
 `privacy.html` section 4 contains this sentence, close to verbatim:
@@ -237,8 +396,9 @@ filesystem.
 - **The illustrations are labelled as illustrations.** The SMS thread in `#system` and the
   before/after week in `#warm` both carry a caption saying the contents are invented.
   Those captions are load-bearing — don't drop them for design reasons.
-- **No named procedures anywhere on the page.** The copy says "treatment" and "what they
-  came in for", never a brand or procedure name. Keep it that way: naming one narrows the
+- **No named procedures anywhere on the page**, and that holds on `/audit` too — it is why
+  "what do you mostly treat" is an open text field rather than a checkbox list. The copy
+  says "treatment" and "what they came in for", never a brand or procedure name. Keep it that way: naming one narrows the
   ICP, and a treatment name in a sample message reads as a claim about a real campaign.
 - **"Next open slot: August"** in the booking section is hardcoded. Update the month as
   the calendar moves, or drop the sentence rather than let it go stale.

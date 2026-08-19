@@ -54,7 +54,7 @@
 }
 </script>
 </head>
-<body class="calc-page" id="top">
+<body class="tool-page" id="top">
 
 <!-- ============================================================
      NAV — mirrors index.html, links back to the homepage anchors
@@ -76,6 +76,7 @@
       <a href="../index.html#mechanism">Why It Works</a>
       <a href="../index.html#system">The Campaign</a>
       <a href="../index.html#deal">The Deal</a>
+      <a href="../audit/">Audit</a>
       <a href="../index.html#faq">FAQ</a>
       <a class="btn btn--sm btn--primary" href="https://cal.com/recallpartners/reactivation-call" data-cal-link="recallpartners/reactivation-call" data-cal-namespace="reactivation-call" data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>Book a Call</a>
     </div>
@@ -91,9 +92,9 @@
 <!-- ============================================================
      HERO
      ============================================================ -->
-<header class="calc-hero">
-  <div class="calc-hero__glow" aria-hidden="true"></div>
-  <div class="container calc-hero__inner">
+<header class="tool-hero">
+  <div class="tool-hero__glow" aria-hidden="true"></div>
+  <div class="container tool-hero__inner">
     <div class="eyebrow">Free &middot; Takes 30 Seconds</div>
     <h1>
       How much money is sitting in the clients who
@@ -104,7 +105,7 @@
       page a few seconds later. Nothing gets emailed to you. You don&rsquo;t have to book
       a call to see it.
     </p>
-    <div class="calc-hero__stats">
+    <div class="tool-hero__stats">
       <span><b>3</b> questions</span>
       <span class="dot">&middot;</span>
       <span>Your number shows up <b>right here</b></span>
@@ -120,20 +121,20 @@
      form -> loading -> results. Results are never persisted;
      "Start over" wipes them and returns to a blank form.
      ============================================================ -->
-<section class="section calc-section">
+<section class="section tool-section">
   <div class="container">
-    <div class="calcwrap">
-      <div class="calcpanel">
+    <div class="toolwrap">
+      <div class="toolpanel">
 
         <!-- ---------- STATE 1: FORM ---------- -->
-        <div class="calcstate" id="calcFormState">
-          <div class="calcpanel__head">
-            <div class="calcpanel__step">About 30 seconds</div>
-            <div class="calcpanel__title">Three questions about your practice</div>
+        <div class="toolstate" id="calcFormState">
+          <div class="toolpanel__head">
+            <div class="toolpanel__step">About 30 seconds</div>
+            <div class="toolpanel__title">Three questions about your practice</div>
           </div>
 
-          <div class="calcpanel__body">
-            <form class="calcform" id="calcForm" novalidate>
+          <div class="toolpanel__body">
+            <form class="toolform" id="calcForm" novalidate>
 
               <div class="field" id="fPatients">
                 <label class="field__label" for="patients">How many clients and leads do you have on file?</label>
@@ -168,15 +169,15 @@
                 <span class="field__err" id="eTicket">Enter what a typical visit is worth.</span>
               </div>
 
-              <div class="calcform__divider">Last step</div>
+              <div class="toolform__divider">Last step</div>
 
-              <div class="calcform__gate">
-                <p class="calcform__instant">
+              <div class="toolform__box">
+                <p class="toolform__boxnote">
                   <b>Your number appears on this screen, not in your inbox.</b> We ask for these
                   so we know whose practice we&rsquo;re looking at if you decide to talk to us.
                 </p>
 
-                <div class="calcform__row">
+                <div class="toolform__row">
                   <div class="field" id="fName">
                     <label class="field__label" for="firstName">First name</label>
                     <div class="field__wrap">
@@ -207,17 +208,17 @@
               </div>
 
               <!-- Honeypot. Bots fill it; the submit handler drops anything that does. -->
-              <div class="calc-hp" aria-hidden="true">
+              <div class="tool-hp" aria-hidden="true">
                 <label for="_gotcha">Leave this field empty</label>
                 <input id="_gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
               </div>
 
-              <button class="btn btn--primary btn--lg calcform__submit" type="submit" id="calcSubmit"
+              <button class="btn btn--primary btn--lg toolform__submit" type="submit" id="calcSubmit"
                       data-cta="calculator-submit">
                 Show Me My Number
               </button>
 
-              <p class="calcform__note" id="calcFormNote">
+              <p class="toolform__note" id="calcFormNote">
                 You&rsquo;ll see your results in about five seconds. We don&rsquo;t put you on a
                 mailing list and we don&rsquo;t sell your details &mdash;
                 <a href="../privacy.html">here&rsquo;s our privacy policy</a>.
@@ -227,14 +228,14 @@
         </div>
 
         <!-- ---------- STATE 2: LOADING ---------- -->
-        <div class="calcstate" id="calcLoadState" hidden>
-          <div class="calcload">
-            <div class="calcload__ring" aria-hidden="true"></div>
-            <h2 class="calcload__title">Results loading&hellip;</h2>
-            <p class="calcload__msg" id="calcLoadMsg" role="status" aria-live="polite">
+        <div class="toolstate" id="calcLoadState" hidden>
+          <div class="toolload">
+            <div class="toolload__ring" aria-hidden="true"></div>
+            <h2 class="toolload__title">Results loading&hellip;</h2>
+            <p class="toolload__msg" id="calcLoadMsg" role="status" aria-live="polite">
               Looking at your numbers&hellip;
             </p>
-            <div class="calcload__bar" aria-hidden="true"><i id="calcLoadBar"></i></div>
+            <div class="toolload__bar" aria-hidden="true"><i id="calcLoadBar"></i></div>
           </div>
         </div>
 
@@ -248,7 +249,7 @@
              further down and labelled as unreachable -- naming it that
              way defuses it, where leading with it would just get the
              whole page discounted by anyone numerate. -->
-        <div class="calcstate" id="calcResState" hidden>
+        <div class="toolstate" id="calcResState" hidden>
 
           <div class="calcres__hero">
             <div class="calcres__eyebrow">What we&rsquo;d aim to put back on your books</div>
@@ -349,29 +350,29 @@
             </p>
 
             <!-- The bridge: what turning that figure into bookings looks like. -->
-            <div class="calcnext">
-              <div class="calcnext__title" id="nextTitle">So how do you actually get it?</div>
-              <p class="calcnext__sub">Three steps, and the whole thing is over in five days.</p>
+            <div class="toolnext">
+              <div class="toolnext__title" id="nextTitle">So how do you actually get it?</div>
+              <p class="toolnext__sub">Three steps, and the whole thing is over in five days.</p>
 
-              <div class="calcnext__list">
-                <div class="calcnext__item">
-                  <span class="calcnext__n" aria-hidden="true">1</span>
+              <div class="toolnext__list">
+                <div class="toolnext__item">
+                  <span class="toolnext__n" aria-hidden="true">1</span>
                   <div>
                     <b>You book the 15-minute call</b>
                     <span>We look at your actual list together and work out the real number
                     &mdash; not this estimate. If it&rsquo;s not worth running, we tell you.</span>
                   </div>
                 </div>
-                <div class="calcnext__item">
-                  <span class="calcnext__n" aria-hidden="true">2</span>
+                <div class="toolnext__item">
+                  <span class="toolnext__n" aria-hidden="true">2</span>
                   <div>
                     <b>We run the five days</b>
                     <span>SMS and email to your quiet clients only. We answer every reply
                     ourselves, so nothing lands on your front desk.</span>
                   </div>
                 </div>
-                <div class="calcnext__item">
-                  <span class="calcnext__n" aria-hidden="true">3</span>
+                <div class="toolnext__item">
+                  <span class="toolnext__n" aria-hidden="true">3</span>
                   <div>
                     <b>The bookings go straight in your calendar</b>
                     <span id="nextStep3">Then we hand you the reporting and get out. No retainer,
@@ -391,6 +392,17 @@
               <p class="calcres__ctanote" id="resCtaNote">
                 Free, and there&rsquo;s no pitch if the numbers aren&rsquo;t there.
               </p>
+              <!-- The deeper version of this page. The estimate above is
+                   arithmetic on three numbers; /audit is a person going
+                   through the real list. -->
+              <p class="toolcross">
+                <b>Want this done properly, on your actual list?</b>
+                Send us your numbers and a person builds you a one-page breakdown by hand
+                &mdash; what you&rsquo;re leaving on the table and what the five days would look
+                like for your treatments. Free, in your inbox within two business days.
+                <a href="../audit/" data-cta="calculator-audit">Get the free audit &rarr;</a>
+              </p>
+
               <button class="calcres__reset" type="button" id="calcReset">Clear this and start over</button>
             </div>
 
@@ -490,6 +502,7 @@
       <div>
         <div class="footer__col-title">More</div>
         <a href="./">Revenue Calculator</a>
+        <a href="../audit/">Free Audit</a>
         <a href="../index.html#fit">Who It&rsquo;s For</a>
         <a href="../index.html#compare">Alternatives</a>
         <a href="../index.html#faq">FAQ</a>
