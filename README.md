@@ -14,6 +14,7 @@ terms.html                      # terms of service
 site.webmanifest                # PWA/home-screen icon manifest
 assets/styles.css               # design tokens at the top, then section-by-section styles
 assets/script.js                # mobile nav, scroll reveal, FAQ accordion, table tabs
+assets/analytics.js             # Google Analytics 4 global tag — loaded by every page
 assets/brand/                   # logos, favicons, og:image — see assets/brand/README.md
 tools/render-brand-images.js    # regenerates favicons + og:image
 ```
