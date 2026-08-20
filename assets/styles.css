@@ -561,6 +561,10 @@ h2 { font-size: clamp(2rem, 3.6vw, 2.9rem); margin-bottom: .5em; }
 .report h2 { color: var(--cream); }
 .report .eyebrow { color: var(--rose-soft); }
 .report .lede { color: rgba(250, 246, 242, .78); }
+/* The homepage's kicker here is a bare link, so it never needed a body
+   colour. /audit puts a sentence around the link, and --muted on deep
+   plum is unreadable -- both halves get set. */
+.report__kicker { color: rgba(250, 246, 242, .7); }
 .report__kicker a { color: var(--rose-soft); }
 
 .repdoc {
@@ -1724,6 +1728,15 @@ cal-modal-box iframe.cal-embed {
    it needs its top padding back. */
 .tool-section--spaced { padding-top: 72px; }
 
+/* Second hero paragraph: the "nothing happens on this screen" line,
+   held apart from the lede so it lands as its own beat. */
+.tool-hero__lede2 {
+  margin: 14px auto 0;
+  font-size: .96rem;
+  color: var(--muted);
+  max-width: 54ch;
+}
+
 .tool-hero__cta { margin-top: 30px; }
 .tool-hero__ctanote {
   margin: 14px auto 0;
@@ -1819,6 +1832,46 @@ cal-modal-box iframe.cal-embed {
 }
 .auditdone__foot a { color: var(--plum); text-underline-offset: 3px; }
 
+/* ---------- What you get ----------
+   Four numbered plain-English items inside the page-shaped .repdoc
+   frame from the homepage. This replaced a mock-up of the one page
+   with every figure shown as a labelled blank: it looked the part but
+   the owner it was written for could not tell what any of it meant. A
+   page of blanks asks the reader to picture a document; four sentences
+   just tell her. Same rule stands either way -- no example figures. */
+.auditwhat { padding: 6px 30px 26px; }
+.auditwhat__item {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 0 16px;
+  align-items: start;
+  padding: 22px 0;
+  border-bottom: 1px dotted var(--line-strong);
+}
+.auditwhat__item:last-child { border-bottom: 0; }
+.auditwhat__n {
+  width: 28px; height: 28px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--plum);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: .78rem;
+  margin-top: 2px;
+}
+.auditwhat__item h3 {
+  font-size: 1.14rem;
+  font-variation-settings: "opsz" 28;
+  line-height: 1.3;
+  margin: 0;
+}
+.auditwhat__item p {
+  margin: 7px 0 0;
+  font-size: .95rem;
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+
 /* ---------- Her answers, read back ---------- */
 .auditecho {
   border: 1px solid var(--line);
@@ -1873,6 +1926,9 @@ cal-modal-box iframe.cal-embed {
   .tool-section--spaced { padding-top: 56px; }
   .auditdone__hero { padding: 32px 22px 30px; }
   .auditdone__body { padding: 26px 22px 28px; }
+  .auditwhat { padding: 4px 22px 20px; }
+  .auditwhat__item { padding: 18px 0; gap: 0 13px; grid-template-columns: 28px minmax(0, 1fr); }
+  .auditwhat__item h3 { font-size: 1.06rem; }
   .auditecho { padding: 18px 20px; }
   /* Label above value once there is no room for two columns. */
   .auditecho__list li { display: grid; gap: 2px; }
