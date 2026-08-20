@@ -93,146 +93,100 @@
 
 <!-- ============================================================
      HERO
-     This page is the opposite of /calculator: nothing is computed
-     on screen, a person builds the answer and emails it. Anyone
-     arriving from the calculator has the wrong expectation, so the
-     hero, the panel, the button and the confirmation all say the
-     same thing — two business days, by hand, to your inbox.
+     Headline promises the outcome, sub-head says who writes it and
+     how long it takes, hero image is the proof: the message thread
+     this page exists to write for you. Re-uses the homepage thread
+     component, so it adds nothing to download.
+
+     Everything that used to sit between here and the form is gone.
+     The four-item breakdown of the one page is now the single line
+     under the sub-head, which is all it was ever doing — answering
+     "why would I give you my email".
      ============================================================ -->
 <header class="tool-hero">
   <div class="tool-hero__glow" aria-hidden="true"></div>
   <div class="container tool-hero__inner">
     <div class="eyebrow">Free &middot; Written By A Real Person &middot; Five A Week</div>
     <h1>
-      You answer a few questions.
-      <span class="accent-serif">We show you how to win back your clients - free.</span>
+      See the exact messages we&rsquo;d send to
+      <span class="accent-serif">win your old clients back.</span>
     </h1>
     <p class="lede">
-      It takes about two minutes. Then a real person &mdash; not a computer &mdash; reads
-      your answers and works out what the clients who stopped coming in are worth to you.
-      You get one page about your practice, by email, <b>within two business days</b>.
+      Answer a few questions about your practice and a real person &mdash; not a computer
+      &mdash; writes you one page about it, free, <b>in your inbox within two business days</b>.
     </p>
     <p class="lede tool-hero__lede2">
-      Nothing appears on this screen. Nothing is worked out while you wait. Someone sits
-      down and writes it.
+      On that page: how many of your clients have gone quiet, what they&rsquo;re worth if they
+      come back, the five days of texts and emails we&rsquo;d send them, and what we&rsquo;d
+      change about the last time you contacted that list.
     </p>
-    <div class="tool-hero__stats">
-      <span><b>2 minutes</b> to fill in</span>
-      <span class="dot">&middot;</span>
-      <span><b>One page</b> back, by email</span>
-      <span class="dot">&middot;</span>
-      <span>In your inbox in <b>2 business days</b></span>
-    </div>
-    <div class="tool-hero__cta">
-      <a class="btn btn--primary btn--lg" href="#start" data-cta="audit-start">Answer The Questions</a>
-      <p class="tool-hero__ctanote">
-        In a hurry? <a href="../calculator/" data-cta="audit-calculator-hero">The calculator</a>
-        puts a rough number on the screen in about five seconds instead. It doesn&rsquo;t
-        email you anything.
+
+    <!-- HERO IMAGE: the thing being delivered, not a stock photo. -->
+    <div class="heroproof">
+      <div class="phone">
+        <div class="phone__frame">
+          <div class="phone__bar" aria-hidden="true"><span class="phone__notch"></span></div>
+
+          <div class="phone__head">
+            <div class="phone__avatar" aria-hidden="true">L</div>
+            <div>
+              <b>Lumen Med Spa</b>
+              <span>Mobile</span>
+            </div>
+          </div>
+
+          <ol class="thread">
+            <li class="thread__day"><span>Day 1 &middot; 10:04 AM</span></li>
+            <li class="msg msg--out">
+              Hi Marissa &mdash; it&rsquo;s Lumen Med Spa. It&rsquo;s been about 9 months since your
+              last appointment and we still have your treatment notes on file. Want me to check
+              what&rsquo;s open this week? Reply STOP to opt out.
+            </li>
+
+            <li class="thread__day"><span>Day 1 &middot; 12:37 PM</span></li>
+            <li class="msg msg--in">Oh wow, I completely forgot. Is it still the same pricing?</li>
+
+            <li class="msg msg--out">
+              Same as your last visit. Dr. Chen has Thursday 2:15 or Friday 10:30 open.
+            </li>
+
+            <li class="msg msg--in">Thursday works</li>
+
+            <li class="thread__booked"><span aria-hidden="true">&#10003;</span> Added to the calendar</li>
+          </ol>
+        </div>
+      </div>
+      <p class="heroproof__caption">
+        Example thread &mdash; the spa and the client are invented, because we don&rsquo;t publish
+        client conversations. Yours is written around the treatments you actually do.
       </p>
+    </div>
+
+    <div class="tool-hero__cta">
+      <a class="btn btn--primary btn--lg" href="#start" data-cta="audit-start">
+        Get My Free Page
+      </a>
     </div>
   </div>
 </header>
 
 <!-- ============================================================
-     WHAT YOU GET
-     Four things, in the words an owner would use, one sentence each.
-
-     This started life as a mock-up of the one page with every figure
-     shown as a labelled blank. It tested badly: the owner it was
-     written for read it and could not tell what any of it meant. A
-     document full of blanks asks the reader to imagine a document.
-     Four plain sentences just tell her.
-
-     The rule that survived: NO EXAMPLE FIGURES ANYWHERE. Every number
-     on the real page is hers, and a sample number here would be read
-     as a real result. Say what each item is; never invent one.
-     ============================================================ -->
-<section class="section report" id="whatyouget">
-  <div class="container">
-    <div class="section__head narrow reveal">
-      <div class="eyebrow">What You Get</div>
-      <h2>One page. Four things on it.</h2>
-      <p class="lede">
-        Written by hand, about your practice. Here&rsquo;s exactly what&rsquo;s on it.
-      </p>
-    </div>
-
-    <div class="repdoc reveal">
-      <div class="repdoc__head">
-        <div>
-          <div class="repdoc__kicker">Your one page</div>
-          <b class="repdoc__title">Written for your practice, by a person</b>
-        </div>
-        <span class="repdoc__stamp">Emailed in 2 business days</span>
-      </div>
-
-      <div class="auditwhat">
-        <div class="auditwhat__item">
-          <span class="auditwhat__n" aria-hidden="true">1</span>
-          <div>
-            <h3>How many of your clients have stopped coming in</h3>
-            <p>
-              The real count, worked out from the numbers you give us. Most owners have never
-              had anyone add this up for them.
-            </p>
-          </div>
-        </div>
-
-        <div class="auditwhat__item">
-          <span class="auditwhat__n" aria-hidden="true">2</span>
-          <div>
-            <h3>What those clients are worth if they come back</h3>
-            <p>
-              One visit each, at your prices. We give you a realistic figure and a
-              worst-case figure, so you can see both instead of one flattering one.
-            </p>
-          </div>
-        </div>
-
-        <div class="auditwhat__item">
-          <span class="auditwhat__n" aria-hidden="true">3</span>
-          <div>
-            <h3>The texts and emails we&rsquo;d send them</h3>
-            <p>
-              Five days of messages, written around the treatments you actually do, in the
-              order they&rsquo;d go out. Not a template with your name dropped into it.
-            </p>
-          </div>
-        </div>
-
-        <div class="auditwhat__item">
-          <span class="auditwhat__n" aria-hidden="true">4</span>
-          <div>
-            <h3>What we&rsquo;d do differently from last time</h3>
-            <p>
-              You tell us when you last contacted these people and how it went. We tell you
-              what we&rsquo;d change. If what you did was right, we say that instead.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <p class="section__kicker reveal report__kicker">
-      Yours to keep, whether or not we ever speak. We don&rsquo;t put example numbers on this
-      website &mdash; every figure on your page comes from your own practice.
-      <a href="#start" data-cta="audit-start-preview">Answer the questions &rarr;</a>
-    </p>
-  </div>
-</section>
-
-<!-- ============================================================
      THE INTAKE
-     Three states in one panel, swapped by assets/audit.js:
-     form -> sending -> confirmation. It is a confirmation, not a
-     results panel: no figure is ever rendered here.
+     Three panel states swapped by assets/audit.js: form -> sending
+     -> confirmation. It is a confirmation, not a results panel: no
+     figure is ever rendered here.
+
+     The form itself is four short steps rather than one long page.
+     Twelve fields is well past what anyone will read in a column,
+     and the questions genuinely earn their place — the page can't
+     be written without them — so the fix was to show three or four
+     at a time instead of dropping any.
 
      Unlike the calculator, a failed POST is surfaced. If this send
      is lost she waits for an email that never arrives, so she has
      to know to try again or reach us directly.
      ============================================================ -->
-<section class="section tool-section tool-section--spaced" id="start">
+<section class="section tool-section" id="start">
   <div class="container">
     <div class="toolwrap">
       <div class="toolpanel">
@@ -240,7 +194,7 @@
         <!-- ---------- STATE 1: FORM ---------- -->
         <div class="toolstate" id="auditFormState">
           <div class="toolpanel__head">
-            <div class="toolpanel__step">About two minutes &middot; Two questions you can skip</div>
+            <div class="toolpanel__step">About two minutes</div>
             <div class="toolpanel__title">A few questions about your practice</div>
           </div>
 
@@ -256,187 +210,231 @@
               that way.</span>
             </div>
 
-            <p class="auditintro">
-              <b>Nothing appears on this screen when you press the button.</b> Your answers go
-              to a real person, who reads them and emails you your page within two business
-              days. The more you tell us, the more that page is about <i>your</i> practice.
-            </p>
+            <div class="stepbar">
+              <div class="stepbar__meta">
+                <span class="stepbar__now" id="stepNow">Step 1 of 4 &middot; Your practice</span>
+                <span class="stepbar__left" id="stepLeft">3 questions on this screen</span>
+              </div>
+              <div class="stepbar__track" role="progressbar" aria-label="How far through the questions you are"
+                   aria-valuemin="1" aria-valuemax="4" aria-valuenow="1" id="stepTrack">
+                <i class="stepbar__fill" id="stepFill"></i>
+              </div>
+            </div>
 
             <form class="toolform" id="auditForm" novalidate>
 
-              <div class="toolform__divider">1 &middot; Your practice</div>
+              <!-- ---- STEP 1 ---- -->
+              <div class="toolstep" data-step="1">
 
-              <div class="field" id="fPractice">
-                <label class="field__label" for="practice">Practice name</label>
-                <div class="field__wrap">
-                  <input id="practice" name="practice" type="text" autocomplete="organization"
-                         placeholder="Glow Aesthetics" aria-describedby="ePractice" required>
-                </div>
-                <span class="field__err" id="ePractice">Enter your practice name.</span>
-              </div>
-
-              <div class="field" id="fType">
-                <label class="field__label" for="ptype">What kind of practice is it?</label>
-                <div class="field__wrap field__wrap--select">
-                  <select id="ptype" name="ptype" aria-describedby="eType" required>
-                    <option value="" selected disabled>Choose one</option>
-                    <option>Single-location med spa</option>
-                    <option>Multi-site group</option>
-                    <option>Injector-led practice</option>
-                    <option>Physician-owned clinic</option>
-                    <option>Aesthetics &amp; wellness clinic</option>
-                    <option>Franchise location</option>
-                    <option>Something else</option>
-                  </select>
-                </div>
-                <span class="field__err" id="eType">Pick the closest one.</span>
-              </div>
-
-              <div class="field" id="fTreats">
-                <label class="field__label" for="treats">What do you mostly treat?</label>
-                <span class="field__hint">In your own words &mdash; the two or three things most
-                of your bookings come from. We write the messages around this, so it&rsquo;s the
-                answer that changes your page the most.</span>
-                <div class="field__wrap">
-                  <textarea id="treats" name="treats" rows="3" autocomplete="off"
-                            placeholder="The two or three treatments most of your bookings come from"
-                            aria-describedby="eTreats" required></textarea>
-                </div>
-                <span class="field__err" id="eTreats">Tell us what most of your bookings are for.</span>
-              </div>
-
-              <div class="toolform__divider">2 &middot; Your list</div>
-
-              <div class="field" id="fOnfile">
-                <label class="field__label" for="onfile">How many clients and leads do you have on file?</label>
-                <span class="field__hint">Everyone you have a phone number or email for, whether
-                they still come in or not. A rough count is fine.</span>
-                <div class="field__wrap">
-                  <input id="onfile" name="onfile" type="text" inputmode="numeric" autocomplete="off"
-                         placeholder="2,000" aria-describedby="eOnfile" required>
-                  <span class="field__affix field__affix--suffix" aria-hidden="true">people</span>
-                </div>
-                <span class="field__err" id="eOnfile">Enter how many people you have on file.</span>
-              </div>
-
-              <div class="field" id="fQuiet">
-                <label class="field__label" for="quiet">How many of them haven&rsquo;t been in for a year?</label>
-                <span class="field__hint">The people who called or filled out a form and never came
-                in, plus the clients who came once or twice and then stopped. In most practices
-                it&rsquo;s more than half.</span>
-                <div class="field__wrap">
-                  <input id="quiet" name="quiet" type="text" inputmode="numeric" autocomplete="off"
-                         placeholder="1,200" aria-describedby="eQuiet" required>
-                  <span class="field__affix field__affix--suffix" aria-hidden="true">people</span>
-                </div>
-                <span class="field__err" id="eQuiet">Enter how many have stopped coming in.</span>
-              </div>
-
-              <div class="field" id="fVisit">
-                <label class="field__label" for="visit">What does a client spend in a typical visit?</label>
-                <span class="field__hint">Across everything you offer. Just one visit &mdash; not
-                what they spend with you over a year.</span>
-                <div class="field__wrap">
-                  <span class="field__affix" aria-hidden="true">$</span>
-                  <input id="visit" name="visit" type="text" inputmode="decimal" autocomplete="off"
-                         placeholder="400" aria-describedby="eVisit" required>
-                </div>
-                <span class="field__err" id="eVisit">Enter what a typical visit is worth.</span>
-              </div>
-
-              <div class="field" id="fSoftware">
-                <label class="field__label" for="software">What do you book clients in?</label>
-                <span class="field__hint">The software your front desk uses. If your list is in
-                two places, pick the one with the most people in it.</span>
-                <div class="field__wrap field__wrap--select">
-                  <select id="software" name="software" aria-describedby="eSoftware" required>
-                    <option value="" selected disabled>Choose one</option>
-                    <option>Boulevard</option>
-                    <option>Zenoti</option>
-                    <option>Aesthetic Record</option>
-                    <option>Mindbody</option>
-                    <option>Vagaro</option>
-                    <option>Jane</option>
-                    <option>Weave</option>
-                    <option>Podium</option>
-                    <option>A spreadsheet</option>
-                    <option>Something else</option>
-                    <option>I&rsquo;m not sure</option>
-                  </select>
-                </div>
-                <span class="field__err" id="eSoftware">Pick where your list lives.</span>
-              </div>
-
-              <div class="field" id="fLast">
-                <label class="field__label" for="lastsent">When did you last text or email everyone on that list?</label>
-                <div class="field__wrap field__wrap--select">
-                  <select id="lastsent" name="lastsent" aria-describedby="eLast" required>
-                    <option value="" selected disabled>Choose one</option>
-                    <option>In the last month</option>
-                    <option>One to three months ago</option>
-                    <option>Six to twelve months ago</option>
-                    <option>Over a year ago</option>
-                    <option>We never have</option>
-                  </select>
-                </div>
-                <span class="field__err" id="eLast">Pick the closest one.</span>
-              </div>
-
-              <div class="field" id="fResult">
-                <label class="field__label" for="lastresult">
-                  How did it go?
-                  <span class="field__opt">You can skip this</span>
-                </label>
-                <span class="field__hint">Roughly how many replied or booked, if you know.
-                &ldquo;No idea&rdquo; is a real answer and it still helps.</span>
-                <div class="field__wrap">
-                  <textarea id="lastresult" name="lastresult" rows="2" autocomplete="off"
-                            placeholder="A couple of replies, nobody booked&hellip;"></textarea>
-                </div>
-              </div>
-
-              <div class="toolform__divider">3 &middot; Where to send it</div>
-
-              <div class="toolform__box">
-                <p class="toolform__boxnote">
-                  <b>Your page comes back by email, within two business days.</b> Nothing shows
-                  up on this screen. We don&rsquo;t put you on a mailing list and we don&rsquo;t
-                  sell your details.
-                </p>
-
-                <div class="toolform__row">
-                  <div class="field" id="fName">
-                    <label class="field__label" for="firstName">First name</label>
-                    <div class="field__wrap">
-                      <input id="firstName" name="firstName" type="text" autocomplete="given-name"
-                             placeholder="Sarah" aria-describedby="eName" required>
-                    </div>
-                    <span class="field__err" id="eName">Enter your first name.</span>
+                <div class="field" id="fPractice">
+                  <label class="field__label" for="practice">Practice name</label>
+                  <div class="field__wrap">
+                    <input id="practice" name="practice" type="text" autocomplete="organization"
+                           placeholder="Glow Aesthetics" aria-describedby="ePractice" required>
                   </div>
-
-                  <div class="field" id="fEmail">
-                    <label class="field__label" for="email">Email</label>
-                    <div class="field__wrap">
-                      <input id="email" name="email" type="email" autocomplete="email"
-                             placeholder="sarah@glowaesthetics.com" aria-describedby="eEmail" required>
-                    </div>
-                    <span class="field__err" id="eEmail">Enter a valid email address.</span>
-                  </div>
+                  <span class="field__err" id="ePractice">Enter your practice name.</span>
                 </div>
 
-                <div class="field" id="fPhone">
-                  <label class="field__label" for="phone">
-                    Phone
+                <div class="field" id="fType">
+                  <label class="field__label" for="ptype">What kind of practice is it?</label>
+                  <div class="field__wrap field__wrap--select">
+                    <select id="ptype" name="ptype" aria-describedby="eType" required>
+                      <option value="" selected disabled>Choose one</option>
+                      <option>Single-location med spa</option>
+                      <option>Multi-site group</option>
+                      <option>Injector-led practice</option>
+                      <option>Physician-owned clinic</option>
+                      <option>Aesthetics &amp; wellness clinic</option>
+                      <option>Franchise location</option>
+                      <option>Something else</option>
+                    </select>
+                  </div>
+                  <span class="field__err" id="eType">Pick the closest one.</span>
+                </div>
+
+                <div class="field" id="fTreats">
+                  <label class="field__label" for="treats">What do you mostly treat?</label>
+                  <span class="field__hint">In your own words &mdash; the two or three things most
+                  of your bookings come from. We write the messages around this, so it&rsquo;s the
+                  answer that changes your page the most.</span>
+                  <div class="field__wrap">
+                    <textarea id="treats" name="treats" rows="3" autocomplete="off"
+                              placeholder="The two or three treatments most of your bookings come from"
+                              aria-describedby="eTreats" required></textarea>
+                  </div>
+                  <span class="field__err" id="eTreats">Tell us what most of your bookings are for.</span>
+                </div>
+
+                <div class="stepnav">
+                  <button class="btn btn--primary btn--lg" type="button" data-next>Continue</button>
+                </div>
+              </div>
+
+              <!-- ---- STEP 2 ---- -->
+              <div class="toolstep" data-step="2" hidden>
+
+                <div class="field" id="fOnfile">
+                  <label class="field__label" for="onfile">How many clients and leads do you have on file?</label>
+                  <span class="field__hint">Everyone you have a phone number or email for, whether
+                  they still come in or not. A rough count is fine.</span>
+                  <div class="field__wrap">
+                    <input id="onfile" name="onfile" type="text" inputmode="numeric" autocomplete="off"
+                           placeholder="2,000" aria-describedby="eOnfile" required>
+                    <span class="field__affix field__affix--suffix" aria-hidden="true">people</span>
+                  </div>
+                  <span class="field__err" id="eOnfile">Enter how many people you have on file.</span>
+                </div>
+
+                <div class="field" id="fQuiet">
+                  <label class="field__label" for="quiet">How many of them haven&rsquo;t been in for a year?</label>
+                  <span class="field__hint">The people who called or filled out a form and never came
+                  in, plus the clients who came once or twice and then stopped. In most practices
+                  it&rsquo;s more than half.</span>
+                  <div class="field__wrap">
+                    <input id="quiet" name="quiet" type="text" inputmode="numeric" autocomplete="off"
+                           placeholder="1,200" aria-describedby="eQuiet" required>
+                    <span class="field__affix field__affix--suffix" aria-hidden="true">people</span>
+                  </div>
+                  <span class="field__err" id="eQuiet">Enter how many have stopped coming in.</span>
+                </div>
+
+                <div class="field" id="fVisit">
+                  <label class="field__label" for="visit">What does a client spend in a typical visit?</label>
+                  <span class="field__hint">Across everything you offer. Just one visit &mdash; not
+                  what they spend with you over a year.</span>
+                  <div class="field__wrap">
+                    <span class="field__affix" aria-hidden="true">$</span>
+                    <input id="visit" name="visit" type="text" inputmode="decimal" autocomplete="off"
+                           placeholder="400" aria-describedby="eVisit" required>
+                  </div>
+                  <span class="field__err" id="eVisit">Enter what a typical visit is worth.</span>
+                </div>
+
+                <div class="field" id="fSoftware">
+                  <label class="field__label" for="software">What do you book clients in?</label>
+                  <span class="field__hint">The software your front desk uses. If your list is in
+                  two places, pick the one with the most people in it.</span>
+                  <div class="field__wrap field__wrap--select">
+                    <select id="software" name="software" aria-describedby="eSoftware" required>
+                      <option value="" selected disabled>Choose one</option>
+                      <option>Boulevard</option>
+                      <option>Zenoti</option>
+                      <option>Aesthetic Record</option>
+                      <option>Mindbody</option>
+                      <option>Vagaro</option>
+                      <option>Jane</option>
+                      <option>Weave</option>
+                      <option>Podium</option>
+                      <option>A spreadsheet</option>
+                      <option>Something else</option>
+                      <option>I&rsquo;m not sure</option>
+                    </select>
+                  </div>
+                  <span class="field__err" id="eSoftware">Pick where your list lives.</span>
+                </div>
+
+                <div class="stepnav">
+                  <button class="btn btn--primary btn--lg" type="button" data-next>Continue</button>
+                  <button class="stepnav__back" type="button" data-back>&larr; Back</button>
+                </div>
+              </div>
+
+              <!-- ---- STEP 3 ---- -->
+              <div class="toolstep" data-step="3" hidden>
+
+                <div class="field" id="fLast">
+                  <label class="field__label" for="lastsent">When did you last text or email everyone on that list?</label>
+                  <div class="field__wrap field__wrap--select">
+                    <select id="lastsent" name="lastsent" aria-describedby="eLast" required>
+                      <option value="" selected disabled>Choose one</option>
+                      <option>In the last month</option>
+                      <option>One to three months ago</option>
+                      <option>Six to twelve months ago</option>
+                      <option>Over a year ago</option>
+                      <option>We never have</option>
+                    </select>
+                  </div>
+                  <span class="field__err" id="eLast">Pick the closest one.</span>
+                </div>
+
+                <div class="field" id="fResult">
+                  <label class="field__label" for="lastresult">
+                    How did it go?
                     <span class="field__opt">You can skip this</span>
                   </label>
-                  <span class="field__hint">Only if you&rsquo;d rather we called and talked you
-                  through it than emailed it. We won&rsquo;t add you to anything.</span>
+                  <span class="field__hint">Roughly how many replied or booked, if you know.
+                  &ldquo;No idea&rdquo; is a real answer and it still helps &mdash; it&rsquo;s what
+                  we use to work out what we&rsquo;d do differently.</span>
                   <div class="field__wrap">
-                    <input id="phone" name="phone" type="tel" autocomplete="tel"
-                           placeholder="(570) 776-5660" aria-describedby="ePhone">
+                    <textarea id="lastresult" name="lastresult" rows="2" autocomplete="off"
+                              placeholder="A couple of replies, nobody booked&hellip;"></textarea>
                   </div>
-                  <span class="field__err" id="ePhone">That doesn&rsquo;t look like a phone number &mdash; fix it or leave it empty.</span>
                 </div>
+
+                <div class="stepnav">
+                  <button class="btn btn--primary btn--lg" type="button" data-next>Continue</button>
+                  <button class="stepnav__back" type="button" data-back>&larr; Back</button>
+                </div>
+              </div>
+
+              <!-- ---- STEP 4 ---- -->
+              <div class="toolstep" data-step="4" hidden>
+
+                <div class="toolform__box">
+                  <p class="toolform__boxnote">
+                    <b>Your page comes back by email, within two business days.</b> Nothing shows
+                    up on this screen. We don&rsquo;t put you on a mailing list and we don&rsquo;t
+                    sell your details.
+                  </p>
+
+                  <div class="toolform__row">
+                    <div class="field" id="fName">
+                      <label class="field__label" for="firstName">First name</label>
+                      <div class="field__wrap">
+                        <input id="firstName" name="firstName" type="text" autocomplete="given-name"
+                               placeholder="Sarah" aria-describedby="eName" required>
+                      </div>
+                      <span class="field__err" id="eName">Enter your first name.</span>
+                    </div>
+
+                    <div class="field" id="fEmail">
+                      <label class="field__label" for="email">Email</label>
+                      <div class="field__wrap">
+                        <input id="email" name="email" type="email" autocomplete="email"
+                               placeholder="sarah@glowaesthetics.com" aria-describedby="eEmail" required>
+                      </div>
+                      <span class="field__err" id="eEmail">Enter a valid email address.</span>
+                    </div>
+                  </div>
+
+                  <div class="field" id="fPhone">
+                    <label class="field__label" for="phone">
+                      Phone
+                      <span class="field__opt">You can skip this</span>
+                    </label>
+                    <span class="field__hint">Only if you&rsquo;d rather we called and talked you
+                    through it than emailed it. We won&rsquo;t add you to anything.</span>
+                    <div class="field__wrap">
+                      <input id="phone" name="phone" type="tel" autocomplete="tel"
+                             placeholder="(570) 776-5660" aria-describedby="ePhone">
+                    </div>
+                    <span class="field__err" id="ePhone">That doesn&rsquo;t look like a phone number &mdash; fix it or leave it empty.</span>
+                  </div>
+                </div>
+
+                <div class="stepnav">
+                  <button class="btn btn--primary btn--lg toolform__submit" type="submit" id="auditSubmit"
+                          data-cta="audit-submit">
+                    Send My Answers &mdash; One Page Back In 2 Days
+                  </button>
+                  <button class="stepnav__back" type="button" data-back>&larr; Back</button>
+                </div>
+
+                <p class="toolform__note" id="auditFormNote">
+                  A real person reads this. We only do five a week, so if we&rsquo;re full
+                  we&rsquo;ll tell you in the same email &mdash;
+                  <a href="../privacy.html">here&rsquo;s our privacy policy</a>.
+                </p>
               </div>
 
               <!-- Honeypot. Bots fill it; the submit handler drops anything that does. -->
@@ -444,17 +442,6 @@
                 <label for="_gotcha">Leave this field empty</label>
                 <input id="_gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
               </div>
-
-              <button class="btn btn--primary btn--lg toolform__submit" type="submit" id="auditSubmit"
-                      data-cta="audit-submit">
-                Send My Answers &mdash; One Page Back In 2 Days
-              </button>
-
-              <p class="toolform__note" id="auditFormNote">
-                A real person reads this. We only do five a week, so if we&rsquo;re full
-                we&rsquo;ll tell you in the same email &mdash;
-                <a href="../privacy.html">here&rsquo;s our privacy policy</a>.
-              </p>
             </form>
           </div>
         </div>
@@ -547,6 +534,10 @@
               </div>
             </div>
 
+            <!-- The only cross-link left on this page, and it is after
+                 the opt-in on purpose: before it, every route to the
+                 calculator was just a way of leaving without filling
+                 anything in. -->
             <p class="toolcross">
               <b>Don&rsquo;t want to wait two days for a number?</b>
               The calculator gives you a rough one in about five seconds, on the screen. It uses
@@ -570,61 +561,54 @@
 </section>
 
 <!-- ============================================================
-     WHY IT WORKS THIS WAY
-     The capacity limit here is a fact, not a scarcity tactic. There
-     is no countdown and no seat counter on this page on purpose —
-     if the true number ever changes, change the copy.
+     THE THREE OBJECTIONS
+     Below the fold, most common first. The "why two days and not
+     two seconds" cards that used to live here said the same three
+     things in a longer way — the capacity limit and the reason
+     it's free are now inside the answers they belong to.
      ============================================================ -->
-<section class="section section--alt" id="how">
+<section class="section section--alt" id="questions">
   <div class="container">
     <div class="section__head narrow reveal">
-      <div class="eyebrow">Why Two Days And Not Two Seconds</div>
-      <h2>Because a person actually writes it</h2>
-      <p class="lede">
-        A form could hand you something instantly. It just wouldn&rsquo;t be worth reading.
-        Here&rsquo;s who writes yours, and why there are only five a week.
-      </p>
+      <div class="eyebrow">Before You Type Your Email In</div>
+      <h2>Three things people ask us first</h2>
     </div>
 
-    <div class="grid grid--3">
-      <article class="card card--num reveal">
-        <div class="card__num">01</div>
-        <h3>A real person writes it.</h3>
+    <ul class="objx reveal">
+      <li>
+        <h3>What does this actually cost?</h3>
         <p>
-          What you treat, how long your people have been gone, how it went the last time you
-          contacted them &mdash; all of that changes what we&rsquo;d say to them and when.
-          <b>Those are judgement calls</b>, and software can&rsquo;t make them. So somebody
-          here makes them, for every practice that asks.
+          <b>The page is free and there is nothing to buy on it.</b> We write these because
+          some of the people who read one end up hiring us &mdash; that&rsquo;s the whole
+          catch. If you did go on to run the campaign, you&rsquo;d pay a flat fee for the five
+          days and nothing after it: no retainer, nothing to cancel. And if there isn&rsquo;t
+          enough in your list to be worth doing, <b>the page will say so</b> and we won&rsquo;t
+          chase you.
         </p>
-      </article>
-
-      <article class="card card--num reveal">
-        <div class="card__num">02</div>
-        <h3>Five a week, and that&rsquo;s the truth.</h3>
+      </li>
+      <li>
+        <h3>How much work is this for me and my front desk?</h3>
         <p>
-          One person writes each one, and a good one takes an hour or two. <b>Five a week is
-          what that comes to.</b> If we&rsquo;re full when yours comes in, the email will say
-          so and tell you which week you&rsquo;re in. <b>No countdown clock, no fake
-          &ldquo;2 spots left&rdquo;.</b>
+          <b>About two minutes, spread over four short screens.</b> That&rsquo;s it &mdash;
+          nothing to install, no list to export, no call to sit through to get the page. If
+          you later run the five days with us, your side is one 15-minute call and an export
+          of your client list; <b>we answer every reply ourselves</b>, so nothing lands on
+          your front desk. Bookings just turn up in your calendar.
         </p>
-      </article>
-
-      <article class="card card--num reveal">
-        <div class="card__num">03</div>
-        <h3>It&rsquo;s free. Here&rsquo;s why.</h3>
+      </li>
+      <li>
+        <h3>How do I know it isn&rsquo;t a template with my name dropped in?</h3>
         <p>
-          We write these because some of the people who read one end up hiring us. That&rsquo;s
-          the whole catch. <b>If there isn&rsquo;t enough there to be worth doing, the page says
-          so</b> and we won&rsquo;t chase you. Either way the page is yours &mdash; run it
-          yourself if you like.
+          Because a person writes it and there are only five a week. One of us goes through
+          your answers by hand, and a good page takes an hour or two &mdash; <b>five a week is
+          simply what that comes to</b>, not a countdown clock. That&rsquo;s also why it takes
+          two business days instead of two seconds: what you treat, how long your people have
+          been gone and how the last message went are judgement calls, and software
+          can&rsquo;t make them. If we&rsquo;re full when yours arrives, the email tells you
+          which week you&rsquo;re in.
         </p>
-      </article>
-    </div>
-
-    <p class="section__kicker reveal">
-      Not ready to spend two minutes on the form?
-      <a href="../calculator/" data-cta="audit-calculator-how">The calculator puts a rough number on the screen in about five seconds</a>.
-    </p>
+      </li>
+    </ul>
   </div>
 </section>
 

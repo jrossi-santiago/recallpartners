@@ -1,7 +1,14 @@
 /* ============================================================
    Recall Partners — quiet client audit intake
    ------------------------------------------------------------
-   Three states in one panel: form -> sending -> confirmation.
+   Three states in one panel: form -> sending -> confirmation, and
+   the form state is itself four short steps.
+
+   The twelve questions all earn their place -- the page cannot be
+   written without them -- so the fix for the length was to show
+   three or four at a time rather than to drop any. Validation is
+   per-step: you cannot leave a step with an error on it, which
+   means the final submit almost never fails validation.
 
    This is the opposite of the calculator. Nothing is computed and
    nothing is shown: the answers go to a person who builds the
@@ -70,6 +77,29 @@
 
   function $(id) { return document.getElementById(id); }
   function setText(id, text) { var el = $(id); if (el) el.textContent = text; }
+
+  /* ---------- The four steps ----------
+     `fields` is both the running order for validation and the list
+     of ids a step owns, so a field only ever has to be named once.
+     A field with no entry in CHECKS is optional. */
+  var STEPS = [
+    { label: 'Your practice',               blurb: '3 questions on this screen',
+      fields: ['practice', 'ptype', 'treats'] },
+    { label: 'Your list',                   blurb: '4 questions on this screen',
+      fields: ['onfile', 'quiet', 'visit', 'software'] },
+    { label: 'Last time you contacted them', blurb: '2 questions, one you can skip',
+      fields: ['lastsent', 'lastresult'] },
+    { label: 'Where to send it',            blurb: 'Last screen',
+      fields: ['firstName', 'email', 'phone'] }
+  ];
+  var LAST_STEP = STEPS.length;
+
+  var steps    = form ? [].slice.call(form.querySelectorAll('.toolstep')) : [];
+  var stepNow  = $('stepNow');
+  var stepLeft = $('stepLeft');
+  var stepFill = $('stepFill');
+  var stepTrack = $('stepTrack');
+  var current  = 1;
 
   /* ---------- Formatting ---------- */
 
@@ -159,69 +189,149 @@
 
   function val(id) { var el = $(id); return el ? el.value.trim() : ''; }
 
-  function validate() {
-    var practiceEl = $('practice');
-    var typeEl     = $('ptype');
-    var treatsEl   = $('treats');
-    var onfileEl   = $('onfile');
-    var quietEl    = $('quiet');
-    var visitEl    = $('visit');
-    var softwareEl = $('software');
-    var lastEl     = $('lastsent');
-    var nameEl     = $('firstName');
-    var emailEl    = $('email');
-    var phoneEl    = $('phone');
-
-    var first = null;
-    function fail(el, msg) { setError(el, msg); if (!first) first = el; }
-
-    var onfile = num(onfileEl);
-    var quiet  = num(quietEl);
-    var visit  = num(visitEl);
-
-    if (!practiceEl.value.trim()) fail(practiceEl, 'Enter your practice name.');
-    if (!typeEl.value) fail(typeEl, 'Pick the closest one.');
-    if (!treatsEl.value.trim()) fail(treatsEl, 'Tell us what most of your bookings are for.');
-
-    if (!(onfile >= 1)) fail(onfileEl, 'Enter how many people you have on file.');
-    if (!(quiet >= 1)) {
-      fail(quietEl, 'Enter how many have stopped coming in.');
-    } else if (onfile >= 1 && quiet > onfile) {
-      fail(quietEl, 'That’s more than you have on file — check the number above.');
-    }
-    if (!(visit > 0)) fail(visitEl, 'Enter what a typical visit is worth.');
-    if (!softwareEl.value) fail(softwareEl, 'Pick where your list lives.');
-    if (!lastEl.value) fail(lastEl, 'Pick the closest one.');
-
-    if (!nameEl.value.trim()) fail(nameEl, 'Enter your first name.');
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(emailEl.value.trim())) {
-      fail(emailEl, 'Enter a valid email address.');
-    }
-    /* Phone is optional -- only a filled-in one can be wrong. */
-    if (phoneEl.value.trim() && digitsOnly(phoneEl.value).length < 10) {
-      fail(phoneEl, 'That doesn’t look like a phone number — fix it or leave it empty.');
-    }
-
-    if (first) {
-      first.focus();
-      if (first.scrollIntoView) first.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  /* One check per field, keyed by id. Returning a string fails the
+     field with that message; returning null passes it. Anything not
+     in here (lastresult, phone when empty) is optional. */
+  var CHECKS = {
+    practice: function (el) {
+      return el.value.trim() ? null : 'Enter your practice name.';
+    },
+    ptype: function (el) {
+      return el.value ? null : 'Pick the closest one.';
+    },
+    treats: function (el) {
+      return el.value.trim() ? null : 'Tell us what most of your bookings are for.';
+    },
+    onfile: function (el) {
+      return num(el) >= 1 ? null : 'Enter how many people you have on file.';
+    },
+    quiet: function (el) {
+      var q = num(el);
+      var o = num($('onfile'));
+      if (!(q >= 1)) return 'Enter how many have stopped coming in.';
+      /* Only meaningful once the count above it is a real number --
+         and it always is, because it lives on the same step. */
+      if (o >= 1 && q > o) return 'That\u2019s more than you have on file \u2014 check the number above.';
       return null;
+    },
+    visit: function (el) {
+      return num(el) > 0 ? null : 'Enter what a typical visit is worth.';
+    },
+    software: function (el) {
+      return el.value ? null : 'Pick where your list lives.';
+    },
+    lastsent: function (el) {
+      return el.value ? null : 'Pick the closest one.';
+    },
+    firstName: function (el) {
+      return el.value.trim() ? null : 'Enter your first name.';
+    },
+    email: function (el) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(el.value.trim())
+        ? null : 'Enter a valid email address.';
+    },
+    phone: function (el) {
+      /* Optional -- only a filled-in one can be wrong. */
+      if (!el.value.trim()) return null;
+      return digitsOnly(el.value).length >= 10
+        ? null : 'That doesn\u2019t look like a phone number \u2014 fix it or leave it empty.';
     }
+  };
 
+  /* Marks every bad field on one step and focuses the first of them.
+     Returns true when the step is clean. */
+  function validateStep(n) {
+    var first = null;
+    STEPS[n - 1].fields.forEach(function (id) {
+      var el = $(id);
+      var check = CHECKS[id];
+      if (!el || !check) return;
+      var msg = check(el);
+      if (msg) {
+        setError(el, msg);
+        if (!first) first = el;
+      } else {
+        clearError(el);
+      }
+    });
+
+    if (!first) return true;
+    first.focus();
+    if (first.scrollIntoView) first.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    return false;
+  }
+
+  /* Belt and braces before the send. Steps are gated on the way
+     forward, so this only bites if a field was emptied after being
+     passed -- in which case it walks her back to that step. */
+  function validateAll() {
+    for (var n = 1; n <= LAST_STEP; n++) {
+      if (!validateStep(n)) {
+        if (n !== current) { goStep(n); validateStep(n); }
+        return null;
+      }
+    }
+    return collect();
+  }
+
+  function collect() {
     return {
-      practice: practiceEl.value.trim(),
-      ptype: typeEl.value,
-      treats: treatsEl.value.trim(),
-      onfile: Math.round(onfile),
-      quiet: Math.round(quiet),
-      visit: visit,
-      software: softwareEl.value,
-      lastsent: lastEl.value,
+      practice: val('practice'),
+      ptype: val('ptype'),
+      treats: val('treats'),
+      onfile: Math.round(num($('onfile'))),
+      quiet: Math.round(num($('quiet'))),
+      visit: num($('visit')),
+      software: val('software'),
+      lastsent: val('lastsent'),
       lastresult: val('lastresult'),
-      firstName: nameEl.value.trim(),
-      email: emailEl.value.trim(),
-      phone: phoneEl.value.trim()
+      firstName: val('firstName'),
+      email: val('email'),
+      phone: val('phone')
     };
+  }
+
+  /* ---------- Step navigation ---------- */
+
+  function goStep(n, move) {
+    current = Math.min(Math.max(n, 1), LAST_STEP);
+
+    steps.forEach(function (el, i) {
+      el.hidden = (i + 1) !== current;
+    });
+
+    var step = STEPS[current - 1];
+    if (stepNow) {
+      stepNow.textContent = 'Step ' + current + ' of ' + LAST_STEP + ' \u00b7 ' + step.label;
+    }
+    if (stepLeft) stepLeft.textContent = step.blurb;
+    if (stepFill) stepFill.style.width = (current / LAST_STEP * 100) + '%';
+    if (stepTrack) stepTrack.setAttribute('aria-valuenow', String(current));
+
+    /* Focus the step, not its first input: focusing an input pops the
+       keyboard open on a phone and hides the question it belongs to.
+       The panel is pulled back into view because each step is a
+       different height and the viewport otherwise lands mid-form. */
+    var el = steps[current - 1];
+    if (el) el.setAttribute('tabindex', '-1');
+
+    /* `move` is false only for the call that draws the first step on
+       load -- taking focus and scrolling to the form the moment the
+       page opens would skip the headline the visitor came for. */
+    if (move === false) return;
+    if (el) el.focus({ preventScroll: true });
+    toPanel();
+  }
+
+  if (form) {
+    form.addEventListener('click', function (e) {
+      var next = e.target.closest('[data-next]');
+      if (next) {
+        if (validateStep(current)) goStep(current + 1);
+        return;
+      }
+      if (e.target.closest('[data-back]')) goStep(current - 1);
+    });
   }
 
   /* ---------- State switching ---------- */
@@ -338,6 +448,7 @@
      banner saying plainly that nothing reached us. */
   function failed() {
     show(stateForm);
+    goStep(LAST_STEP);
     if (errorBox) {
       errorBox.hidden = false;
       if (errorBox.scrollIntoView) errorBox.scrollIntoView({ block: 'center', behavior: 'smooth' });
@@ -420,7 +531,14 @@
     var hp = $('_gotcha');
     if (hp && hp.value) { show(stateDone); return; }
 
-    var input = validate();
+    /* Enter inside a text field submits the whole form, so on any
+       step but the last that keystroke has to mean "continue". */
+    if (current < LAST_STEP) {
+      if (validateStep(current)) goStep(current + 1);
+      return;
+    }
+
+    var input = validateAll();
     if (!input) return;
 
     if (errorBox) errorBox.hidden = true;
@@ -470,9 +588,7 @@
       if (errorBox) errorBox.hidden = true;
       if (loadBar) loadBar.style.width = '0';
       show(stateForm);
-      toPanel();
-      var firstInput = $('practice');
-      if (firstInput) firstInput.focus({ preventScroll: true });
+      goStep(1);
     });
   }
 
@@ -505,7 +621,11 @@
     if (errorBox) errorBox.hidden = true;
     if (loadBar) loadBar.style.width = '0';
     show(stateForm);
+    goStep(1);
   }
 
   window.addEventListener('pagehide', wipe);
+
+  /* Start on step one with the bar drawn to match. */
+  goStep(1, false);
 })();

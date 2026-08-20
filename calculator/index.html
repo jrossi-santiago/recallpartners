@@ -91,6 +91,11 @@
 
 <!-- ============================================================
      HERO
+     Headline promises the outcome, sub-head says how fast and in
+     what form, hero image is the proof of it: the week the number
+     turns into. The calendar mock-up is the homepage component
+     re-used, so it costs nothing extra to load and it is already
+     labelled as illustrative.
      ============================================================ -->
 <header class="tool-hero">
   <div class="tool-hero__glow" aria-hidden="true"></div>
@@ -101,16 +106,77 @@
       <span class="accent-serif">stopped coming in?</span>
     </h1>
     <p class="lede">
-      Answer three questions about your practice and you&rsquo;ll see the number on this
-      page a few seconds later. Nothing gets emailed to you. You don&rsquo;t have to book
-      a call to see it.
+      Answer three questions about your practice and your number is on this screen about
+      five seconds later. No call, nothing emailed to you.
     </p>
-    <div class="tool-hero__stats">
-      <span><b>3</b> questions</span>
-      <span class="dot">&middot;</span>
-      <span>Your number shows up <b>right here</b></span>
-      <span class="dot">&middot;</span>
-      <span><b>No</b> call needed</span>
+
+    <!-- HERO IMAGE: the outcome the number stands for. -->
+    <div class="heroproof">
+      <p class="sr-only">
+        An illustration of an appointment week. Six appointments were already booked; fourteen
+        more have been added by the campaign, leaving ten slots open.
+      </p>
+      <figure class="calweek">
+        <div class="week" aria-hidden="true">
+          <div class="week__time"></div>
+          <div class="week__day">Mon</div>
+          <div class="week__day">Tue</div>
+          <div class="week__day">Wed</div>
+          <div class="week__day">Thu</div>
+          <div class="week__day">Fri</div>
+          <div class="week__time">9:00</div>
+          <div class="slot is-new"></div>
+          <div class="slot is-booked"></div>
+          <div class="slot"></div>
+          <div class="slot is-new"></div>
+          <div class="slot"></div>
+          <div class="week__time">10:30</div>
+          <div class="slot is-new"></div>
+          <div class="slot"></div>
+          <div class="slot"></div>
+          <div class="slot is-new"></div>
+          <div class="slot is-new"></div>
+          <div class="week__time">12:00</div>
+          <div class="slot is-booked"></div>
+          <div class="slot is-new"></div>
+          <div class="slot is-new"></div>
+          <div class="slot is-booked"></div>
+          <div class="slot"></div>
+          <div class="week__time">1:30</div>
+          <div class="slot"></div>
+          <div class="slot"></div>
+          <div class="slot is-new"></div>
+          <div class="slot is-new"></div>
+          <div class="slot is-new"></div>
+          <div class="week__time">3:00</div>
+          <div class="slot is-new"></div>
+          <div class="slot is-new"></div>
+          <div class="slot is-booked"></div>
+          <div class="slot"></div>
+          <div class="slot"></div>
+          <div class="week__time">4:30</div>
+          <div class="slot"></div>
+          <div class="slot is-new"></div>
+          <div class="slot"></div>
+          <div class="slot is-new"></div>
+          <div class="slot is-booked"></div>
+        </div>
+      </figure>
+      <div class="callegend">
+        <span><i class="dot dot--booked"></i> Already on the books</span>
+        <span><i class="dot dot--new"></i> Added by the campaign</span>
+        <span><i class="dot dot--open"></i> Still open</span>
+      </div>
+      <p class="heroproof__caption">
+        Illustrative. Your number is what a week like this is worth to you &mdash; the
+        calculator below works it out from your own figures.
+      </p>
+    </div>
+
+    <div class="tool-hero__cta">
+      <a class="btn btn--primary btn--lg" href="#start" data-cta="calculator-start">
+        Show Me My Number
+      </a>
     </div>
   </div>
 </header>
@@ -121,7 +187,7 @@
      form -> loading -> results. Results are never persisted;
      "Start over" wipes them and returns to a blank form.
      ============================================================ -->
-<section class="section tool-section">
+<section class="section tool-section" id="start">
   <div class="container">
     <div class="toolwrap">
       <div class="toolpanel">
@@ -415,58 +481,55 @@
 </section>
 
 <!-- ============================================================
-     WHERE THE NUMBERS COME FROM
+     THE THREE OBJECTIONS
+     Below the fold, most common first. These are the three things
+     an owner is actually thinking before she types her email in,
+     in the order she thinks them. Anything that was not one of
+     those three came off this page — the assumptions behind the
+     arithmetic used to live here, but the results panel already
+     spells the whole sum out step by step, so saying it twice was
+     length for its own sake.
      ============================================================ -->
-<section class="section calchow" id="how">
+<section class="section section--alt" id="questions">
   <div class="container">
     <div class="section__head narrow reveal">
-      <div class="eyebrow">Nothing Hidden</div>
-      <h2>Where these numbers come from</h2>
-      <p class="lede">
-        It&rsquo;s simple arithmetic, not a secret formula. Here&rsquo;s every assumption behind
-        it, so you can argue with the ones you don&rsquo;t buy.
-      </p>
+      <div class="eyebrow">Before You Type Your Email In</div>
+      <h2>Three things people ask us first</h2>
     </div>
 
-    <div class="grid grid--3">
-      <article class="card card--num reveal">
-        <div class="card__num">01</div>
-        <h3>Why we don&rsquo;t lead with the big number.</h3>
+    <ul class="objx reveal">
+      <li>
+        <h3>What does this actually cost?</h3>
         <p>
-          Your quiet clients times what one visit is worth gives you a huge figure &mdash; but
-          it assumes every last one of them walks back through the door. <b>That never
-          happens</b>, so putting it at the top would just make you discount everything else on
-          the page. We show it, we label it, and we move on.
+          The calculator is free and there is nothing to buy on this page. If you go on to
+          run the campaign with us, <b>you pay a flat fee for the five days and nothing
+          after it</b> &mdash; no retainer, no monthly, nothing to cancel. We quote you the
+          number on the call, before you commit to anything, and if your list isn&rsquo;t
+          big enough to be worth running we say so and that&rsquo;s the end of it.
         </p>
-      </article>
-
-      <article class="card card--num reveal">
-        <div class="card__num">02</div>
-        <h3>The number up top assumes 15 in every 100.</h3>
+      </li>
+      <li>
+        <h3>How much work is this for me and my front desk?</h3>
         <p>
-          That&rsquo;s what we aim for on a well-run campaign to people who already gave you
-          their number and already know your name. They answer at a rate cold outreach never
-          does. <b>It&rsquo;s a target, not a guarantee</b> &mdash; which is why the worst case
-          is sitting right next to it.
+          Getting your number takes about thirty seconds. Running the actual campaign takes
+          you <b>one 15-minute call and an export of your client list</b> &mdash; that&rsquo;s
+          your whole job. We write the messages, we send them, and <b>we answer every reply
+          ourselves</b>, so your front desk keeps doing what it was already doing. Bookings
+          land in your calendar the same way any other booking does.
         </p>
-      </article>
-
-      <article class="card card--num reveal">
-        <div class="card__num">03</div>
-        <h3>What it can&rsquo;t know about your list.</h3>
+      </li>
+      <li>
+        <h3>How do I know the number isn&rsquo;t made up?</h3>
         <p>
-          Whether those phone numbers still work. How long people have really been gone. Whether
-          your quiet clients were one-visit people or ten-visit people. All of that moves the
-          real number up or down. <b>That&rsquo;s what the call is for</b> &mdash; we go through
-          your actual list before anyone commits to anything.
+          Because you can check it. It&rsquo;s your own three figures multiplied together
+          &mdash; the results page shows every step of the sum, and <b>we lead with the
+          realistic figure rather than the ceiling</b>, then show the worst case next to it.
+          It&rsquo;s an estimate, not a promise: it can&rsquo;t know how many of those phone
+          numbers still work or how long people have really been gone. <b>That&rsquo;s what
+          the call is for.</b>
         </p>
-      </article>
-    </div>
-
-    <p class="section__kicker reveal">
-      Want the real number instead of the estimate? <a href="../index.html#system">See how the five days run</a>,
-      or book a call and we&rsquo;ll go through your list with you.
-    </p>
+      </li>
+    </ul>
   </div>
 </section>
 

@@ -1231,14 +1231,6 @@ cal-modal-box iframe.cal-embed {
 .tool-hero__inner { position: relative; text-align: center; max-width: 800px; }
 .tool-hero h1 { font-size: clamp(2.1rem, 4.6vw, 3.25rem); margin-bottom: 20px; }
 .tool-hero .lede { margin-inline: auto; }
-.tool-hero__stats {
-  display: flex; align-items: center; justify-content: center;
-  flex-wrap: wrap; gap: 10px 14px;
-  margin-top: 26px;
-  font-size: .88rem; color: var(--muted);
-}
-.tool-hero__stats b { color: var(--ink); font-weight: 600; }
-.tool-hero__stats .dot { color: var(--line-strong); }
 
 /* ---------- The panel ---------- */
 .tool-section { padding: 8px 0 96px; }
@@ -1700,9 +1692,6 @@ cal-modal-box iframe.cal-embed {
 }
 .calcres__reset:hover { color: var(--plum); }
 
-/* ---------- Below-the-tool explainer ---------- */
-.calchow { background: var(--cream-2); }
-
 @media (max-width: 700px) {
   .calcres__hero { padding: 32px 22px 30px; }
   .calcres__body { padding: 26px 22px 28px; }
@@ -1724,10 +1713,6 @@ cal-modal-box iframe.cal-embed {
    there is no results styling in this block.
    ============================================================ */
 
-/* Sits under a full section rather than directly under the hero, so
-   it needs its top padding back. */
-.tool-section--spaced { padding-top: 72px; }
-
 /* Second hero paragraph: the "nothing happens on this screen" line,
    held apart from the lede so it lands as its own beat. */
 .tool-hero__lede2 {
@@ -1738,29 +1723,6 @@ cal-modal-box iframe.cal-embed {
 }
 
 .tool-hero__cta { margin-top: 30px; }
-.tool-hero__ctanote {
-  margin: 14px auto 0;
-  max-width: 52ch;
-  font-size: .86rem;
-  color: var(--muted);
-  line-height: 1.55;
-}
-.tool-hero__ctanote a { color: var(--plum); font-weight: 600; text-underline-offset: 3px; }
-
-/* Says once more, at the top of the form, that pressing the button
-   sends her answers to a person instead of printing a number. Anyone
-   arriving from /calculator has exactly the wrong expectation. */
-.auditintro {
-  background: var(--plum-soft);
-  border-radius: var(--radius);
-  padding: 16px 18px;
-  margin: 0 0 26px;
-  font-size: .9rem;
-  color: var(--ink-2);
-  line-height: 1.6;
-}
-.auditintro b { color: var(--plum-deep); font-weight: 600; }
-
 /* Failed send. The calculator swallows a failed POST because the
    visitor already has what she came for; here the POST *is* the
    product, so this has to be loud. */
@@ -1832,46 +1794,6 @@ cal-modal-box iframe.cal-embed {
 }
 .auditdone__foot a { color: var(--plum); text-underline-offset: 3px; }
 
-/* ---------- What you get ----------
-   Four numbered plain-English items inside the page-shaped .repdoc
-   frame from the homepage. This replaced a mock-up of the one page
-   with every figure shown as a labelled blank: it looked the part but
-   the owner it was written for could not tell what any of it meant. A
-   page of blanks asks the reader to picture a document; four sentences
-   just tell her. Same rule stands either way -- no example figures. */
-.auditwhat { padding: 6px 30px 26px; }
-.auditwhat__item {
-  display: grid;
-  grid-template-columns: 34px minmax(0, 1fr);
-  gap: 0 16px;
-  align-items: start;
-  padding: 22px 0;
-  border-bottom: 1px dotted var(--line-strong);
-}
-.auditwhat__item:last-child { border-bottom: 0; }
-.auditwhat__n {
-  width: 28px; height: 28px;
-  display: grid; place-items: center;
-  border-radius: 50%;
-  background: var(--plum);
-  color: #fff;
-  font-family: var(--font-mono);
-  font-size: .78rem;
-  margin-top: 2px;
-}
-.auditwhat__item h3 {
-  font-size: 1.14rem;
-  font-variation-settings: "opsz" 28;
-  line-height: 1.3;
-  margin: 0;
-}
-.auditwhat__item p {
-  margin: 7px 0 0;
-  font-size: .95rem;
-  color: var(--ink-2);
-  line-height: 1.6;
-}
-
 /* ---------- Her answers, read back ---------- */
 .auditecho {
   border: 1px solid var(--line);
@@ -1923,14 +1845,137 @@ cal-modal-box iframe.cal-embed {
 }
 
 @media (max-width: 700px) {
-  .tool-section--spaced { padding-top: 56px; }
   .auditdone__hero { padding: 32px 22px 30px; }
   .auditdone__body { padding: 26px 22px 28px; }
-  .auditwhat { padding: 4px 22px 20px; }
-  .auditwhat__item { padding: 18px 0; gap: 0 13px; grid-template-columns: 28px minmax(0, 1fr); }
-  .auditwhat__item h3 { font-size: 1.06rem; }
   .auditecho { padding: 18px 20px; }
   /* Label above value once there is no room for two columns. */
   .auditecho__list li { display: grid; gap: 2px; }
   .auditecho__list i { text-align: left; }
+}
+
+/* ============================================================
+   LANDING-PAGE PASS — /calculator and /audit
+   ------------------------------------------------------------
+   Three components added when both tool pages were rebuilt around
+   the standard landing-page shape: headline -> sub-head -> hero
+   proof image -> CTA -> form -> three objections.
+
+   1. .heroproof  — the hero image slot. It carries proof of the
+      headline, so each page gets the artefact its own promise is
+      about: /calculator shows a week filling with bookings (the
+      outcome the number stands for), /audit shows the message
+      thread it writes for you (the thing being delivered). Both
+      re-use markup that already exists on the homepage, so this
+      adds no bytes to download — the razor was "proof without a
+      new image request".
+
+   2. .stepbar / .toolstep / .stepnav — the audit intake broken
+      into four short screens. Twelve fields on one page reads as
+      a chore however short each one is; three or four at a time
+      reads as almost done.
+
+   3. .objx — the three objections below the fold, most common
+      first. Question, then a straight answer.
+   ============================================================ */
+
+/* ---------- Hero proof image ---------- */
+.heroproof {
+  margin: 34px auto 0;
+  max-width: 560px;
+}
+/* The homepage phone is 320px inside a two-column split. On a
+   centred hero it needs to sit smaller so the CTA under it stays
+   the thing being looked at. */
+.heroproof .phone__frame { max-width: 288px; }
+.heroproof .week { padding: 14px; }
+.heroproof .slot { height: 18px; }
+.heroproof__caption {
+  margin: 14px auto 0;
+  max-width: 54ch;
+  font-size: .8rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+/* ---------- Multi-step intake ---------- */
+.stepbar { margin-bottom: 26px; }
+.stepbar__meta {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 9px;
+}
+.stepbar__now {
+  font-family: var(--font-mono);
+  font-size: .66rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--rose);
+}
+.stepbar__left { font-size: .8rem; color: var(--muted); }
+.stepbar__track {
+  height: 5px;
+  border-radius: 999px;
+  background: var(--cream-2);
+  overflow: hidden;
+}
+.stepbar__fill {
+  display: block;
+  height: 100%;
+  width: 25%;
+  border-radius: 999px;
+  background: var(--plum);
+  transition: width .3s ease;
+}
+
+.toolstep { display: grid; gap: 22px; }
+.toolstep[hidden] { display: none !important; }
+
+.stepnav { display: grid; gap: 12px; margin-top: 2px; }
+.stepnav .btn { width: 100%; }
+.stepnav__back {
+  justify-self: center;
+  border: 0; background: none; padding: 4px;
+  font-size: .86rem; color: var(--muted); font-weight: 500;
+  text-decoration: underline; text-underline-offset: 3px;
+  cursor: pointer;
+}
+.stepnav__back:hover { color: var(--plum); }
+
+/* ---------- Three objections ---------- */
+.objx {
+  max-width: 720px;
+  margin: 0 auto;
+  display: grid;
+  gap: 0;
+  list-style: none;
+  padding: 0;
+}
+.objx li {
+  padding: 26px 0;
+  border-bottom: 1px solid var(--line);
+}
+.objx li:first-child { padding-top: 0; }
+.objx li:last-child { border-bottom: 0; padding-bottom: 0; }
+.objx h3 {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 32;
+  font-size: 1.22rem; font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  margin-bottom: 9px;
+}
+.objx p {
+  margin: 0;
+  font-size: .97rem;
+  line-height: 1.62;
+  color: var(--ink-2);
+}
+.objx b { color: var(--ink); font-weight: 600; }
+
+@media (max-width: 700px) {
+  .heroproof { margin-top: 28px; }
+  /* "Step 1 of 4 · Last time you contacted them" plus a blurb will
+     not sit on one line on a phone, and half-wrapping it reads as
+     broken. Stack the two instead. */
+  .stepbar__meta { display: grid; gap: 3px; }
+  .objx li { padding: 22px 0; }
+  .objx h3 { font-size: 1.1rem; }
 }
