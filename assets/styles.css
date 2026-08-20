@@ -356,6 +356,13 @@ h2 { font-size: clamp(2rem, 3.6vw, 2.9rem); margin-bottom: .5em; }
 
 .phone { display: flex; justify-content: center; }
 .phone__frame {
+  /* Everything inside a phone reads left-aligned: the contact name,
+     and above all the text inside the bubbles. Stated here rather
+     than left to inherit, because /audit drops this component into a
+     centred hero and no messaging app centres bubble text. The bits
+     that genuinely are centred -- the day stamps and the booked pill
+     -- centre themselves with flex align-self, so they are unaffected. */
+  text-align: left;
   width: 100%;
   max-width: 320px;
   background: var(--surface);
