@@ -229,27 +229,54 @@ rough figure in the meantime.
 section explicitly says we won't use one. Manufacturing scarcity on a page whose entire
 pitch is "a human is doing this honestly" would undo the page.
 
-### Showing the deliverable
+### Showing what she gets
 
-`#whatyouget` shows the structure of the one-pager with every figure rendered as a
-labelled blank, reusing the `.repdoc` / `.repline` components from the homepage's
-`#report`. The same non-negotiable rule applies: **do not fill those blanks in with
-example figures.** A reader takes sample numbers for real ones. It demonstrates the shape
-of the deliverable; it never invents a result.
+`#whatyouget` lists the four things on the page, one plain sentence each, inside the
+page-shaped `.repdoc` frame borrowed from the homepage's `#report`.
+
+**The first version was a mock-up of the one page with every figure shown as a labelled
+blank**, matching `#report` exactly. It looked right and it failed: the owner it was
+written for read it and couldn't tell what any of it meant. Rows like "What share of your
+list that is" and "The ceiling, and why nobody hits it" are only legible to someone who
+already knows the pitch. A page of blanks asks the reader to picture a document; four
+sentences just tell her. **Don't rebuild it as a document mock-up.**
+
+What survived is the rule that mattered: **no example figures anywhere on this page.** A
+reader takes sample numbers for real ones. Say what each item is; never invent one. The
+kicker under the card says out loud that there are no example numbers on the site and why,
+which turns the absence into a trust signal instead of a gap.
 
 It sits **above** the form rather than below it, unlike the calculator's tool-first
-layout. The form is long and bespoke, so the deliverable has to earn the two minutes
-before she's asked for them.
+layout. The form is long and bespoke, so what she gets has to earn the two minutes before
+she's asked for them.
+
+### Write it for an owner, not a marketer
+
+The calculator's vocabulary table above applies here too, and this page went through a
+second plain-language pass after the first draft came back as unreadable to its own
+audience. The words that got cut are worth knowing, because they creep back in:
+
+| Don't say | Say |
+| --- | --- |
+| the deliverable, your one-pager | your page, one page |
+| a generator, automated | a computer, software |
+| what you're leaving on the table | what those clients are worth if they come back |
+| the five days | five days of texts and emails |
+| built by hand | written by a real person |
+
+"The five days" is the trap. It's shorthand borrowed from the homepage, and on a page a
+stranger can land on cold it means nothing. Spell it out the first time it appears.
 
 ### The intake
 
 Eleven fields in three labelled groups, so it never reads as one wall. Nine required, two
-optional, and the optional ones say so on the label (`.field__opt`):
+optional, and the optional ones say so on the label (`.field__opt` — "You can skip this",
+which reads plainer than "Optional"):
 
 | Group | Fields |
 | --- | --- |
 | 1 · Your practice | practice name, practice type, what you mostly treat |
-| 2 · Your list | people on file, how many have gone quiet, typical visit value, what software the list lives in, when it was last messaged, *what happened* (optional) |
+| 2 · Your list | people on file, how many have gone quiet, typical visit value, what they book clients in, when they last texted or emailed the list, *how it went* (optional) |
 | 3 · Where to send it | first name, email, *phone* (optional) |
 
 **"What do you mostly treat" is an open text field on purpose.** A checkbox list would be

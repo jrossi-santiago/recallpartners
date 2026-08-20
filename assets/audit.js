@@ -29,7 +29,7 @@
   var TURNAROUND = 'two business days';
 
   /* Sending sequence. One subtitle at a time under a fixed
-     "Sending your numbers..." heading. Total is
+     "Sending your answers..." heading. Total is
      MESSAGES.length * HOLD_MS -- currently ~4 seconds. The POST runs
      in parallel; if it is still in flight when the sequence ends the
      panel holds on LATE_MSG until it settles, because here the send
@@ -37,8 +37,8 @@
   var HOLD_MS = 1400;
   var MESSAGES = [
     'Packing up your answers…',
-    'Sending them over to a person…',
-    'Putting you in this week’s queue…'
+    'Sending them to a real person…',
+    'Putting you in this week’s five…'
   ];
   var LATE_MSG = 'Still sending…';
 
@@ -49,7 +49,7 @@
   /* Button labels. The turnaround is on the button in every state,
      including the retry -- it is the promise the page is making, and a
      retry button that drops it reads like a different offer. */
-  var LABEL_SEND  = 'Send My Numbers — One Page Back In 2 Days';
+  var LABEL_SEND  = 'Send My Answers — One Page Back In 2 Days';
   var LABEL_RETRY = 'Try Again — One Page Back In 2 Days';
 
   var form = document.getElementById('auditForm');
@@ -298,10 +298,10 @@
   }
 
   function confirm(input) {
-    setText('doneTitle', 'Your numbers are with us, ' + input.firstName + '.');
+    setText('doneTitle', 'We’ve got your answers, ' + input.firstName + '.');
     setText('doneSub',
-      'Nothing appears on this screen — that’s not how this one works. A person reads what ' +
-      'you sent, builds your one page by hand, and emails it to ' + input.email + ' within ' +
+      'Nothing appears on this screen — that’s not how this one works. A real person reads ' +
+      'what you sent, writes your page, and emails it to ' + input.email + ' within ' +
       TURNAROUND + '.');
 
     if (echoList) {
@@ -310,11 +310,11 @@
       echoRow('On your list', withCommas(input.onfile) + ' ' + plural(input.onfile, 'person', 'people'));
       echoRow('Haven’t been in for a year', withCommas(input.quiet) + ' ' + plural(input.quiet, 'person', 'people'));
       echoRow('A typical visit', money(input.visit));
-      echoRow('Mostly treating', input.treats);
-      echoRow('List lives in', input.software);
-      echoRow('Last messaged', input.lastsent);
-      if (input.lastresult) echoRow('What happened', input.lastresult);
-      echoRow('Sending it to', input.email + (input.phone ? ' · ' + input.phone : ''));
+      echoRow('You mostly treat', input.treats);
+      echoRow('You book clients in', input.software);
+      echoRow('You last contacted them', input.lastsent);
+      if (input.lastresult) echoRow('How it went', input.lastresult);
+      echoRow('We’ll email it to', input.email + (input.phone ? ' · ' + input.phone : ''));
     }
 
     /* Her answer to "what do you mostly treat" is free prose and can be a
@@ -323,8 +323,8 @@
        practice name is the safe thing to personalise with here; her own
        words are already read straight back to her in the echo above. */
     setText('nextStep2',
-      'The figures, the five days written round what ' + input.practice + ' actually treats, ' +
-      'and what we’d change about the last message you sent that list.');
+      'The numbers, the five days of messages written around what ' + input.practice +
+      ' actually treats, and what we’d change about the last time you contacted that list.');
 
     var cta = $('doneCta');
     if (cta) cta.textContent = 'Book the Call — Don’t Wait for the Email, ' + input.firstName;
@@ -482,13 +482,13 @@
   function wipe() {
     clearTimers();
     if (echoList) echoList.innerHTML = '';
-    setText('doneTitle', 'Your numbers are with us.');
+    setText('doneTitle', 'We’ve got your answers.');
     setText('doneSub',
-      'A person reads them, builds your one-pager by hand, and emails it to you within ' +
+      'A real person reads them, writes your page, and emails it to you within ' +
       TURNAROUND + '.');
     setText('nextStep2',
-      'The figures, the five days written round what you treat, and what we’d change about ' +
-      'the last message you sent that list.');
+      'The numbers, the five days of messages written around what you treat, and what we’d ' +
+      'change about the last time you contacted that list.');
 
     form.reset();
     form.querySelectorAll('.field').forEach(function (f) { f.classList.remove('is-error'); });
